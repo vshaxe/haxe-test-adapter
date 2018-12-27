@@ -36,10 +36,11 @@ class TestPosCache {
 	}
 
 	function saveCache() {
+		var fileName:String = getTestPosFileName();
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 		}
-		File.saveContent(getTestPosFileName(), Json.stringify(testPositions, null, "    "));
+		File.saveContent(fileName, Json.stringify(testPositions, null, "    "));
 	}
 
 	function loadCache() {
