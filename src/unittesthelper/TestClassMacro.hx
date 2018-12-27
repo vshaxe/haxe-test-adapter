@@ -34,7 +34,7 @@ class TestClassMacro {
 			line: location.range.start.line - 1
 		});
 		#else
-		var posInfo:PosInfos = Context.getPosInfos(pos);
+		var posInfo = Context.getPosInfos(pos);
 		// TODO line numbers for Haxe 3 compile
 		TestPosCache.addPos({
 			location: name,
