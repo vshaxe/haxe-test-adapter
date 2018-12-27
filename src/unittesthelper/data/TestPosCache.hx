@@ -3,6 +3,7 @@ package unittesthelper.data;
 import haxe.Json;
 import haxe.io.Path;
 import sys.io.File;
+import sys.FileSystem;
 #if !macro
 import json2object.JsonParser;
 #end
@@ -35,6 +36,9 @@ class TestPosCache {
 	}
 
 	function saveCache() {
+		if (!FileSystem.exists(fileName)) {
+			FileSystem.createDirectory(RESULT_FOLDER);
+		}
 		File.saveContent(getTestPosFileName(), Json.stringify(testPositions, null, "    "));
 	}
 
