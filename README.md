@@ -16,7 +16,8 @@ Install `haxe-test-adapter` VSCode extension
 ## Build from sources
 
 (Linux)
-```
+
+```bash
 cd /home/github
 git clone https://github.com/AlexHaxe/haxe-test-adapter
 cd haxe-test-adapter
