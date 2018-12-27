@@ -9,8 +9,9 @@ A test adapter for VSCode using `hbenl.vscode-test-explorer`
 
 ## Installation
 
-Install `haxelib install vshaxe-test-adapter`
-Install `vshaxe-test-adapter` VSCode extension
+Install `haxelib install haxe-test-adapter`
+Install `hbenl.vscode-test-explorer` VSCode extension
+Install `haxe-test-adapter` VSCode extension
 
 ## Build from sources
 
@@ -28,7 +29,7 @@ haxelib dev haxe-test-adapter `pwd`
 
 ### Munit
 
-* Add `-lib vshaxe-test-adapter` to your `buildTest.hxml` / build configuration
+* Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
 * Add `runner.addResultClient(new unittesthelper.munit.MunitTestResultClient());` to your `massive.munit.TestRunner`, then run your unittests.
 
 You should see a folder named `.unittest` in your project root. 
