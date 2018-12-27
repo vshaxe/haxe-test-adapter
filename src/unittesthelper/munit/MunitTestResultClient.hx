@@ -2,6 +2,8 @@ package unittesthelper.munit;
 
 import massive.munit.ITestResultClient;
 import massive.munit.TestResult;
+import unittesthelper.data.TestPos;
+import unittesthelper.data.TestPosCache;
 import unittesthelper.data.TestResultData;
 import unittesthelper.data.SingleTestResultState;
 
@@ -24,37 +26,35 @@ class MunitTestResultClient implements IAdvancedTestResultClient implements ICov
 		return completionHandler;
 	}
 
-	function addTestResult(result:TestResult, state:SingleTestResultState, file:String, line:Null<Int>, errorText:String) {
+	function addTestResult(result:TestResult, state:SingleTestResultState, pos:TestPos, errorText:String) {
+		var file:String = null;
+		var line:Null<Int> = null;
+		if (pos != null) {
+			file = pos.file;
+			line = pos.line;
+		}
 		testData.addTestResult(result.className, result.name, result.location, result.executionTime, state, errorText, file, line);
 	}
 
 	public function addPass(result:TestResult) {
-		// TODO get file and line number info
-		addTestResult(result, Success, null, null, null);
+		addTestResult(result, Success, TestPosCache.getPos(result.location), null);
 	}
 
 	public function addFail(result:TestResult) {
 		var errorText:String = "unknown";
-		Sys.println('${haxe.CallStack.callStack()}');
 
-		var file:String = null;
-		var line:Null<Int> = null;
 		if (result.failure != null) {
 			errorText = result.failure.message;
-			file = result.failure.info.fileName;
-			line = result.failure.info.lineNumber - 1;
 		}
-		addTestResult(result, Failure, file, line, errorText);
+		addTestResult(result, Failure, TestPosCache.getPos(result.location), errorText);
 	}
 
 	public function addError(result:TestResult) {
-		// TODO get file and line number info
-		addTestResult(result, Error, null, null, '${result.error}');
+		addTestResult(result, Error, TestPosCache.getPos(result.location), '${result.error}');
 	}
 
 	public function addIgnore(result:TestResult) {
-		// TODO get file and line number info
-		addTestResult(result, Ignore, null, null, null);
+		addTestResult(result, Ignore, TestPosCache.getPos(result.location), null);
 	}
 
 	@SuppressWarnings("checkstyle:Dynamic")

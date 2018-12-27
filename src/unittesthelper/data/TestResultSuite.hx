@@ -5,4 +5,3 @@ typedef TestResultSuite {
 	var buildCmd:String;
 	var runCmd:String;
 }
-,
