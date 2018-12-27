@@ -12,6 +12,18 @@ A test adapter for VSCode using `hbenl.vscode-test-explorer`
 Install `haxelib install vshaxe-test-adapter`
 Install `vshaxe-test-adapter` VSCode extension
 
+## Build from sources
+
+(Linux)
+```
+cd /home/github
+git clone https://github.com/AlexHaxe/haxe-test-adapter
+cd haxe-test-adapter
+haxe build.hxml
+ln -s `pwd` ~/.vscode/extensions
+haxelib dev haxe-test-adapter `pwd`
+```
+
 ## Usage
 
 ### Munit
