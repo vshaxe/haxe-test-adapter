@@ -1,0 +1,10 @@
+src/**
+**/*.map
+package-lock.json
+.vscode/**
+.gitignore
+dump/**
+haxelib.json
+checkstyle.json
+.unittest/**
+*.hxml

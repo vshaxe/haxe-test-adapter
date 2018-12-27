@@ -1,0 +1,17 @@
+{
+	"name": "haxe-test-adapter",
+	"url": "https://github.com/AlexHaxe/haxe-test-adapter",
+	"license": "MIT",
+	"tags": [
+		"test",
+		"testing"
+	],
+	"description": "A Haxe Test Adapter for VSCode",
+	"version": "0.1.0",
+	"releasenote": "initial release - see CHANGELOG for details.",
+	"contributors": [
+		"AlexHaxe"
+	],
+	"dependencies": {},
+	"classPath": "src"
+}
