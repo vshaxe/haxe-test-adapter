@@ -1,7 +1,7 @@
 # Haxe Test Adapter for VSCode
 
 A test adapter for VSCode using `hbenl.vscode-test-explorer`
-![VSCode Test Adapter for Haxe](resources/haxe-test-adapter.png)
+![VSCode Test Adapter for Haxe](resources/haxe-test-adapter.gif)
 
 ## Features
 
