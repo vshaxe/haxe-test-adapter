@@ -38,6 +38,8 @@ You should see a folder named `.unittest` in your project root.
 
 ## TODO
 
-* add file name and line numbers for all test functions
-* running of tests
+* ~~add file name and line numbers for all test functions~~
+* add ~~file name and~~ line numbers for all test functions for Haxe 3 builds
+* ~~running of tests~~
+* filter tests when running
 * support other unittest frameworks
