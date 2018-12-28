@@ -51,6 +51,18 @@
 					"description": "Shell command to run unittests"
 				}
 			}
-		}
+    },
+    "taskDefinitions": [{
+      "type": "hxml",
+      "required": [
+              "file"
+      ],
+      "properties": {
+              "file": {
+                      "type": "string",
+                      "description": "The HXML file to run."
+              }
+      }
+    }]
   }
 }

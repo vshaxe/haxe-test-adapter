@@ -153,8 +153,9 @@ class HaxeTestAdapter implements TestAdapter {
 	**/
 	public function run(tests:Array<String>):Thenable<Void> {
 		log.info("run tests " + tests);
-		channel.appendLine('Run tests ($tests): not implemented!');
+		channel.appendLine('Running tests ($tests)');
 		var cmd = "haxe buildTest.hxml";
+		testStatesEmitter.fire({type: Started, tests: tests});
 
 		var configuration:vscode.WorkspaceConfiguration = Vscode.workspace.getConfiguration(MAIN_CONFIG_KEY);
 		if (configuration.has(RUN_TESTS_CMD) && configuration.get(RUN_TESTS_CMD) != "") {
@@ -165,8 +166,13 @@ class HaxeTestAdapter implements TestAdapter {
 
 		var thenable:Thenable<TaskExecution> = Vscode.tasks.executeTask(task);
 		return thenable.then(function(taskExecution:TaskExecution) {
+			testStatesEmitter.fire({type: Finished});
+			channel.appendLine('Running tests ($tests) finished');
 			updateAll();
-		}, null);
+		}, function(error) {
+			testStatesEmitter.fire({type: Finished});
+			channel.appendLine('Running tests ($tests) failed');
+		});
 	}
 
 	/**
