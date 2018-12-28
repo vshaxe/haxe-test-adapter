@@ -10,8 +10,10 @@ A test adapter for VSCode using `hbenl.vscode-test-explorer`
 ## Installation
 
 Install `haxelib install haxe-test-adapter`
+Install `haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git add_test_filter src` 
 Install `hbenl.vscode-test-explorer` VSCode extension
 Install `haxe-test-adapter` VSCode extension
+
 
 ## Build from sources
 
@@ -20,6 +22,7 @@ Install `haxe-test-adapter` VSCode extension
 ```bash
 cd /home/github
 git clone https://github.com/AlexHaxe/haxe-test-adapter
+haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git add_test_filter src
 cd haxe-test-adapter
 haxe build.hxml
 ln -s `pwd` ~/.vscode/extensions
@@ -41,5 +44,5 @@ You should see a folder named `.unittest` in your project root.
 * ~~add file name and line numbers for all test functions~~
 * add ~~file name and~~ line numbers for all test functions for Haxe 3 builds
 * ~~running of tests~~
-* filter tests when running
+* ~~filter tests when running~~
 * support other unittest frameworks

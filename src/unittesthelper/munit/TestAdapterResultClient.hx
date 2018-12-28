@@ -7,7 +7,7 @@ import unittesthelper.data.TestPosCache;
 import unittesthelper.data.TestResultData;
 import unittesthelper.data.SingleTestResultState;
 
-class MunitTestResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
+class TestAdapterResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
 	var testData:TestResultData;
 
 	@:isVar public var completionHandler(get, set):ITestResultClient->Void;

@@ -1,4 +1,3 @@
-import vscode.WorkspaceEdit.WorkspaceEditEntriesTuple;
 import vscode.testadapter.util.Log;
 import vscode.ExtensionContext;
 import vscode.testadapter.api.TestHub;

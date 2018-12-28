@@ -14,8 +14,10 @@ class TestResultData {
 
 	var suiteData:SuiteTestResultData;
 	var fileName:String;
+	var baseFolder:String;
 
 	public function new(?baseFolder:String) {
+		this.baseFolder = baseFolder;
 		fileName = getTestDataFileName(baseFolder);
 		init();
 	}
@@ -72,12 +74,16 @@ class TestResultData {
 	function init() {
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
-			suiteData = {name: "main", classes: []};
+			suiteData = {name: "root", classes: []};
 			return;
 		}
-		var lastRun:String = Path.join([RESULT_FOLDER, LAST_RUN_FILE]);
-		FileSystem.rename(fileName, lastRun);
-		suiteData = {name: "main", classes: []};
+		if (!TestFilter.hasFilter()) {
+			var lastRun:String = Path.join([RESULT_FOLDER, LAST_RUN_FILE]);
+			FileSystem.rename(fileName, lastRun);
+			suiteData = {name: "root", classes: []};
+		} else {
+			suiteData = loadData(baseFolder);
+		}
 	}
 
 	function saveData() {
@@ -89,8 +95,7 @@ class TestResultData {
 		var content:String = File.getContent(dataFile);
 
 		var parser:JsonParser<SuiteTestResultData> = new JsonParser<SuiteTestResultData>();
-		var data:SuiteTestResultData = parser.fromJson(content, dataFile);
-		return data;
+		return parser.fromJson(content, dataFile);
 	}
 
 	public static function getTestDataFileName(?baseFolder:String):String {

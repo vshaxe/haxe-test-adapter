@@ -5,6 +5,7 @@ import haxe.io.Path;
 import js.Object;
 import js.Promise;
 import unittesthelper.data.SuiteTestResultData;
+import unittesthelper.data.TestFilter;
 import unittesthelper.data.TestResultData;
 import vscode.EventEmitter;
 import vscode.Event;
@@ -30,9 +31,11 @@ class HaxeTestAdapter implements TestAdapter {
 	var testStatesEmitter:EventEmitter<TestEvent>;
 	var autorunEmitter:EventEmitter<Void>;
 	var suiteData:SuiteTestResultData;
+	var partialSuiteData:SuiteTestResultData;
 	var channel:OutputChannel;
 	var log:Log;
 	var dataWatcher:FileSystemWatcher;
+	var partialDataWatcher:FileSystemWatcher;
 
 	public function new(workspaceFolder:WorkspaceFolder, channel:OutputChannel, log:Log) {
 		this.workspaceFolder = workspaceFolder;
@@ -63,11 +66,9 @@ class HaxeTestAdapter implements TestAdapter {
 		});
 
 		var fileName:String = TestResultData.getTestDataFileName(workspaceFolder.uri.fsPath);
-
 		dataWatcher = Vscode.workspace.createFileSystemWatcher(fileName, false, false, true);
 		dataWatcher.onDidChange(function(uri:Uri) {
 			load();
-			updateAll();
 		});
 	}
 
@@ -84,14 +85,21 @@ class HaxeTestAdapter implements TestAdapter {
 			testsEmitter.fire({type: Finished, suite: null, errorMessage: "invalid test result data"});
 			return null;
 		}
+		testsEmitter.fire({type: Finished, suite: parseSuiteData(suiteData)});
+		channel.appendLine("Loaded tests results");
+		update(suiteData);
+		return Promise.resolve();
+	}
+
+	function parseSuiteData(suiteTestResultData:SuiteTestResultData):TestSuiteInfo {
 		var suiteChilds:Array<TestSuiteInfo> = [];
 		var suiteInfo:TestSuiteInfo = {
 			type: "suite",
-			label: suiteData.name,
-			id: suiteData.name,
+			label: suiteTestResultData.name,
+			id: suiteTestResultData.name,
 			children: suiteChilds
 		};
-		for (clazz in suiteData.classes) {
+		for (clazz in suiteTestResultData.classes) {
 			var classChilds:Array<TestInfo> = [];
 			var classInfo:TestSuiteInfo = {
 				type: "suite",
@@ -113,17 +121,14 @@ class HaxeTestAdapter implements TestAdapter {
 			}
 			suiteChilds.push(classInfo);
 		}
-		testsEmitter.fire({type: Finished, suite: suiteInfo});
-		updateAll();
-		channel.appendLine("Loaded tests results");
-		return Promise.resolve();
+		return suiteInfo;
 	}
 
-	function updateAll() {
-		if (suiteData == null) {
+	function update(suiteTestResultData:SuiteTestResultData) {
+		if (suiteTestResultData == null) {
 			return;
 		}
-		for (clazz in suiteData.classes) {
+		for (clazz in suiteTestResultData.classes) {
 			for (test in clazz.tests) {
 				var testState:TestState;
 				switch (test.state) {
@@ -154,6 +159,7 @@ class HaxeTestAdapter implements TestAdapter {
 	public function run(tests:Array<String>):Thenable<Void> {
 		log.info("run tests " + tests);
 		channel.appendLine('Running tests ($tests)');
+		TestFilter.setTestFilter(tests);
 		var cmd = "haxe buildTest.hxml";
 		testStatesEmitter.fire({type: Started, tests: tests});
 
@@ -165,12 +171,14 @@ class HaxeTestAdapter implements TestAdapter {
 			["$haxe-absolute", "$haxe", "$haxe-error", "$haxe-trace"]);
 
 		var thenable:Thenable<TaskExecution> = Vscode.tasks.executeTask(task);
+		// TODO clear Filters after run
 		return thenable.then(function(taskExecution:TaskExecution) {
 			testStatesEmitter.fire({type: Finished});
+			// TestFilter.clearTestFilter();
 			channel.appendLine('Running tests ($tests) finished');
-			updateAll();
 		}, function(error) {
 			testStatesEmitter.fire({type: Finished});
+			// TestFilter.clearTestFilter();
 			channel.appendLine('Running tests ($tests) failed');
 		});
 	}
