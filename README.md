@@ -35,7 +35,8 @@ haxelib dev haxe-test-adapter `pwd`
 
 * Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
 * Add `implements unittesthelper.ITestClass` to your test classes - helps record test positions (file name and line numbers)
-* Add `runner.addResultClient(new unittesthelper.munit.MunitTestResultClient());` to your `massive.munit.TestRunner`, then run your unittests.
+* Replace `TestRunner` with `TestAdapterRunner`
+* Run your unittests
 
 You should see a folder named `.unittest` in your project root. 
 
