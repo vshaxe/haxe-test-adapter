@@ -23,7 +23,13 @@ class TestResultData {
 	}
 
 	public function addTestResult(className:String, name:String, location:String, executionTime:Float, state:SingleTestResultState, errorText:String,
-			file:String, line:Null<Int>) {
+			pos:TestPos) {
+		var file:String = null;
+		var line:Null<Int> = null;
+		if (pos != null) {
+			file = pos.file;
+			line = pos.line;
+		}
 		for (data in suiteData.classes) {
 			if (data.name == className) {
 				for (test in data.tests) {

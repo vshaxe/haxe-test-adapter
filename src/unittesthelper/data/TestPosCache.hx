@@ -46,6 +46,9 @@ class TestPosCache {
 	function loadCache() {
 		#if !macro
 		var fileName:String = getTestPosFileName();
+		if (!FileSystem.exists(fileName)) {
+			return;
+		}
 		var content:String = File.getContent(fileName);
 
 		var parser:JsonParser<TestPositions> = new JsonParser<TestPositions>();

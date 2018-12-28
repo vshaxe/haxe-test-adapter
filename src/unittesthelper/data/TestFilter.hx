@@ -76,11 +76,12 @@ class TestFilter {
 
 	function loadFilters() {
 		var fileName:String = getTestFilterFileName();
-		var content:String = File.getContent(fileName);
-
-		var filters:TestFilterList = Json.parse(content);
-
 		testFilters = [];
+		if (!FileSystem.exists(fileName)) {
+			return;
+		}
+		var content:String = File.getContent(fileName);
+		var filters:TestFilterList = Json.parse(content);
 		for (filter in filters) {
 			testFilters.push(filter);
 		}

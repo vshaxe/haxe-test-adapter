@@ -27,13 +27,7 @@ class TestAdapterResultClient implements IAdvancedTestResultClient implements IC
 	}
 
 	function addTestResult(result:TestResult, state:SingleTestResultState, pos:TestPos, errorText:String) {
-		var file:String = null;
-		var line:Null<Int> = null;
-		if (pos != null) {
-			file = pos.file;
-			line = pos.line;
-		}
-		testData.addTestResult(result.className, result.name, result.location, result.executionTime, state, errorText, file, line);
+		testData.addTestResult(result.className, result.name, result.location, result.executionTime, state, errorText, pos);
 	}
 
 	public function addPass(result:TestResult) {
