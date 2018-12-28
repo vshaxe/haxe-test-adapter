@@ -41,5 +41,16 @@
   "activationEvents": [
     "onLanguage:haxe"
   ],
-  "contributes": {}
+  "contributes": {
+		"configuration": {
+			"title": "Haxe Test Adapter",
+			"properties": {
+				"haxetestadapter.runTestsCmd": {
+					"type": "string",
+					"default": "haxe buildTest.hxml",
+					"description": "Shell command to run unittests"
+				}
+			}
+		}
+  }
 }

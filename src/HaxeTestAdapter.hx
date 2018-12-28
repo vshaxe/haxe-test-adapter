@@ -1,3 +1,6 @@
+import vscode.ShellExecution;
+import vscode.TaskExecution;
+import vscode.Task;
 import haxe.io.Path;
 import js.Object;
 import js.Promise;
@@ -18,6 +21,9 @@ import vscode.testadapter.api.event.TestEvent;
 import vscode.testadapter.util.Log;
 
 class HaxeTestAdapter implements TestAdapter {
+	static inline var MAIN_CONFIG_KEY = "haxetestadapter";
+	static inline var RUN_TESTS_CMD = "runTestsCmd";
+
 	public var workspaceFolder:WorkspaceFolder;
 
 	var testsEmitter:EventEmitter<TestLoadEvent>;
@@ -148,8 +154,19 @@ class HaxeTestAdapter implements TestAdapter {
 	public function run(tests:Array<String>):Thenable<Void> {
 		log.info("run tests " + tests);
 		channel.appendLine('Run tests ($tests): not implemented!');
-		updateAll();
-		return null;
+		var cmd = "haxe buildTest.hxml";
+
+		var configuration:vscode.WorkspaceConfiguration = Vscode.workspace.getConfiguration(MAIN_CONFIG_KEY);
+		if (configuration.has(RUN_TESTS_CMD) && configuration.get(RUN_TESTS_CMD) != "") {
+			cmd = configuration.get(RUN_TESTS_CMD);
+		}
+		var task:Task = new Task({type: "haxe-test-adapter-run"}, workspaceFolder, "Running Unittests", "haxe", new ShellExecution(cmd),
+			["$haxe-absolute", "$haxe", "$haxe-error", "$haxe-trace"]);
+
+		var thenable:Thenable<TaskExecution> = Vscode.tasks.executeTask(task);
+		return thenable.then(function(taskExecution:TaskExecution) {
+			updateAll();
+		}, null);
 	}
 
 	/**
