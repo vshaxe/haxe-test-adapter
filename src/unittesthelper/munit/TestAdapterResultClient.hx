@@ -26,12 +26,8 @@ class TestAdapterResultClient implements IAdvancedTestResultClient implements IC
 		return completionHandler;
 	}
 
-	function addTestResult(result:TestResult, state:SingleTestResultState, pos:TestPos, errorText:String) {
-		testData.addTestResult(result.className, result.name, result.location, result.executionTime, state, errorText, pos);
-	}
-
 	public function addPass(result:TestResult) {
-		addTestResult(result, Success, TestPosCache.getPos(result.location), null);
+		testData.addPass(result.className, result.name, result.location, result.executionTime);
 	}
 
 	public function addFail(result:TestResult) {
@@ -40,15 +36,15 @@ class TestAdapterResultClient implements IAdvancedTestResultClient implements IC
 		if (result.failure != null) {
 			errorText = result.failure.message;
 		}
-		addTestResult(result, Failure, TestPosCache.getPos(result.location), errorText);
+		testData.addFail(result.className, result.name, result.location, result.executionTime, errorText);
 	}
 
 	public function addError(result:TestResult) {
-		addTestResult(result, Error, TestPosCache.getPos(result.location), '${result.error}');
+		testData.addError(result.className, result.name, result.location, result.executionTime, '${result.error}');
 	}
 
 	public function addIgnore(result:TestResult) {
-		addTestResult(result, Ignore, TestPosCache.getPos(result.location), null);
+		testData.addIgnore(result.className, result.name, result.location);
 	}
 
 	@SuppressWarnings("checkstyle:Dynamic")

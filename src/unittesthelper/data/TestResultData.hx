@@ -22,6 +22,22 @@ class TestResultData {
 		init();
 	}
 
+	public function addPass(className:String, name:String, location:String, executionTime:Float) {
+		addTestResult(className, name, location, executionTime, Success, null, TestPosCache.getPos(location));
+	}
+
+	public function addFail(className:String, name:String, location:String, executionTime:Float, errorText:String) {
+		addTestResult(className, name, location, executionTime, Failure, errorText, TestPosCache.getPos(location));
+	}
+
+	public function addError(className:String, name:String, location:String, executionTime:Float, errorText:String) {
+		addTestResult(className, name, location, executionTime, Error, errorText, TestPosCache.getPos(location));
+	}
+
+	public function addIgnore(className:String, name:String, location:String) {
+		addTestResult(className, name, location, 0, Ignore, null, TestPosCache.getPos(location));
+	}
+
 	public function addTestResult(className:String, name:String, location:String, executionTime:Float, state:SingleTestResultState, errorText:String,
 			pos:TestPos) {
 		var file:String = null;

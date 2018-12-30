@@ -5,7 +5,8 @@ A test adapter for VSCode using `hbenl.vscode-test-explorer`
 
 ## Features
 
-* Shows munit and haxe.unit test results in test explorer
+* Shows munit, utest and haxe.unit test results in test explorer
+* currently only works for sys targets
 
 ## Installation
 
@@ -38,6 +39,15 @@ After running your tests you should see a folder named `.unittest` in your proje
 * Add `implements unittesthelper.ITestClass` to your test classes - required to record test positions (file name and line numbers)
 * Replace `TestRunner` with `unittesthelper.munit.TestAdapterRunner`
 * Run your unittests
+
+### utest
+
+* Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
+* Add `implements unittesthelper.ITestClass` to your test classes - required to record test positions (file name and line numbers)
+* Replace `Runner` with `unittesthelper.utest.TestAdapterRunner`
+* Run your unittests
+
+**Note:** Filtering tests does not work for utest.
 
 ### haxe.unit
 
