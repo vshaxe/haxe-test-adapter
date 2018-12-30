@@ -33,7 +33,7 @@ haxelib dev haxe-test-adapter `pwd`
 
 After running your tests you should see a folder named `.unittest` in your project root, containing test results, test positions and filters.
 
-### Munit
+### munit
 
 * Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
 * Add `implements unittesthelper.ITestClass` to your test classes - required to record test positions (file name and line numbers)
