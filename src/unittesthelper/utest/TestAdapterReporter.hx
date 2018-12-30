@@ -1,6 +1,7 @@
 package unittesthelper.utest;
 
 import haxe.CallStack;
+import unittesthelper.data.TestFilter;
 import unittesthelper.data.TestPos;
 import unittesthelper.data.TestPosCache;
 import unittesthelper.data.TestResultData;
@@ -78,6 +79,7 @@ class TestAdapterReporter implements IReport<TestAdapterReporter> {
 				}
 			}
 		}
+		TestFilter.clearTestFilter();
 	}
 
 	function getClassName(pack:String, className:String):String {
@@ -103,5 +105,5 @@ class TestAdapterReporter implements IReport<TestAdapterReporter> {
 		return r.join("\n");
 	}
 
-	public function setHandler(handler:TestAdapterReporter->Void):Void {}
+	public function setHandler(handler:TestAdapterReporter->Void) {}
 }

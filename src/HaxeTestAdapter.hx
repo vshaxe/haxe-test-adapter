@@ -159,7 +159,7 @@ class HaxeTestAdapter implements TestAdapter {
 	public function run(tests:Array<String>):Thenable<Void> {
 		log.info("run tests " + tests);
 		channel.appendLine('Running tests ($tests)');
-		TestFilter.setTestFilter(tests);
+		TestFilter.setTestFilter(workspaceFolder.uri.fsPath, tests);
 		var cmd = "haxe buildTest.hxml";
 		testStatesEmitter.fire({type: Started, tests: tests});
 

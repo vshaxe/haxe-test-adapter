@@ -20,7 +20,7 @@ class TestFilter {
 		loaded = false;
 	}
 
-	public static function setTestFilter(filter:Array<String>) {
+	public static function setTestFilter(?baseFolder:String, filter:Array<String>) {
 		INSTANCE.testFilters = [];
 		for (f in filter) {
 			if (f == "root") {
@@ -29,7 +29,7 @@ class TestFilter {
 			}
 			INSTANCE.testFilters.push(f);
 		}
-		INSTANCE.saveFilters();
+		INSTANCE.saveFilters(baseFolder);
 	}
 
 	public static function clearTestFilter() {
@@ -66,8 +66,8 @@ class TestFilter {
 		return false;
 	}
 
-	function saveFilters() {
-		var fileName:String = getTestFilterFileName();
+	function saveFilters(?baseFolder:String) {
+		var fileName:String = getTestFilterFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 		}
@@ -88,7 +88,7 @@ class TestFilter {
 		loaded = true;
 	}
 
-	public static function getTestFilterFileName():String {
-		return Path.join([RESULT_FOLDER, FILTER_FILE]);
+	public static function getTestFilterFileName(?baseFolder:String):String {
+		return Path.join([baseFolder, RESULT_FOLDER, FILTER_FILE]);
 	}
 }

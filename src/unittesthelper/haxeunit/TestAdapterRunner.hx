@@ -30,6 +30,7 @@ class TestAdapterRunner extends TestRunner {
 		var success:Bool = super.run();
 
 		publishAdapterResults();
+		TestFilter.clearTestFilter();
 		return success;
 	}
 

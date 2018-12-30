@@ -2,6 +2,7 @@ package unittesthelper.munit;
 
 import massive.munit.ITestResultClient;
 import massive.munit.TestResult;
+import unittesthelper.data.TestFilter;
 import unittesthelper.data.TestPos;
 import unittesthelper.data.TestPosCache;
 import unittesthelper.data.TestResultData;
@@ -52,6 +53,7 @@ class TestAdapterResultClient implements IAdvancedTestResultClient implements IC
 		if (completionHandler != null) {
 			completionHandler(this);
 		}
+		TestFilter.clearTestFilter();
 		return null;
 	}
 

@@ -47,8 +47,6 @@ After running your tests you should see a folder named `.unittest` in your proje
 * Replace `Runner` with `unittesthelper.utest.TestAdapterRunner`
 * Run your unittests
 
-**Note:** Filtering tests does not work for utest.
-
 ### haxe.unit
 
 * Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
