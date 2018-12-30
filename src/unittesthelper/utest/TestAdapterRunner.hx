@@ -25,8 +25,6 @@ class TestAdapterRunner extends Runner {
 				continue;
 			}
 			var cls:String = Type.getClassName(Type.getClass(testCase));
-			trace(cls);
-			trace(test);
 			if (!TestFilter.shouldRunTest(cls, test.name)) {
 				continue;
 			}
