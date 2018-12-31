@@ -106,6 +106,7 @@ class TestResultData {
 		if (!TestFilter.hasFilter()) {
 			#if sys
 			var lastRun:String = Path.join([RESULT_FOLDER, LAST_RUN_FILE]);
+			FileSystem.deleteFile(lastRun);
 			FileSystem.rename(fileName, lastRun);
 			#end
 			suiteData = {name: "root", classes: []};
