@@ -1,9 +1,11 @@
 package unittesthelper.data;
 
-import haxe.Json;
 import haxe.io.Path;
+#if sys
+import haxe.Json;
 import sys.io.File;
 import sys.FileSystem;
+#end
 
 typedef TestFilterList = Array<String>;
 
@@ -67,16 +69,19 @@ class TestFilter {
 	}
 
 	function saveFilters(?baseFolder:String) {
+		#if sys
 		var fileName:String = getTestFilterFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 		}
 		File.saveContent(fileName, Json.stringify(testFilters, null, "    "));
+		#end
 	}
 
 	function loadFilters() {
-		var fileName:String = getTestFilterFileName();
 		testFilters = [];
+		#if sys
+		var fileName:String = getTestFilterFileName();
 		if (!FileSystem.exists(fileName)) {
 			return;
 		}
@@ -85,6 +90,7 @@ class TestFilter {
 		for (filter in filters) {
 			testFilters.push(filter);
 		}
+		#end
 		loaded = true;
 	}
 

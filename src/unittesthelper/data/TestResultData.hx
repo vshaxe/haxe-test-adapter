@@ -1,11 +1,13 @@
 package unittesthelper.data;
 
-import haxe.Json;
 import haxe.Timer;
 import haxe.io.Path;
+#if sys
+import haxe.Json;
 import sys.FileSystem;
 import sys.io.File;
 import json2object.JsonParser;
+#end
 
 class TestResultData {
 	public static inline var RESULT_FOLDER:String = ".unittest";
@@ -94,14 +96,18 @@ class TestResultData {
 	}
 
 	function init() {
+		#if sys
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 			suiteData = {name: "root", classes: []};
 			return;
 		}
+		#end
 		if (!TestFilter.hasFilter()) {
+			#if sys
 			var lastRun:String = Path.join([RESULT_FOLDER, LAST_RUN_FILE]);
 			FileSystem.rename(fileName, lastRun);
+			#end
 			suiteData = {name: "root", classes: []};
 		} else {
 			suiteData = loadData(baseFolder);
@@ -109,15 +115,20 @@ class TestResultData {
 	}
 
 	function saveData() {
+		#if sys
 		File.saveContent(fileName, Json.stringify(suiteData, null, "    "));
+		#end
 	}
 
 	public static function loadData(?baseFolder:String):SuiteTestResultData {
+		#if sys
 		var dataFile:String = getTestDataFileName(baseFolder);
 		var content:String = File.getContent(dataFile);
 
 		var parser:JsonParser<SuiteTestResultData> = new JsonParser<SuiteTestResultData>();
 		return parser.fromJson(content, dataFile);
+		#end
+		return {name: "root", classes: []};
 	}
 
 	public static function getTestDataFileName(?baseFolder:String):String {
