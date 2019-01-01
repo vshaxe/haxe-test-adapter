@@ -5,7 +5,9 @@ A test adapter for VSCode using `hbenl.vscode-test-explorer`
 
 ## Features
 
-* Shows munit, utest and haxe.unit test results in test explorer
+* Records munit, utest and haxe.unit test results as json files
+* Shows latest test results in VSCode using Test Explorer UI extension
+* Supports filtering / running individual tests directly from VSCode
 * currently only works for sys targets
 
 ## Installation
