@@ -8,14 +8,13 @@ A test adapter for VSCode using `hbenl.vscode-test-explorer`
 * Records munit, utest and haxe.unit test results as json files
 * Shows latest test results in VSCode using Test Explorer UI extension
 * Supports filtering / running individual tests directly from VSCode
-* currently only works for sys targets
+* currently only works for nodejs and sys targets
 
 ## Installation
 
-Install `haxelib install haxe-test-adapter`
 Install `haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git add_test_filter src` 
 Install `hbenl.vscode-test-explorer` VSCode extension
-Install `haxe-test-adapter` VSCode extension
+Install `haxe-test-adapter` VSCode extension (should auto-install `haxe-test-adapter` haxelib)
 
 ## Build from sources
 
@@ -64,4 +63,5 @@ After running your tests you should see a folder named `.unittest` in your proje
 * add ~~file name and~~ line numbers for all test functions for Haxe 3 builds
 * ~~running of tests~~
 * ~~filter tests when running~~
-* support other unittest frameworks
+* implement filtering for haxe.unit
+* add support for additional unittest frameworks
