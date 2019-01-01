@@ -12,9 +12,9 @@ A test adapter for VSCode using `hbenl.vscode-test-explorer`
 
 ## Installation
 
-Install `haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git add_test_filter src` 
-Install `hbenl.vscode-test-explorer` VSCode extension
-Install `haxe-test-adapter` VSCode extension (should auto-install `haxe-test-adapter` haxelib)
+* Install `haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git add_test_filter src` 
+* Install `hbenl.vscode-test-explorer` VSCode extension
+* Install `haxe-test-adapter` VSCode extension (should auto-install `haxe-test-adapter` haxelib)
 
 ## Build from sources
 
