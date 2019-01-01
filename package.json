@@ -4,16 +4,16 @@
   "description": "A Haxe Test Adapter for Visual Studio Code",
   "icon": "resources/icon.png",
   "author": "Alexander Blum <Alexander.Blum@gmail.com>",
-  "publisher": "AlexHaxe",
+  "publisher": "vshaxe",
   "version": "0.0.1",
   "license": "MIT",
-  "homepage": "https://github.com/AlexHaxe/haxe-test-adapter",
+  "homepage": "https://github.com/vshaxe/haxe-test-adapter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AlexHaxe/haxe-test-adapter.git"
+    "url": "https://github.com/vshaxe/haxe-test-adapter.git"
   },
   "bugs": {
-    "url": "https://github.com/AlexHaxe/haxe-test-adapter/issues"
+    "url": "https://github.com/vshaxe/haxe-test-adapter/issues"
   },
   "categories": [
     "Other"
@@ -42,34 +42,36 @@
     "onLanguage:haxe"
   ],
   "contributes": {
-		"commands": [
-			{
-				"title": "Setup",
-				"command": "haxe-test-adapter.setup",
-				"category": "Haxe Test Adapter"
-			}
-		],
-		"configuration": {
-			"title": "Haxe Test Adapter",
-			"properties": {
-				"haxetestadapter.runTestsCmd": {
-					"type": "string",
-					"default": "haxe buildTest.hxml",
-					"description": "Shell command to run unittests"
-				}
-			}
-    },
-    "taskDefinitions": [{
-      "type": "hxml",
-      "required": [
-              "file"
-      ],
-      "properties": {
-              "file": {
-                      "type": "string",
-                      "description": "The HXML file to run."
-              }
+    "commands": [
+      {
+        "title": "Setup",
+        "command": "haxe-test-adapter.setup",
+        "category": "Haxe Test Adapter"
       }
-    }]
+    ],
+    "configuration": {
+      "title": "Haxe Test Adapter",
+      "properties": {
+        "haxetestadapter.runTestsCmd": {
+          "type": "string",
+          "default": "haxe buildTest.hxml",
+          "description": "Shell command to run unittests"
+        }
+      }
+    },
+    "taskDefinitions": [
+      {
+        "type": "hxml",
+        "required": [
+          "file"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The HXML file to run."
+          }
+        }
+      }
+    ]
   }
 }

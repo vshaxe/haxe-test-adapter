@@ -1,6 +1,6 @@
 {
 	"name": "haxe-test-adapter",
-	"url": "https://github.com/AlexHaxe/haxe-test-adapter",
+	"url": "https://github.com/vshaxe/haxe-test-adapter",
 	"license": "MIT",
 	"tags": [
 		"test",

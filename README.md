@@ -22,9 +22,10 @@ A test adapter for VSCode using `hbenl.vscode-test-explorer`
 
 ```bash
 cd /home/github
-git clone https://github.com/AlexHaxe/haxe-test-adapter
+git clone https://github.com/vshaxe/haxe-test-adapter
 haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git add_test_filter src
 cd haxe-test-adapter
+npm install
 haxe build.hxml
 ln -s `pwd` ~/.vscode/extensions
 haxelib dev haxe-test-adapter `pwd`
