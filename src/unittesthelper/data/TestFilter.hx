@@ -1,7 +1,7 @@
 package unittesthelper.data;
 
 import haxe.io.Path;
-#if sys
+#if (sys || nodejs)
 import haxe.Json;
 import sys.io.File;
 import sys.FileSystem;
@@ -69,7 +69,7 @@ class TestFilter {
 	}
 
 	function saveFilters(?baseFolder:String) {
-		#if sys
+		#if (sys || nodejs)
 		var fileName:String = getTestFilterFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
@@ -80,7 +80,7 @@ class TestFilter {
 
 	function loadFilters() {
 		testFilters = [];
-		#if sys
+		#if (sys || nodejs)
 		var fileName:String = getTestFilterFileName();
 		if (!FileSystem.exists(fileName)) {
 			return;

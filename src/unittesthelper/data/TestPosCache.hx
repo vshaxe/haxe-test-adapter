@@ -2,7 +2,7 @@ package unittesthelper.data;
 
 import haxe.Json;
 import haxe.io.Path;
-#if sys
+#if (sys || nodejs)
 import sys.io.File;
 import sys.FileSystem;
 #end
@@ -38,7 +38,7 @@ class TestPosCache {
 	}
 
 	function saveCache() {
-		#if sys
+		#if (sys || nodejs)
 		var fileName:String = getTestPosFileName();
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
@@ -48,7 +48,7 @@ class TestPosCache {
 	}
 
 	function loadCache() {
-		#if (!macro && sys)
+		#if (!macro && (sys || nodejs))
 		var fileName:String = getTestPosFileName();
 		if (!FileSystem.exists(fileName)) {
 			return;

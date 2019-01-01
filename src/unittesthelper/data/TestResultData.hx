@@ -2,7 +2,7 @@ package unittesthelper.data;
 
 import haxe.Timer;
 import haxe.io.Path;
-#if sys
+#if (sys || nodejs)
 import haxe.Json;
 import sys.FileSystem;
 import sys.io.File;
@@ -13,6 +13,7 @@ class TestResultData {
 	public static inline var RESULT_FOLDER:String = ".unittest";
 	public static inline var RESULT_FILE:String = "testResults.json";
 	public static inline var LAST_RUN_FILE:String = "lastRun.json";
+	public static inline var ROOT_SUITE_NAME:String = "root";
 
 	var suiteData:SuiteTestResultData;
 	var fileName:String;
@@ -99,7 +100,7 @@ class TestResultData {
 		#if sys
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
-			suiteData = {name: "root", classes: []};
+			suiteData = {name: ROOT_SUITE_NAME, classes: []};
 			return;
 		}
 		#end
@@ -109,27 +110,27 @@ class TestResultData {
 			FileSystem.deleteFile(lastRun);
 			FileSystem.rename(fileName, lastRun);
 			#end
-			suiteData = {name: "root", classes: []};
+			suiteData = {name: ROOT_SUITE_NAME, classes: []};
 		} else {
 			suiteData = loadData(baseFolder);
 		}
 	}
 
 	function saveData() {
-		#if sys
+		#if (sys || nodejs)
 		File.saveContent(fileName, Json.stringify(suiteData, null, "    "));
 		#end
 	}
 
 	public static function loadData(?baseFolder:String):SuiteTestResultData {
-		#if sys
+		#if (sys || nodejs)
 		var dataFile:String = getTestDataFileName(baseFolder);
 		var content:String = File.getContent(dataFile);
 
 		var parser:JsonParser<SuiteTestResultData> = new JsonParser<SuiteTestResultData>();
 		return parser.fromJson(content, dataFile);
 		#end
-		return {name: "root", classes: []};
+		return {name: ROOT_SUITE_NAME, classes: []};
 	}
 
 	public static function getTestDataFileName(?baseFolder:String):String {
