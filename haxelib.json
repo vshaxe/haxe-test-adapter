@@ -12,6 +12,8 @@
 	"contributors": [
 		"AlexHaxe"
 	],
-	"dependencies": {},
+	"dependencies": {
+		"json2object": ""
+	},
 	"classPath": "src"
 }
