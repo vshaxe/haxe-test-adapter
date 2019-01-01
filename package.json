@@ -42,6 +42,13 @@
     "onLanguage:haxe"
   ],
   "contributes": {
+		"commands": [
+			{
+				"title": "Setup",
+				"command": "haxe-test-adapter.setup",
+				"category": "Haxe Test Adapter"
+			}
+		],
 		"configuration": {
 			"title": "Haxe Test Adapter",
 			"properties": {

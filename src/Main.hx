@@ -21,6 +21,26 @@ class Main {
 		log.info("Starting Haxe Test Adapter");
 
 		context.subscriptions.push(new TestAdapterRegistrar<HaxeTestAdapter>(testHub, (folder) -> new HaxeTestAdapter(folder, channel, log), log));
+
+		updateHaxelib();
+	}
+
+	function updateHaxelib() {
+		Vscode.commands.registerCommand("haxe-test-adapter.setup", function() {
+			var terminal = Vscode.window.createTerminal();
+			terminal.sendText("haxelib dev haxe-test-adapter " + context.extensionPath);
+			terminal.show();
+			context.globalState.update("previousExtensionPath", context.extensionPath);
+		});
+
+		if (isExtensionPathChanged(context)) {
+			Vscode.commands.executeCommand("haxe-test-adapter.setup");
+		}
+	}
+
+	function isExtensionPathChanged(context:ExtensionContext):Bool {
+		var previousPath = context.globalState.get("previousExtensionPath");
+		return (context.extensionPath != previousPath);
 	}
 
 	@:keep
