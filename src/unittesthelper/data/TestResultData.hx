@@ -125,6 +125,9 @@ class TestResultData {
 	public static function loadData(?baseFolder:String):SuiteTestResultData {
 		#if (sys || nodejs)
 		var dataFile:String = getTestDataFileName(baseFolder);
+		if (!FileSystem.exists(dataFile)) {
+			return {name: ROOT_SUITE_NAME, classes: []};
+		}
 		var content:String = File.getContent(dataFile);
 
 		var parser:JsonParser<SuiteTestResultData> = new JsonParser<SuiteTestResultData>();
