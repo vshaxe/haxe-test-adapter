@@ -1,1 +1,3 @@
 -lib json2object
+
+--macro unittesthelper.TestClassMacro.global()

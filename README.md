@@ -38,21 +38,18 @@ After running your tests you should see a folder named `.unittest` in your proje
 ### munit
 
 * Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
-* Add `implements unittesthelper.ITestClass` to your test classes - required to record test positions (file name and line numbers)
 * Replace `TestRunner` with `unittesthelper.munit.TestAdapterRunner`
 * Run your unittests
 
 ### utest
 
 * Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
-* Add `implements unittesthelper.ITestClass` to your test classes - required to record test positions (file name and line numbers)
 * Replace `Runner` with `unittesthelper.utest.TestAdapterRunner`
 * Run your unittests
 
 ### haxe.unit
 
 * Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
-* Add `implements unittesthelper.ITestClass` to your test classes - required to record test positions (file name and line numbers)
 * Replace `TestRunner` with `unittesthelper.haxeunit.TestAdapterRunner`
 * Run your unittests
 
