@@ -8,6 +8,7 @@ import unittesthelper.data.TestFilter;
 using utest.utils.AccessoriesUtils;
 
 class TestAdapterRunner extends Runner {
+	#if haxe_test_adapter_enabled
 	public function new() {
 		super();
 		new TestAdapterReporter(this);
@@ -40,4 +41,5 @@ class TestAdapterRunner extends Runner {
 			teardownClass: init.accessories.getTeardownClass()
 		});
 	}
+	#end
 }

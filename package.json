@@ -54,7 +54,7 @@
       "properties": {
         "haxetestadapter.runTestsCmd": {
           "type": "string",
-          "default": "haxe buildTest.hxml",
+          "default": "haxe buildTest.hxml -D haxe_test_adapter_enabled",
           "description": "Shell command to run unittests"
         }
       }

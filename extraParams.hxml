@@ -1,1 +1,1 @@
---macro addGlobalMetadata("", "@:build(unittesthelper.TestClassMacro.build())", true, true, false)
+--macro unittesthelper.TestClassMacro.global()

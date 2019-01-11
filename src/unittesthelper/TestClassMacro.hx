@@ -12,6 +12,13 @@ import unittesthelper.data.TestPosCache;
 
 class TestClassMacro {
 	#if macro
+	public static function global() {
+		if (!Context.defined("haxe_test_adapter_enabled")) {
+			return;
+		}
+		Compiler.addGlobalMetadata("", "@:build(unittesthelper.TestClassMacro.build())", true, true, false);
+	}
+
 	public static function build():Array<Field> {
 		var fields:Array<Field> = Context.getBuildFields();
 		var ref:Ref<ClassType> = Context.getLocalClass();

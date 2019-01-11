@@ -5,12 +5,15 @@ import massive.munit.TestRunner;
 import massive.munit.ITestResultClient;
 
 class TestAdapterRunner extends TestRunner {
+	#if haxe_test_adapter_enabled
 	public function new(resultClient:ITestResultClient) {
 		super(resultClient);
 		addResultClient(new TestAdapterResultClient());
 	}
 
 	@SuppressWarnings("checkstyle:Dynamic")
-	override function createTestClassHelper(testClass:Class<Dynamic>):TestClassHelper
+	override function createTestClassHelper(testClass:Class<Dynamic>):TestClassHelper {
 		return new TestAdapterClassHelper(testClass, isDebug);
+	}
+	#end
 }

@@ -33,25 +33,29 @@ haxelib dev haxe-test-adapter `pwd`
 
 ## Usage
 
+* Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
+
+Test adapter is only active when `#if haxe_test_adapter_enabled` is defined. To enable test adapter for IDE builds you have to either
+
+* make sure `haxe buildTest.hxml -D haxe_test_adapter_enabled` works or
+* you need to use a separate `buildTestVSCode.hxml` that adds `-D haxe_test_adapter_enabled` - you will also need to add `"haxetestadapter.runTestsCmd": "haxe buildTestVSCode.hxml"` to your VSCode settings.json.
+
 After running your tests you should see a folder named `.unittest` in your project root, containing test results, test positions and filters.
 
 ### munit
 
-* Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
 * Replace `TestRunner` with `unittesthelper.munit.TestAdapterRunner`
-* Run your unittests
+* Run your unittests either manually or by using `Run all tests` from Test Explorer UI
 
 ### utest
 
-* Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
 * Replace `Runner` with `unittesthelper.utest.TestAdapterRunner`
-* Run your unittests
+* Run your unittests either manually or by using `Run all tests` from Test Explorer UI
 
 ### haxe.unit
 
-* Add `-lib haxe-test-adapter` to your `buildTest.hxml` / build configuration
 * Replace `TestRunner` with `unittesthelper.haxeunit.TestAdapterRunner`
-* Run your unittests
+* Run your unittests either manually or by using `Run all tests` from Test Explorer UI
 
 **Note:** Filtering tests does not work for haxe.unit.
 

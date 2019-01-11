@@ -11,6 +11,7 @@ import unittesthelper.data.TestResultData;
 import unittesthelper.data.SingleTestResultState;
 
 class TestAdapterRunner extends TestRunner {
+	#if haxe_test_adapter_enabled
 	var testData:TestResultData;
 
 	public function new(?baseFolder:String) {
@@ -45,4 +46,5 @@ class TestAdapterRunner extends TestRunner {
 			testData.addTestResult(r.classname, r.method, location, 0, state, r.error, TestPosCache.getPos(location));
 		}
 	}
+	#end
 }
