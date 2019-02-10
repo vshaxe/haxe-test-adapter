@@ -97,7 +97,7 @@ class TestResultData {
 	}
 
 	function init() {
-		#if sys
+		#if (nodejs || sys)
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 			suiteData = {name: ROOT_SUITE_NAME, classes: []};
@@ -105,9 +105,11 @@ class TestResultData {
 		}
 		#end
 		if (!TestFilter.hasFilter()) {
-			#if sys
+			#if (nodejs || sys)
 			var lastRun:String = Path.join([RESULT_FOLDER, LAST_RUN_FILE]);
-			FileSystem.deleteFile(lastRun);
+			try {
+				FileSystem.deleteFile(lastRun);
+			} catch (e:Any) {}
 			FileSystem.rename(fileName, lastRun);
 			#end
 			suiteData = {name: ROOT_SUITE_NAME, classes: []};
