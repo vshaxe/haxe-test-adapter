@@ -1,0 +1,13 @@
+language: haxe
+
+haxe:
+  - 3.4.7
+  - development
+
+install:
+  - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs
+  - haxelib install vscode
+  - haxelib install json2object
+
+hxml:
+  - build.hxml
