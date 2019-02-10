@@ -36,7 +36,8 @@
 		"vscode-test-adapter-util": "^0.5.1"
 	},
 	"engines": {
-		"vscode": "^1.23.0"
+		"vscode": "^1.30.0",
+		"nadako.vshaxe": "^2.5.0"
 	},
 	"extensionDependencies": [
 		"hbenl.vscode-test-explorer",

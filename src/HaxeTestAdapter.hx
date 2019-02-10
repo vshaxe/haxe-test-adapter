@@ -21,16 +21,16 @@ import vscode.testadapter.api.event.TestEvent;
 import vscode.testadapter.util.Log;
 
 class HaxeTestAdapter {
-	public var workspaceFolder:WorkspaceFolder;
+	public final workspaceFolder:WorkspaceFolder;
 
-	var testsEmitter:EventEmitter<TestLoadEvent>;
-	var testStatesEmitter:EventEmitter<TestEvent>;
-	var autorunEmitter:EventEmitter<Void>;
+	final testsEmitter:EventEmitter<TestLoadEvent>;
+	final testStatesEmitter:EventEmitter<TestEvent>;
+	final autorunEmitter:EventEmitter<Void>;
+	final channel:OutputChannel;
+	final log:Log;
+	final dataWatcher:FileSystemWatcher;
 	var suiteData:SuiteTestResultData;
 	var partialSuiteData:SuiteTestResultData;
-	var channel:OutputChannel;
-	var log:Log;
-	var dataWatcher:FileSystemWatcher;
 	var partialDataWatcher:FileSystemWatcher;
 
 	public function new(workspaceFolder:WorkspaceFolder, channel:OutputChannel, log:Log) {
@@ -158,10 +158,23 @@ class HaxeTestAdapter {
 		TestFilter.setTestFilter(workspaceFolder.uri.fsPath, tests);
 		testStatesEmitter.fire({type: Started, tests: tests});
 
+		var vshaxe:Vshaxe = Vscode.extensions.getExtension("nadako.vshaxe").exports;
+		var haxeExecutable = vshaxe.haxeExecutable.configuration;
+
 		var testArguments:Array<String> = Vscode.workspace.getConfiguration("haxetestadapter").get("testArguments");
-		var command = ["haxe"].concat(testArguments).concat(["-D", "haxe_test_adapter_enabled"]);
-		var task = new Task({type: "haxe-test-adapter-run"}, workspaceFolder, "Running Unittests", "haxe", new ShellExecution(command.join(" ")),
-			["$haxe-absolute", "$haxe", "$haxe-error", "$haxe-trace"]);
+		var command = [haxeExecutable.executable].concat(testArguments).concat(["-D", "haxe_test_adapter_enabled"]);
+
+		var task = new Task({type: "haxe-test-adapter-run"}, workspaceFolder, "Running Tests", "haxe",
+			new ShellExecution(command.join(" "), {env: haxeExecutable.env}), vshaxe.problemMatchers.get());
+		var presentation = vshaxe.taskPresentation;
+		task.presentationOptions = {
+			reveal: presentation.reveal,
+			echo: presentation.echo,
+			focus: presentation.focus,
+			panel: presentation.panel,
+			showReuseMessage: presentation.showReuseMessage,
+			clear: presentation.clear
+		};
 
 		var thenable:Thenable<TaskExecution> = Vscode.tasks.executeTask(task);
 		// TODO clear Filters after run

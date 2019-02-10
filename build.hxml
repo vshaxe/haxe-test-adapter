@@ -1,6 +1,7 @@
 # extension
 -lib hxnodejs
 -lib vscode
+-lib vshaxe
 -lib json2object
 -cp src
 -js bin/main.js

@@ -6,6 +6,7 @@ haxe:
 install:
   - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs
   - haxelib install vscode
+  - haxelib install vshaxe
   - haxelib install json2object
 
 hxml:
