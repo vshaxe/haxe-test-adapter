@@ -1,4 +1,4 @@
-package unittesthelper.data;
+package testadapter.data;
 
 @:enum abstract SingleTestResultState(String) {
 	var Success = "OK";

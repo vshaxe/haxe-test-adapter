@@ -1,4 +1,4 @@
-package unittesthelper.data;
+package testadapter.data;
 
 import haxe.Json;
 import haxe.io.Path;

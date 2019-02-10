@@ -2,7 +2,7 @@
 	"name": "haxe-test-adapter",
 	"displayName": "Haxe Test Explorer",
 	"description": "Run your Haxe tests in the Sidebar of Visual Studio Code",
-	"icon": "resources/icon.png",
+	"icon": "images/icon.png",
 	"author": "Alexander Blum <Alexander.Blum@gmail.com>",
 	"publisher": "vshaxe",
 	"version": "1.0.0",

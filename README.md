@@ -5,7 +5,7 @@
 
 A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) extension.
 
-![VSCode Test Adapter for Haxe](resources/haxe-test-adapter.gif)
+![VSCode Test Adapter for Haxe](images/haxe-test-adapter.gif)
 
 ## Features
 

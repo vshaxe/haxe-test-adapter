@@ -1,4 +1,4 @@
-package unittesthelper.data;
+package testadapter.data;
 
 typedef SuiteTestResultData = {
 	var name:String;

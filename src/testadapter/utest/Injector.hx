@@ -1,4 +1,4 @@
-package unittesthelper.utest;
+package testadapter.utest;
 
 import haxe.macro.Expr;
 import haxe.macro.Context;
@@ -18,7 +18,7 @@ class Injector {
 				case "new":
 					switch (f.expr.expr) {
 						case EBlock(exprs):
-							exprs.push(macro new unittesthelper.utest.TestAdapterReporter(this));
+							exprs.push(macro new testadapter.utest.TestAdapterReporter(this));
 						case _:
 					}
 				case "addITest":
@@ -33,7 +33,7 @@ class Injector {
 								continue;
 							}
 							var cls:String = Type.getClassName(Type.getClass(testCase));
-							if (!unittesthelper.data.TestFilter.shouldRunTest(cls, test.name)) {
+							if (!testadapter.data.TestFilter.shouldRunTest(cls, test.name)) {
 								continue;
 							}
 							var fixture = utest.TestFixture.ofData(testCase, test, init.accessories);

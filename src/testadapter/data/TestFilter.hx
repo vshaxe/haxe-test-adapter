@@ -1,4 +1,4 @@
-package unittesthelper.data;
+package testadapter.data;
 
 import haxe.io.Path;
 #if (sys || nodejs)

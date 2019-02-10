@@ -1,4 +1,4 @@
-package unittesthelper.munit;
+package testadapter.munit;
 
 import haxe.macro.Expr;
 import haxe.macro.Context;
@@ -18,7 +18,7 @@ class Injector {
 				case EBlock(exprs):
 					switch (field.name) {
 						case "new":
-							exprs.push(macro addResultClient(new unittesthelper.munit.TestAdapterResultClient()));
+							exprs.push(macro addResultClient(new testadapter.munit.TestAdapterResultClient()));
 						case _:
 					}
 				case _:
@@ -61,7 +61,7 @@ class Injector {
 			}
 
 			function addTest(field:String, testFunction:Function, testInstance:Dynamic, isAsync:Bool, isIgnored:Bool, description:String) {
-				if (!unittesthelper.data.TestFilter.shouldRunTest(className, field)) {
+				if (!testadapter.data.TestFilter.shouldRunTest(className, field)) {
 					return;
 				}
 				__addTest(field, testFunction, testInstance, isAsync, isIgnored, description);

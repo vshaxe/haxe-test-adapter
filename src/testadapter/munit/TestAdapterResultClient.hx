@@ -1,9 +1,9 @@
-package unittesthelper.munit;
+package testadapter.munit;
 
 import massive.munit.ITestResultClient;
 import massive.munit.TestResult;
-import unittesthelper.data.TestFilter;
-import unittesthelper.data.TestResultData;
+import testadapter.data.TestFilter;
+import testadapter.data.TestResultData;
 
 class TestAdapterResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
 	var testData:TestResultData;

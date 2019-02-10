@@ -1,4 +1,4 @@
-package unittesthelper.data;
+package testadapter.data;
 
 typedef SingleTestResultData = {
 	var name:String;

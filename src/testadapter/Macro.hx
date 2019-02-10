@@ -1,4 +1,4 @@
-package unittesthelper;
+package testadapter;
 
 import haxe.macro.Compiler;
 import haxe.macro.Context;
@@ -8,16 +8,16 @@ import haxe.macro.Type;
 #if (haxe_ver >= 4)
 import haxe.display.Position.Location;
 #end
-import unittesthelper.data.TestPosCache;
+import testadapter.data.TestPosCache;
 
 class Macro {
 	#if macro
 	public static function init() {
-		Compiler.addGlobalMetadata("", "@:build(unittesthelper.Macro.build())", true, true, false);
-		Compiler.addMetadata("@:build(unittesthelper.munit.Injector.buildRunner())", "massive.munit.TestRunner");
-		Compiler.addMetadata("@:build(unittesthelper.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");
-		Compiler.addMetadata("@:build(unittesthelper.utest.Injector.build())", "utest.Runner");
-		Compiler.addMetadata("@:build(unittesthelper.haxeunit.Injector.build())", "haxe.unit.TestRunner");
+		Compiler.addGlobalMetadata("", "@:build(testadapter.Macro.build())", true, true, false);
+		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
+		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");
+		Compiler.addMetadata("@:build(testadapter.utest.Injector.build())", "utest.Runner");
+		Compiler.addMetadata("@:build(testadapter.haxeunit.Injector.build())", "haxe.unit.TestRunner");
 	}
 
 	public static function build():Array<Field> {
