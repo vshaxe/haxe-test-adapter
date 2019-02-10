@@ -7,10 +7,11 @@
 		"testing"
 	],
 	"description": "A Haxe Test Adapter for Visual Studio Code",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"releasenote": "initial release - see CHANGELOG for details.",
 	"contributors": [
-		"AlexHaxe"
+		"AlexHaxe",
+		"Gama11"
 	],
 	"dependencies": {
 		"json2object": ""

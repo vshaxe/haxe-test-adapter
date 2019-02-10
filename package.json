@@ -1,11 +1,11 @@
 {
 	"name": "haxe-test-adapter",
-	"displayName": "Haxe Test Adapter",
-	"description": "A Haxe Test Adapter for Visual Studio Code",
+	"displayName": "Haxe Test Explorer",
+	"description": "Run your Haxe tests in the Sidebar of Visual Studio Code",
 	"icon": "resources/icon.png",
 	"author": "Alexander Blum <Alexander.Blum@gmail.com>",
 	"publisher": "vshaxe",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"license": "MIT",
 	"homepage": "https://github.com/vshaxe/haxe-test-adapter",
 	"repository": {
@@ -15,6 +15,13 @@
 	"bugs": {
 		"url": "https://github.com/vshaxe/haxe-test-adapter/issues"
 	},
+	"badges": [
+		{
+			"url": "https://api.travis-ci.org/vshaxe/haxe-test-adapter.svg?branch=master",
+			"href": "https://travis-ci.org/vshaxe/haxe-test-adapter",
+			"description": "Travis CI Status"
+		}
+	],
 	"categories": [
 		"Other"
 	],
