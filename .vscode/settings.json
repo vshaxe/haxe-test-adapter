@@ -1,9 +1,4 @@
 {
-	"files.exclude": {
-		".git": true,
-		"node_modules": true,
-		"out": true
-	},
 	"[haxe]": {
 		"editor.formatOnSave": true
 	},
