@@ -13,9 +13,6 @@ import unittesthelper.data.TestPosCache;
 class TestClassMacro {
 	#if macro
 	public static function global() {
-		if (!Context.defined("haxe_test_adapter_enabled")) {
-			return;
-		}
 		Compiler.addGlobalMetadata("", "@:build(unittesthelper.TestClassMacro.build())", true, true, false);
 		Compiler.addMetadata("@:build(unittesthelper.munit.RunnerInjector.build())", "massive.munit.TestRunner");
 		Compiler.addMetadata("@:build(unittesthelper.utest.RunnerInjector.build())", "utest.Runner");

@@ -162,7 +162,7 @@ class HaxeTestAdapter {
 		var haxeExecutable = vshaxe.haxeExecutable.configuration;
 
 		var testArguments:Array<String> = Vscode.workspace.getConfiguration("haxetestadapter").get("testArguments");
-		var command = [haxeExecutable.executable].concat(testArguments).concat(["-D", "haxe_test_adapter_enabled"]);
+		var command = [haxeExecutable.executable].concat(testArguments).concat(["-lib", "haxe-test-adapter"]);
 
 		var task = new Task({type: "haxe-test-adapter-run"}, workspaceFolder, "Running Tests", "haxe",
 			new ShellExecution(command.join(" "), {env: haxeExecutable.env}), vshaxe.problemMatchers.get());
