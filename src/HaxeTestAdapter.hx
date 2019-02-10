@@ -13,7 +13,6 @@ import vscode.FileSystemWatcher;
 import vscode.OutputChannel;
 import vscode.Uri;
 import vscode.WorkspaceFolder;
-import vscode.testadapter.api.TestAdapter;
 import vscode.testadapter.api.data.TestInfo;
 import vscode.testadapter.api.data.TestState;
 import vscode.testadapter.api.data.TestSuiteInfo;
@@ -21,7 +20,7 @@ import vscode.testadapter.api.event.TestLoadEvent;
 import vscode.testadapter.api.event.TestEvent;
 import vscode.testadapter.util.Log;
 
-class HaxeTestAdapter implements TestAdapter {
+class HaxeTestAdapter {
 	static inline var MAIN_CONFIG_KEY = "haxetestadapter";
 	static inline var RUN_TESTS_CMD = "runTestsCmd";
 

@@ -4,17 +4,14 @@ import vscode.testadapter.api.TestHub;
 import vscode.testadapter.util.TestAdapterRegistrar;
 
 class Main {
-	static inline var testExplorerExtensionId:String = "hbenl.vscode-test-explorer";
-
 	final context:ExtensionContext;
 	final testHub:TestHub;
-	var adapter:HaxeTestAdapter;
 
 	function new(context:ExtensionContext) {
 		this.context = context;
 
 		var channel = Vscode.window.createOutputChannel('Haxe Tests');
-		testHub = Vscode.extensions.getExtension(testExplorerExtensionId).exports;
+		testHub = Vscode.extensions.getExtension("hbenl.vscode-test-explorer").exports;
 
 		var log = new Log("haxeTestAdapter", Vscode.workspace.workspaceFolders[0], "Haxe Test Adapter");
 		context.subscriptions.push(log);

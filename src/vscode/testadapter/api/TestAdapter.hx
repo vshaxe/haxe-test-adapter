@@ -4,8 +4,7 @@ import js.Promise.Thenable;
 import vscode.testadapter.api.event.TestLoadEvent;
 import vscode.testadapter.api.event.TestEvent;
 
-@:jsRequire("vscode-test-adapter-api", "TestAdapter")
-interface TestAdapter {
+typedef TestAdapter = {
 	/**
 		The workspace folder that this test adapter is associated with (if any).
 		There is usually one test adapter per workspace folder and testing framework.
