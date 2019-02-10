@@ -36,7 +36,16 @@
 		"nadako.vshaxe"
 	],
 	"activationEvents": [
-		"onLanguage:haxe"
+		"onLanguage:haxe",
+		"onView:test-explorer",
+		"onCommand:test-explorer.reload",
+		"onCommand:test-explorer.run-all",
+		"onCommand:test-explorer.run-file",
+		"onCommand:test-explorer.run-test-at-cursor",
+		"onCommand:test-explorer.rerun",
+		"onCommand:test-explorer.debug-test-at-cursor",
+		"onCommand:test-explorer.redebug",
+		"onCommand:test-explorer.cancel"
 	],
 	"contributes": {
 		"commands": [

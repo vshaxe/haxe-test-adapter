@@ -6,7 +6,7 @@
 		"test",
 		"testing"
 	],
-	"description": "A Haxe Test Adapter for VSCode",
+	"description": "A Haxe Test Adapter for Visual Studio Code",
 	"version": "0.1.0",
 	"releasenote": "initial release - see CHANGELOG for details.",
 	"contributors": [
