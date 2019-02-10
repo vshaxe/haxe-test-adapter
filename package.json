@@ -28,10 +28,6 @@
 		"vscode-test-adapter-api": "^1.1.0",
 		"vscode-test-adapter-util": "^0.5.1"
 	},
-	"devDependencies": {
-		"vsce": "^1.53.2",
-		"vscode": "^1.1.26"
-	},
 	"engines": {
 		"vscode": "^1.23.0"
 	},
