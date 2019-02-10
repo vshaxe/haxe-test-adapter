@@ -65,10 +65,13 @@
 		"configuration": {
 			"title": "Haxe Test Adapter",
 			"properties": {
-				"haxetestadapter.runTestsCmd": {
-					"type": "string",
-					"default": "haxe buildTest.hxml -D haxe_test_adapter_enabled",
-					"description": "Shell command to run unittests"
+				"haxetestadapter.testArguments": {
+					"type": "array",
+					"default": ["buildTest.hxml"],
+					"description": "Arguments to pass to Haxe for running tests",
+					"items": {
+						"type": "string"
+					}
 				}
 			}
 		}

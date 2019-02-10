@@ -21,9 +21,6 @@ import vscode.testadapter.api.event.TestEvent;
 import vscode.testadapter.util.Log;
 
 class HaxeTestAdapter {
-	static inline var MAIN_CONFIG_KEY = "haxetestadapter";
-	static inline var RUN_TESTS_CMD = "runTestsCmd";
-
 	public var workspaceFolder:WorkspaceFolder;
 
 	var testsEmitter:EventEmitter<TestLoadEvent>;
@@ -159,14 +156,11 @@ class HaxeTestAdapter {
 		log.info("run tests " + tests);
 		channel.appendLine('Running tests ($tests)');
 		TestFilter.setTestFilter(workspaceFolder.uri.fsPath, tests);
-		var cmd = "haxe buildTest.hxml";
 		testStatesEmitter.fire({type: Started, tests: tests});
 
-		var configuration:vscode.WorkspaceConfiguration = Vscode.workspace.getConfiguration(MAIN_CONFIG_KEY);
-		if (configuration.has(RUN_TESTS_CMD) && configuration.get(RUN_TESTS_CMD) != "") {
-			cmd = configuration.get(RUN_TESTS_CMD);
-		}
-		var task:Task = new Task({type: "haxe-test-adapter-run"}, workspaceFolder, "Running Unittests", "haxe", new ShellExecution(cmd),
+		var testArguments:Array<String> = Vscode.workspace.getConfiguration("haxetestadapter").get("testArguments");
+		var command = ["haxe"].concat(testArguments).concat(["-D", "haxe_test_adapter_enabled"]);
+		var task = new Task({type: "haxe-test-adapter-run"}, workspaceFolder, "Running Unittests", "haxe", new ShellExecution(command.join(" ")),
 			["$haxe-absolute", "$haxe", "$haxe-error", "$haxe-trace"]);
 
 		var thenable:Thenable<TaskExecution> = Vscode.tasks.executeTask(task);
