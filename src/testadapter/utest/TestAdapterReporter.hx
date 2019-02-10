@@ -2,10 +2,7 @@ package testadapter.utest;
 
 import haxe.CallStack;
 import testadapter.data.TestFilter;
-import testadapter.data.TestPos;
-import testadapter.data.TestPosCache;
 import testadapter.data.TestResultData;
-import testadapter.data.SingleTestResultState;
 import utest.Runner;
 import utest.Assertation;
 import utest.ui.common.ClassResult;

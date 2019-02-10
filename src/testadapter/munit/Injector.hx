@@ -1,5 +1,6 @@
 package testadapter.munit;
 
+#if macro
 import haxe.macro.Expr;
 import haxe.macro.Context;
 
@@ -30,20 +31,9 @@ class Injector {
 	public static function buildHelper():Array<Field> {
 		var fields = Context.getBuildFields();
 		for (field in fields) {
-			var f = switch (field.kind) {
-				case FFun(f): f;
-				case _: null;
-			}
-			if (f == null) {
-				continue;
-			}
-			switch (f.expr.expr) {
-				case EBlock(exprs):
-					switch (field.name) {
-						case "addTest", "scanForTests":
-							field.name = "__" + field.name;
-						case _:
-					}
+			switch (field.name) {
+				case "addTest", "scanForTests":
+					field.name = "__" + field.name;
 				case _:
 			}
 		}
@@ -70,3 +60,4 @@ class Injector {
 		return fields.concat(extraFields);
 	}
 }
+#end

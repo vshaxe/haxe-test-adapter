@@ -1,5 +1,6 @@
 package testadapter.utest;
 
+#if macro
 import haxe.macro.Expr;
 import haxe.macro.Context;
 
@@ -54,3 +55,4 @@ class Injector {
 		return fields;
 	}
 }
+#end

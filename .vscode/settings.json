@@ -4,5 +4,8 @@
 	},
 	"[json]": {
 		"editor.formatOnSave": true
-	}
+	},
+	"haxe.displayConfigurations": [
+		["display.hxml"]
+	]
 } 

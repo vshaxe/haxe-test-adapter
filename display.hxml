@@ -1,0 +1,4 @@
+build.hxml
+-lib munit
+-lib utest
+-lib hx3compat
