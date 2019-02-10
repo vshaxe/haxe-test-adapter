@@ -1,7 +1,3 @@
-# Version history
-
-## dev branch / next version (0.x.x)
-
-## version 0.1.0 (201x-xx-xx)
+### 1.0.0 (February ??, 2019)
 
 - initial release
