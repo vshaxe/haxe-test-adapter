@@ -17,6 +17,7 @@ class TestClassMacro {
 			return;
 		}
 		Compiler.addGlobalMetadata("", "@:build(unittesthelper.TestClassMacro.build())", true, true, false);
+		Compiler.addMetadata("@:build(unittesthelper.utest.RunnerInjector.build())", "utest.Runner");
 	}
 
 	public static function build():Array<Field> {
