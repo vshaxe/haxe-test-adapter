@@ -11,15 +11,15 @@ typedef TestLoadEvent = {
 	/** 
 		The test definitions that have just been loaded
 	**/
-	@:optional var suite:TestSuiteInfo;
+	var ?suite:TestSuiteInfo;
 
 	/** 
 		If loading the tests failed, this should contain the reason for the failure
 	**/
-	@:optional var errorMessage:String;
+	var ?errorMessage:String;
 }
 
-@:enum abstract TestLoadEventType(String) {
+enum abstract TestLoadEventType(String) {
 	var Started = "started";
 	var Finished = "finished";
 }
