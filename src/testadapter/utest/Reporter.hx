@@ -12,7 +12,7 @@ import utest.ui.common.IReport;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultAggregator;
 
-class TestAdapterReporter implements IReport<TestAdapterReporter> {
+class Reporter implements IReport<Reporter> {
 	public var displaySuccessResults:SuccessResultsDisplayMode;
 	public var displayHeader:HeaderDisplayMode;
 
@@ -102,5 +102,5 @@ class TestAdapterReporter implements IReport<TestAdapterReporter> {
 		return r.join("\n");
 	}
 
-	public function setHandler(handler:TestAdapterReporter->Void) {}
+	public function setHandler(handler:Reporter->Void) {}
 }

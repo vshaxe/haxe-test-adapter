@@ -5,7 +5,7 @@ import massive.munit.TestResult;
 import testadapter.data.TestFilter;
 import testadapter.data.TestResultData;
 
-class TestAdapterResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
+class ResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
 	var testData:TestResultData;
 
 	@:isVar public var completionHandler(get, set):ITestResultClient->Void;

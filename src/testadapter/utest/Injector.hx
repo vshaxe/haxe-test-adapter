@@ -19,7 +19,7 @@ class Injector {
 				case "new":
 					switch (f.expr.expr) {
 						case EBlock(exprs):
-							exprs.push(macro new testadapter.utest.TestAdapterReporter(this));
+							exprs.push(macro new testadapter.utest.Reporter(this));
 						case _:
 					}
 				case "addITest":
