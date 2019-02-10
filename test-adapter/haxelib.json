@@ -1,12 +1,12 @@
 {
-	"name": "haxe-test-adapter",
+	"name": "test-adapter",
 	"url": "https://github.com/vshaxe/haxe-test-adapter",
 	"license": "MIT",
 	"tags": [
 		"test",
 		"testing"
 	],
-	"description": "A Haxe Test Adapter for Visual Studio Code",
+	"description": "A Test Adapter for Visual Studio Code",
 	"version": "1.0.0",
 	"releasenote": "initial release - see CHANGELOG for details.",
 	"contributors": [
@@ -15,6 +15,5 @@
 	],
 	"dependencies": {
 		"json2object": ""
-	},
-	"classPath": "src"
+	}
 }

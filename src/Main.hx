@@ -25,7 +25,7 @@ class Main {
 	function updateHaxelib() {
 		Vscode.commands.registerCommand("haxe-test-adapter.setup", function() {
 			var terminal = Vscode.window.createTerminal();
-			terminal.sendText("haxelib dev haxe-test-adapter " + context.extensionPath);
+			terminal.sendText("haxelib dev test-adapter " + context.extensionPath + " test-adapter");
 			terminal.show();
 			context.globalState.update("previousExtensionPath", context.extensionPath);
 		});

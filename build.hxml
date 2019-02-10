@@ -4,5 +4,6 @@
 -lib vshaxe
 -lib json2object
 -cp src
+-cp test-adapter
 -js bin/main.js
 Main

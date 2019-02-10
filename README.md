@@ -16,21 +16,16 @@ A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visua
 
 ## Usage
 
-Simply add `-lib haxe-test-adapter` to your `buildTest.hxml` / test configuration. After running your tests you should see a folder named `.unittest` in your project root, containing test results, test positions and filters.
+Simply add `-lib test-adapter` to your `buildTest.hxml` / test configuration. After running your tests you should see a folder named `.unittest` in your project root, containing test results, test positions and filters.
 
 ## Build from sources
 
-(Linux)
-
 ```bash
-cd /home/github
+cd ~/.vscode/extensions
 git clone https://github.com/vshaxe/haxe-test-adapter
-haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git add_test_filter src
 cd haxe-test-adapter
 npm install
 haxe build.hxml
-ln -s `pwd` ~/.vscode/extensions
-haxelib dev haxe-test-adapter `pwd`
 ```
 
 ## TODO
