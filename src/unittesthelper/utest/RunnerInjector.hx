@@ -3,8 +3,6 @@ package unittesthelper.utest;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 
-using Lambda;
-
 class RunnerInjector {
 	public static function build():Array<Field> {
 		var fields = Context.getBuildFields();
