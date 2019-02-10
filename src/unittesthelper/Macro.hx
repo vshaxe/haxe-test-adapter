@@ -12,7 +12,7 @@ import unittesthelper.data.TestPosCache;
 
 class Macro {
 	#if macro
-	public static function global() {
+	public static function init() {
 		Compiler.addGlobalMetadata("", "@:build(unittesthelper.Macro.build())", true, true, false);
 		Compiler.addMetadata("@:build(unittesthelper.munit.Injector.buildRunner())", "massive.munit.TestRunner");
 		Compiler.addMetadata("@:build(unittesthelper.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");

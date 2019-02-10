@@ -18,12 +18,6 @@ A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visua
 
 Simply add `-lib haxe-test-adapter` to your `buildTest.hxml` / test configuration. After running your tests you should see a folder named `.unittest` in your project root, containing test results, test positions and filters.
 
-For munit, a fork is currently needed. It can be installed like this:
-
-```
-haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git add_test_filter src
-```
-
 ## Build from sources
 
 (Linux)

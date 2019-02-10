@@ -3,7 +3,7 @@ package unittesthelper.haxeunit;
 import haxe.macro.Expr;
 import haxe.macro.Context;
 
-class RunnerInjector {
+class Injector {
 	public static function build():Array<Field> {
 		var fields = Context.getBuildFields();
 

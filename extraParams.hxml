@@ -1,1 +1,1 @@
---macro unittesthelper.TestClassMacro.global()
+--macro unittesthelper.Macro.init()

@@ -3,10 +3,7 @@ package unittesthelper.munit;
 import massive.munit.ITestResultClient;
 import massive.munit.TestResult;
 import unittesthelper.data.TestFilter;
-import unittesthelper.data.TestPos;
-import unittesthelper.data.TestPosCache;
 import unittesthelper.data.TestResultData;
-import unittesthelper.data.SingleTestResultState;
 
 class TestAdapterResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
 	var testData:TestResultData;
