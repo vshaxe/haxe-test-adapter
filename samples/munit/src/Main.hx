@@ -14,17 +14,21 @@ class TestSuite extends massive.munit.TestSuite {
 	public function new() {
 		super();
 		add(TestCase);
+		add(TestCase2);
 	}
 }
 
 class TestCase {
 	@Test
-	function testSuccess() {
-		Assert.areEqual("A", "A");
-	}
+	function testSuccess() {}
+}
+
+class TestCase2 {
+	@Test
+	function testSuccess() {}
 
 	@Test
 	function testFailure() {
-		Assert.areEqual("A", "B");
+		Assert.fail("failure");
 	}
 }
