@@ -45,7 +45,13 @@ class TestPosCache {
 			INSTANCE.loadCache();
 		}
 		var clazz = INSTANCE.positions[className];
+		if ((clazz == null) || (clazz.pos == null) || (clazz.tests == null)) {
+			return null;
+		}
 		if (testName == null) {
+			return clazz.pos;
+		}
+		if (clazz.tests[testName] == null) {
 			return clazz.pos;
 		}
 		return {
