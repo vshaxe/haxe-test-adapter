@@ -13,7 +13,6 @@ import testadapter.data.Data;
 class TestResultData {
 	public static inline var RESULT_FOLDER:String = ".unittest";
 	public static inline var RESULT_FILE:String = "testResults.json";
-	public static inline var LAST_RUN_FILE:String = "lastRun.json";
 	public static inline var ROOT_SUITE_NAME:String = "root";
 
 	var suiteResults:TestSuiteResults;
@@ -99,13 +98,6 @@ class TestResultData {
 		}
 		#end
 		if (!TestFilter.hasFilter()) {
-			#if (nodejs || sys)
-			var lastRun:String = Path.join([RESULT_FOLDER, LAST_RUN_FILE]);
-			try {
-				FileSystem.deleteFile(lastRun);
-			} catch (e:Any) {}
-			FileSystem.rename(fileName, lastRun);
-			#end
 			suiteResults = {name: ROOT_SUITE_NAME, classes: []};
 		} else {
 			suiteResults = loadData(baseFolder);
