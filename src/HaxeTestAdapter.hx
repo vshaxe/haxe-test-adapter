@@ -10,7 +10,6 @@ import vscode.OutputChannel;
 import vscode.ProcessExecution;
 import vscode.Task;
 import vscode.TaskExecution;
-import vscode.Uri;
 import vscode.WorkspaceFolder;
 import vscode.testadapter.api.data.TestInfo;
 import vscode.testadapter.api.data.TestState;
@@ -43,29 +42,19 @@ class HaxeTestAdapter {
 
 		// TODO is there a better way to make getters??
 		Object.defineProperty(this, "tests", {
-			get: function() {
-				return testsEmitter.event;
-			}
+			get: () -> testsEmitter.event
 		});
 		Object.defineProperty(this, "testStates", {
-			get: function() {
-				return testStatesEmitter.event;
-			}
+			get: () -> testStatesEmitter.event
 		});
 		Object.defineProperty(this, "autorun", {
-			get: function() {
-				return autorunEmitter.event;
-			}
+			get: () -> autorunEmitter.event
 		});
 
 		var fileName:String = TestResultData.getTestDataFileName(workspaceFolder.uri.fsPath);
 		dataWatcher = Vscode.workspace.createFileSystemWatcher(fileName, false, false, true);
-		dataWatcher.onDidCreate(function(uri:Uri) {
-			load();
-		});
-		dataWatcher.onDidChange(function(uri:Uri) {
-			load();
-		});
+		dataWatcher.onDidCreate(_ -> load());
+		dataWatcher.onDidChange(_ -> load());
 	}
 
 	/**
@@ -120,22 +109,17 @@ class HaxeTestAdapter {
 		return suiteInfo;
 	}
 
-	function update(suiteTestResultData:SuiteTestResultData) {
+	function update(suiteTestResultData:Null<SuiteTestResultData>) {
 		if (suiteTestResultData == null) {
 			return;
 		}
 		for (clazz in suiteTestResultData.classes) {
 			for (test in clazz.tests) {
-				var testState:TestState;
-				switch (test.state) {
-					case Success:
-						testState = Passed;
-					case Failure:
-						testState = Failed;
-					case Error:
-						testState = Failed;
-					case Ignore:
-						testState = Skipped;
+				var testState:TestState = switch (test.state) {
+					case Success: Passed;
+					case Failure: Failed;
+					case Error: Failed;
+					case Ignore: Skipped;
 				}
 				testStatesEmitter.fire({
 					type: Test,
