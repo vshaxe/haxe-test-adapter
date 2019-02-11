@@ -9,14 +9,33 @@ A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visua
 
 ## Features
 
-* Records [munit](https://github.com/massiveinteractive/MassiveUnit), [utest](https://github.com/haxe-utest/utest) and [`haxe.unit`](https://api.haxe.org/haxe/unit/TestRunner.html) test results as JSON files
+* Records [munit](https://github.com/massiveinteractive/MassiveUnit), [utest](https://github.com/haxe-utest/utest) and [haxe.unit](https://api.haxe.org/haxe/unit/TestRunner.html) test results as JSON files
 * Shows latest test results in VSCode using the Test Explorer UI extension
 * Supports filtering / running individual tests directly from VSCode
 * Currently only works for Node.js and sys targets
 
 ## Usage
 
-Simply add `-lib test-adapter` to your `buildTest.hxml` / test configuration. After running your tests you should see a folder named `.unittest` in your project root, containing test results, test positions and filters.
+You can run your tests using the `Test Explorer: Run all tests` command or by clicking the button in the "Test" tab of the activity bar. The command that it runs can be configured with this setting:
+
+```json
+"haxeTestExplorer.testCommand": [
+	"${haxe}",
+	"test.hxml",
+	"-lib",
+	"test-adapter"
+]
+```
+
+As you can see, by default it assumes the presence of a `test.hxml` that compiles and runs the tests. Additionally, the `test-adapter` library is injected (which is automatically installed with this extension). It adds hooks to the different testing frameworks to record the test results in a `.unittest` folder in your workspace.
+
+`.unittest` should be added to your `.gitignore`. You might also want to hide it from VSCode's file explorer by adding this to your global settings:
+
+```json
+"files.exclude": {
+	"**/.unittest": true
+}
+```
 
 ## Build from sources
 
@@ -30,9 +49,6 @@ haxe build.hxml
 
 ## TODO
 
-* ~~add file name and line numbers for all test functions~~
-* add ~~file name and~~ line numbers for all test functions for Haxe 3 builds
-* ~~running of tests~~
-* ~~filter tests when running~~
+* add line numbers for all test functions for Haxe 3 builds
 * implement filtering for haxe.unit
 * add support for additional unittest frameworks
