@@ -30,10 +30,12 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 
 	public function addFail(result:TestResult) {
 		var message:String = null;
+		var lineNumber:Null<Int> = null;
 		if (result.failure != null) {
 			message = result.failure.message;
+			lineNumber = result.failure.info.lineNumber - 1;
 		}
-		testData.addTestResult(result.className, result.name, result.executionTime, Failure, message);
+		testData.addTestResult(result.className, result.name, result.executionTime, Failure, message, lineNumber);
 	}
 
 	public function addError(result:TestResult) {
