@@ -31,8 +31,6 @@ class HaxeTestAdapter {
 	final log:Log;
 	final dataWatcher:FileSystemWatcher;
 	var suiteData:SuiteTestResultData;
-	var partialSuiteData:SuiteTestResultData;
-	var partialDataWatcher:FileSystemWatcher;
 
 	public function new(workspaceFolder:WorkspaceFolder, channel:OutputChannel, log:Log) {
 		this.workspaceFolder = workspaceFolder;
