@@ -47,6 +47,9 @@ class Macro {
 			return fields;
 		}
 		var className = makeLocation(cls.name);
+		if (cls.kind.match(KAbstractImpl(_))) {
+			return fields;
+		}
 		addTestPos(className, cls.pos);
 		for (field in fields) {
 			if (field.name == "new" || field.name.startsWith("__")) {
