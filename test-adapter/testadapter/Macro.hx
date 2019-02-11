@@ -47,6 +47,9 @@ class Macro {
 		}
 		addTestPos(makeLocation(cls.name), Context.currentPos());
 		for (field in fields) {
+			if (field.name == "new" || field.name.startsWith("__")) {
+				continue;
+			}
 			var name:String = makeLocation(cls.name) + "#" + field.name;
 			addTestPos(name, field.pos);
 		}
