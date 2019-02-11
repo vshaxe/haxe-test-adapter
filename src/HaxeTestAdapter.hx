@@ -122,6 +122,9 @@ class HaxeTestAdapter {
 				};
 				if (clazz.pos != null && clazz.pos.file != null) {
 					testInfo.file = Path.join([workspaceFolder.uri.fsPath, clazz.pos.file]);
+					if (~/^[a-zA-Z]:.*/.match(testInfo.file)) {
+						testInfo.file = StringTools.replace(testInfo.file, "/", "\\");
+					}
 					testInfo.line = test.line;
 				}
 				classChilds.push(testInfo);
