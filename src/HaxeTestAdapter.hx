@@ -97,8 +97,11 @@ class HaxeTestAdapter {
 		};
 		var classes = testSuiteResults.classes;
 		ArraySort.sort(classes, (a, b) -> {
-			if (a.pos == null || b.pos == null || a.pos.file != b.pos.file) {
+			if (a.pos == null || b.pos == null) {
 				return 0;
+			}
+			if (a.pos.file != b.pos.file) {
+				return Reflect.compare(a.pos.file, b.pos.file);
 			}
 			return sortByLine(a.pos, b.pos);
 		});
