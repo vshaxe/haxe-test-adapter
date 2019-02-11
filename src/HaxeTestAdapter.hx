@@ -19,6 +19,8 @@ import vscode.testadapter.api.event.TestLoadEvent;
 import vscode.testadapter.api.event.TestEvent;
 import vscode.testadapter.util.Log;
 
+using StringTools;
+
 class HaxeTestAdapter {
 	public final workspaceFolder:WorkspaceFolder;
 
@@ -122,8 +124,9 @@ class HaxeTestAdapter {
 				};
 				if (clazz.pos != null && clazz.pos.file != null) {
 					testInfo.file = Path.join([workspaceFolder.uri.fsPath, clazz.pos.file]);
-					if (~/^[a-zA-Z]:.*/.match(testInfo.file)) {
-						testInfo.file = StringTools.replace(testInfo.file, "/", "\\");
+					// it seems Test Explorer UI wants backslashes on Windows
+					if (Sys.systemName() == "Windows") {
+						testInfo.file = testInfo.file.replace("/", "\\");
 					}
 					testInfo.line = test.line;
 				}
