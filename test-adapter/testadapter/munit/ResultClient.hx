@@ -25,24 +25,23 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 	}
 
 	public function addPass(result:TestResult) {
-		testData.addPass(result.className, result.name, result.executionTime);
+		testData.addTestResult(result.className, result.name, result.executionTime, Success);
 	}
 
 	public function addFail(result:TestResult) {
 		var errorText:String = "unknown";
-
 		if (result.failure != null) {
 			errorText = result.failure.message;
 		}
-		testData.addFail(result.className, result.name, result.executionTime, errorText);
+		testData.addTestResult(result.className, result.name, result.executionTime, Failure, errorText);
 	}
 
 	public function addError(result:TestResult) {
-		testData.addError(result.className, result.name, result.executionTime, '${result.error}');
+		testData.addTestResult(result.className, result.name, result.executionTime, Error, Std.string(result.error));
 	}
 
 	public function addIgnore(result:TestResult) {
-		testData.addIgnore(result.className, result.name);
+		testData.addTestResult(result.className, result.name, result.executionTime, Ignore, result.description);
 	}
 
 	@SuppressWarnings("checkstyle:Dynamic")

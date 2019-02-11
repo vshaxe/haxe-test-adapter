@@ -1,5 +1,6 @@
 package testadapter.utest;
 
+import testadapter.data.Data.TestState;
 import haxe.CallStack;
 import testadapter.data.TestFilter;
 import testadapter.data.TestResultData;
@@ -38,42 +39,30 @@ class Reporter implements IReport<Reporter> {
 				var classSuiteName:String = getClassName(pname, cname);
 				for (mname in cls.methodNames()) {
 					var fix:FixtureResult = cls.get(mname);
-
-					if (fix.stats.isOk) {
-						if (fix.stats.hasIgnores) {
-							testData.addIgnore(classSuiteName, mname);
-							continue;
-						}
-						// TODO execution time
-						testData.addPass(classSuiteName, mname, 0);
-						continue;
-					}
-
-					var details = "";
+					var details = null;
+					var state = TestState.Failure;
 					for (assertation in fix.iterator()) {
 						switch (assertation) {
 							case Assertation.Success(_):
+								state = Success;
 							case Assertation.Failure(msg, pos):
-								details += "line: " + pos.lineNumber + ", " + msg;
-							case Assertation.Error(e, s):
-								details += Std.string(e) + dumpStack(s);
-							case Assertation.SetupError(e, s):
-								details += Std.string(e) + dumpStack(s);
-							case Assertation.TeardownError(e, s):
-								details += Std.string(e) + dumpStack(s);
+								state = Failure;
+								details = "line: " + pos.lineNumber + ", " + msg;
+							case Assertation.Error(e, s), Assertation.SetupError(e, s), Assertation.TeardownError(e, s), Assertation.AsyncError(e, s):
+								state = Error;
+								details = Std.string(e) + dumpStack(s);
 							case Assertation.TimeoutError(missedAsyncs, s):
-								details += "missed async calls: " + missedAsyncs + dumpStack(s);
-							case Assertation.AsyncError(e, s):
-								details += Std.string(e) + dumpStack(s);
+								state = Error;
+								details = "missed async calls: " + missedAsyncs + dumpStack(s);
 							case Assertation.Warning(msg):
-								details += msg;
+								state = Failure; // ?
+								details = msg;
 							case Assertation.Ignore(reason):
-								if (reason != null && reason != "") {
-									details += 'With reason: ${reason}';
-								}
+								state = Ignore;
+								details = reason;
 						}
 					}
-					testData.addFail(classSuiteName, mname, 0, details);
+					testData.addTestResult(classSuiteName, mname, 0, state, details);
 				}
 			}
 		}

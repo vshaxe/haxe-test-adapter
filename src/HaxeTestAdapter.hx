@@ -153,7 +153,7 @@ class HaxeTestAdapter {
 				var testState:TestState = switch (test.state) {
 					case Success: Passed;
 					case Failure: Failed;
-					case Error: Failed;
+					case Error: Errored;
 					case Ignore: Skipped;
 				}
 				testStatesEmitter.fire({

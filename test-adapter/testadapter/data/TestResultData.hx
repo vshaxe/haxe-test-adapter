@@ -25,23 +25,7 @@ class TestResultData {
 		init();
 	}
 
-	public function addPass(className:String, name:String, executionTime:Float) {
-		addTestResult(className, name, executionTime, Success, null);
-	}
-
-	public function addFail(className:String, name:String, executionTime:Float, errorText:String) {
-		addTestResult(className, name, executionTime, Failure, errorText);
-	}
-
-	public function addError(className:String, name:String, executionTime:Float, errorText:String) {
-		addTestResult(className, name, executionTime, Error, errorText);
-	}
-
-	public function addIgnore(className:String, name:String) {
-		addTestResult(className, name, 0, Ignore, null);
-	}
-
-	public function addTestResult(className:String, name:String, executionTime:Float, state:TestState, errorText:String) {
+	public function addTestResult(className:String, name:String, executionTime:Float = 0, state:TestState, ?errorText:String) {
 		var pos = TestPosCache.getPos(className, name);
 		var line:Null<Int> = null;
 		if (pos != null) {

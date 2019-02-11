@@ -12,16 +12,20 @@ class TestCase extends utest.Test {
 		Assert.isTrue(true);
 	}
 
-	@Ignored
+	function testFailure() {
+		Assert.fail();
+	}
+
+	function testError() {
+		throw "failure";
+	}
+
+	@Ignored("Description")
 	function testIgnore() {}
 }
 
 class TestCase2 extends utest.Test {
 	function testSuccess() {
 		Assert.isTrue(true);
-	}
-
-	function testFailure() {
-		Assert.fail();
 	}
 }

@@ -14,14 +14,18 @@ class TestCase extends haxe.unit.TestCase {
 	function testSuccess() {
 		assertTrue(true);
 	}
+
+	function testFailure() {
+		assertTrue(false);
+	}
+
+	function testError() {
+		throw "error";
+	}
 }
 
 class TestCase2 extends haxe.unit.TestCase {
 	function testSuccess() {
 		assertTrue(true);
-	}
-
-	function testFailure() {
-		assertTrue(false);
 	}
 }

@@ -24,16 +24,21 @@ class TestCase {
 	@Test
 	function testSuccess() {}
 
-	@Test @Ignore
+	@Test
+	function testFailure() {
+		Assert.fail("failure");
+	}
+
+	@Test
+	function testError() {
+		throw "error";
+	}
+
+	@Test @Ignore("Description")
 	function testIgnore() {}
 }
 
 class TestCase2 {
 	@Test
 	function testSuccess() {}
-
-	@Test
-	function testFailure() {
-		Assert.fail("failure");
-	}
 }

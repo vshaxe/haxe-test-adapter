@@ -33,6 +33,8 @@ class Injector {
 					var state:testadapter.data.Data.TestState = Failure;
 					if (r.success) {
 						state = Success;
+					} else if (StringTools.startsWith(r.error, "exception thrown : ")) {
+						state = Error;
 					}
 					testData.addTestResult(r.classname, r.method, 0, state, r.error);
 				}
