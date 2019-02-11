@@ -55,7 +55,7 @@ class Injector {
 					if (r.success) {
 						state = Success;
 					}
-					testData.addTestResult(r.classname, r.method, location, 0, state, r.error, testadapter.data.TestPosCache.getPos(location));
+					testData.addTestResult(r.classname, r.method, location, 0, state, r.error);
 				}
 			}
 		}).fields;

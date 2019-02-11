@@ -117,8 +117,8 @@ class HaxeTestAdapter {
 					id: clazz.name + "." + test.name,
 					label: test.name,
 				};
-				if (test.file != null) {
-					testInfo.file = Path.join([workspaceFolder.uri.fsPath, test.file]);
+				if (clazz.pos != null && clazz.pos.file != null) {
+					testInfo.file = Path.join([workspaceFolder.uri.fsPath, clazz.pos.file]);
 					testInfo.line = test.line;
 				}
 				classChilds.push(testInfo);

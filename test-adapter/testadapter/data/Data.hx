@@ -20,7 +20,6 @@ typedef SingleTestResultData = {
 	var executionTime:Float;
 	var timestamp:Float;
 	@:optional var line:Int;
-	@:optional var file:String;
 }
 
 typedef SuiteTestResultData = {

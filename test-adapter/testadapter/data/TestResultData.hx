@@ -27,27 +27,25 @@ class TestResultData {
 	}
 
 	public function addPass(className:String, name:String, location:String, executionTime:Float) {
-		addTestResult(className, name, location, executionTime, Success, null, TestPosCache.getPos(location));
+		addTestResult(className, name, location, executionTime, Success, null);
 	}
 
 	public function addFail(className:String, name:String, location:String, executionTime:Float, errorText:String) {
-		addTestResult(className, name, location, executionTime, Failure, errorText, TestPosCache.getPos(location));
+		addTestResult(className, name, location, executionTime, Failure, errorText);
 	}
 
 	public function addError(className:String, name:String, location:String, executionTime:Float, errorText:String) {
-		addTestResult(className, name, location, executionTime, Error, errorText, TestPosCache.getPos(location));
+		addTestResult(className, name, location, executionTime, Error, errorText);
 	}
 
 	public function addIgnore(className:String, name:String, location:String) {
-		addTestResult(className, name, location, 0, Ignore, null, TestPosCache.getPos(location));
+		addTestResult(className, name, location, 0, Ignore, null);
 	}
 
-	public function addTestResult(className:String, name:String, location:String, executionTime:Float, state:SingleTestResultState, errorText:String,
-			pos:TestPos) {
-		var file:String = null;
+	public function addTestResult(className:String, name:String, location:String, executionTime:Float, state:SingleTestResultState, errorText:String) {
+		var pos = TestPosCache.getPos(location);
 		var line:Null<Int> = null;
 		if (pos != null) {
-			file = pos.file;
 			line = pos.line;
 		}
 		for (data in suiteData.classes) {
@@ -59,7 +57,6 @@ class TestResultData {
 						test.state = state;
 						test.timestamp = Timer.stamp();
 						test.errorText = errorText;
-						test.file = file;
 						test.line = line;
 						saveData();
 						return;
@@ -72,10 +69,8 @@ class TestResultData {
 					state: state,
 					errorText: errorText,
 					timestamp: Timer.stamp(),
-					file: file,
 					line: line
 				});
-				data.pos = TestPosCache.getPos(className);
 				saveData();
 				return;
 			}
@@ -90,7 +85,6 @@ class TestResultData {
 					state: state,
 					errorText: errorText,
 					timestamp: Timer.stamp(),
-					file: file,
 					line: line
 				}
 			],
