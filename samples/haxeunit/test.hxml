@@ -1,5 +1,4 @@
 -cp src
 -lib hx3compat
--lib test-adapter
 -main Main
 --interp

@@ -1,5 +1,4 @@
 -cp src
 -lib utest
--lib test-adapter
 -main Main
 --interp

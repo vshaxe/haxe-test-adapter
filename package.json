@@ -66,10 +66,15 @@
 		"configuration": {
 			"title": "Haxe Test Adapter",
 			"properties": {
-				"haxetestadapter.testArguments": {
+				"haxetestadapter.testCommand": {
 					"type": "array",
-					"default": ["buildTest.hxml"],
-					"description": "Arguments to pass to Haxe for running tests",
+					"default": [
+						"${haxe}",
+						"test.hxml",
+						"-lib",
+						"test-adapter"
+					],
+					"description": "Command for building and running the tests. ${haxe} is replaced with \"haxe.executable\".",
 					"items": {
 						"type": "string"
 					}

@@ -1,3 +1,4 @@
+import vscode.ProcessExecution;
 import vscode.ShellExecution;
 import vscode.TaskExecution;
 import vscode.Task;
@@ -161,11 +162,11 @@ class HaxeTestAdapter {
 		var vshaxe:Vshaxe = Vscode.extensions.getExtension("nadako.vshaxe").exports;
 		var haxeExecutable = vshaxe.haxeExecutable.configuration;
 
-		var testArguments:Array<String> = Vscode.workspace.getConfiguration("haxetestadapter").get("testArguments");
-		var command = [haxeExecutable.executable].concat(testArguments).concat(["-lib", "test-adapter"]);
+		var testCommand:Array<String> = Vscode.workspace.getConfiguration("haxetestadapter").get("testCommand");
+		testCommand = testCommand.map(arg -> if (arg == "${haxe}") haxeExecutable.executable else arg);
 
 		var task = new Task({type: "haxe-test-adapter-run"}, workspaceFolder, "Running Tests", "haxe",
-			new ShellExecution(command.join(" "), {env: haxeExecutable.env}), vshaxe.problemMatchers.get());
+			new ProcessExecution(testCommand.shift(), testCommand, {env: haxeExecutable.env}), vshaxe.problemMatchers.get());
 		var presentation = vshaxe.taskPresentation;
 		task.presentationOptions = {
 			reveal: presentation.reveal,
