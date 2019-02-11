@@ -72,7 +72,7 @@ class TestFilter {
 		#if (sys || nodejs)
 		var fileName:String = getTestFilterFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
-			FileSystem.createDirectory(RESULT_FOLDER);
+			FileSystem.createDirectory(Path.join([baseFolder, RESULT_FOLDER]));
 		}
 		File.saveContent(fileName, Json.stringify(testFilters, null, "    "));
 		#end
