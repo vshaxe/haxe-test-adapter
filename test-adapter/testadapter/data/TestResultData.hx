@@ -25,7 +25,7 @@ class TestResultData {
 		init();
 	}
 
-	public function addTestResult(className:String, name:String, executionTime:Float = 0, state:TestState, ?errorText:String, ?errorLine:Int) {
+	public function addTestResult(className:String, name:String, executionTime:Float = 0, state:TestState, ?message:String, ?errorLine:Int) {
 		var pos = TestPosCache.getPos(className, name);
 		var line:Null<Int> = null;
 		if (pos != null) {
@@ -36,7 +36,7 @@ class TestResultData {
 				name: name,
 				executionTime: executionTime,
 				state: state,
-				errorText: errorText,
+				message: message,
 				timestamp: Timer.stamp(),
 				line: line,
 				errorLine: errorLine

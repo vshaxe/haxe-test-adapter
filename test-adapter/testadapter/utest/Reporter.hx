@@ -39,7 +39,7 @@ class Reporter implements IReport<Reporter> {
 				var classSuiteName:String = getClassName(pname, cname);
 				for (mname in cls.methodNames()) {
 					var fix:FixtureResult = cls.get(mname);
-					var details = null;
+					var message = null;
 					var state = TestState.Failure;
 					var errorLine = null;
 					for (assertation in fix.iterator()) {
@@ -48,23 +48,23 @@ class Reporter implements IReport<Reporter> {
 								state = Success;
 							case Assertation.Failure(msg, pos):
 								state = Failure;
-								details = msg;
+								message = msg;
 								errorLine = pos.lineNumber - 1;
 							case Assertation.Error(e, s), Assertation.SetupError(e, s), Assertation.TeardownError(e, s), Assertation.AsyncError(e, s):
 								state = Error;
-								details = Std.string(e) + dumpStack(s);
+								message = Std.string(e) + dumpStack(s);
 							case Assertation.TimeoutError(missedAsyncs, s):
 								state = Error;
-								details = "missed async calls: " + missedAsyncs + dumpStack(s);
+								message = "missed async calls: " + missedAsyncs + dumpStack(s);
 							case Assertation.Warning(msg):
 								state = Failure; // ?
-								details = msg;
+								message = msg;
 							case Assertation.Ignore(reason):
 								state = Ignore;
-								details = reason;
+								message = reason;
 						}
 					}
-					testData.addTestResult(classSuiteName, mname, 0, state, details, errorLine);
+					testData.addTestResult(classSuiteName, mname, 0, state, message, errorLine);
 				}
 			}
 		}

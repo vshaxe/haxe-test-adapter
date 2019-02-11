@@ -160,10 +160,10 @@ class HaxeTestAdapter {
 					type: Test,
 					test: clazz.name + "." + test.name,
 					state: testState,
-					message: test.errorText
+					message: test.message
 				};
-				if (test.errorText != null) {
-					event.message =  test.errorText;
+				if (test.message != null) {
+					event.message = test.message;
 					if (test.errorLine != null) {
 						event.decorations = [{
 							line: test.errorLine,

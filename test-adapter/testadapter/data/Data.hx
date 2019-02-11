@@ -14,7 +14,7 @@ typedef TestClassResults = {
 typedef TestResults = {
 	var name:String;
 	var state:TestState;
-	var errorText:String;
+	var message:String;
 	var executionTime:Float;
 	var timestamp:Float;
 	@:optional var line:Int;
