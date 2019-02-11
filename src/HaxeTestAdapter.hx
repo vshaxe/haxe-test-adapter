@@ -2,7 +2,7 @@ import haxe.ds.ArraySort;
 import haxe.io.Path;
 import js.Object;
 import js.Promise;
-import testadapter.data.SuiteTestResultData;
+import testadapter.data.Data;
 import testadapter.data.TestFilter;
 import testadapter.data.TestResultData;
 import vscode.EventEmitter;
@@ -95,7 +95,14 @@ class HaxeTestAdapter {
 			id: suiteTestResultData.name,
 			children: suiteChilds
 		};
-		for (clazz in suiteTestResultData.classes) {
+		var classes = suiteTestResultData.classes;
+		ArraySort.sort(classes, (a:ClassTestResultData, b) -> {
+			if (a.pos == null || b.pos == null || a.pos.file != b.pos.file) {
+				return 0;
+			}
+			return sortByLine(a.pos, b.pos);
+		});
+		for (clazz in classes) {
 			var classChilds:Array<TestInfo> = [];
 			var classInfo:TestSuiteInfo = {
 				type: "suite",
@@ -103,12 +110,7 @@ class HaxeTestAdapter {
 				id: clazz.name,
 				children: classChilds
 			};
-			ArraySort.sort(clazz.tests, function(test1, test2) {
-				if (test1.line == null || test2.line == null) {
-					return 0;
-				}
-				return test1.line - test2.line;
-			});
+			ArraySort.sort(clazz.tests, sortByLine);
 			for (test in clazz.tests) {
 				var testInfo:TestInfo = {
 					type: "test",
@@ -124,6 +126,13 @@ class HaxeTestAdapter {
 			suiteChilds.push(classInfo);
 		}
 		return suiteInfo;
+	}
+
+	function sortByLine(a:{line:Null<Int>}, b:{line:Null<Int>}) {
+		if (a.line == null || b.line == null) {
+			return 0;
+		}
+		return a.line - b.line;
 	}
 
 	function update(suiteTestResultData:Null<SuiteTestResultData>) {

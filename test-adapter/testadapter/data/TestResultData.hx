@@ -8,6 +8,7 @@ import json2object.JsonParser;
 import sys.FileSystem;
 import sys.io.File;
 #end
+import testadapter.data.Data;
 
 class TestResultData {
 	public static inline var RESULT_FOLDER:String = ".unittest";
@@ -74,6 +75,7 @@ class TestResultData {
 					file: file,
 					line: line
 				});
+				data.pos = TestPosCache.getPos(className);
 				saveData();
 				return;
 			}
@@ -91,7 +93,8 @@ class TestResultData {
 					file: file,
 					line: line
 				}
-			]
+			],
+			pos: TestPosCache.getPos(className)
 		});
 		saveData();
 	}
@@ -132,7 +135,7 @@ class TestResultData {
 		}
 		var content:String = File.getContent(dataFile);
 
-		var parser:JsonParser<SuiteTestResultData> = new JsonParser<SuiteTestResultData>();
+		var parser = new JsonParser<SuiteTestResultData>();
 		return parser.fromJson(content, dataFile);
 		#end
 		return {name: ROOT_SUITE_NAME, classes: []};

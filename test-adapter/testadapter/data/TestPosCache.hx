@@ -9,6 +9,7 @@ import sys.io.File;
 #if !macro
 import json2object.JsonParser;
 #end
+import testadapter.data.Data;
 
 typedef TestPositions = Map<String, TestPos>;
 

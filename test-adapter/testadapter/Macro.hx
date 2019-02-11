@@ -45,7 +45,7 @@ class Macro {
 		if (!~/(Test|Tests|TestCase|TestCases)/.match(cls.name)) {
 			return fields;
 		}
-		addTestPos(makeLocation(cls.name), Context.currentPos());
+		addTestPos(makeLocation(cls.name), cls.pos);
 		for (field in fields) {
 			if (field.name == "new" || field.name.startsWith("__")) {
 				continue;
