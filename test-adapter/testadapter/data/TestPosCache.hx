@@ -34,9 +34,6 @@ class TestPosCache {
 		if (!INSTANCE.loaded) {
 			INSTANCE.loadCache();
 		}
-		if (StringTools.startsWith(location, ".")) {
-			location = location.substr(1);
-		}
 		return INSTANCE.testPositions.get(location);
 	}
 

@@ -49,9 +49,6 @@ class TestResultData {
 			file = pos.file;
 			line = pos.line;
 		}
-		if (StringTools.startsWith(location, ".")) {
-			location = location.substr(1);
-		}
 		for (data in suiteData.classes) {
 			if (data.name == className) {
 				for (test in data.tests) {

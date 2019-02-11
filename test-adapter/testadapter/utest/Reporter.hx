@@ -80,6 +80,9 @@ class Reporter implements IReport<Reporter> {
 	}
 
 	function getClassName(pack:String, className:String):String {
+		if (pack == "") {
+			return className;
+		}
 		return '${StringTools.replace(pack, ".", "_")}.${className}';
 	}
 
