@@ -212,8 +212,9 @@ class HaxeTestAdapter {
 	**/
 	public function debug(tests:Array<String>):Thenable<Void> {
 		log.info("debug tests " + tests);
-		channel.appendLine('Debug tests ($tests): not implemented!');
-		return null;
+		channel.appendLine('Debugging tests...');
+		var launchConfig = Vscode.workspace.getConfiguration("haxeTestExplorer").get("launchConfiguration");
+		return cast Vscode.debug.startDebugging(workspaceFolder, launchConfig);
 	}
 
 	/**

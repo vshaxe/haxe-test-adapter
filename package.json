@@ -78,6 +78,11 @@
 					"items": {
 						"type": "string"
 					}
+				},
+				"haxeTestExplorer.launchConfiguration": {
+					"type": "string",
+					"default": "Debug",
+					"description": "Name of the launch configuration to use for debugging."
 				}
 			}
 		}
