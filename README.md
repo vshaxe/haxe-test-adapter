@@ -12,6 +12,7 @@ A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visua
 * Records [munit](https://github.com/massiveinteractive/MassiveUnit), [utest](https://github.com/haxe-utest/utest) and [haxe.unit](https://api.haxe.org/haxe/unit/TestRunner.html) test results as JSON files
 * Shows latest test results in VSCode using the Test Explorer UI extension
 * Supports filtering / running individual tests directly from VSCode
+* Supports Haxe 3.4.7 and 4.0.0-rc.1
 * Currently only works for Node.js and sys targets
 
 ## Usage
@@ -35,6 +36,12 @@ As you can see, by default it assumes the presence of a `test.hxml` that compile
 "files.exclude": {
 	"**/.unittest": true
 }
+```
+
+It's also possible to debug tests using a launch configuration from `launch.json`. Which one should be used can be configured with this setting:
+
+```json
+"haxeTestExplorer.launchConfiguration": "Debug"
 ```
 
 ## Build from sources
