@@ -62,6 +62,9 @@ class HaxeTestAdapter {
 
 		var fileName:String = TestResultData.getTestDataFileName(workspaceFolder.uri.fsPath);
 		dataWatcher = Vscode.workspace.createFileSystemWatcher(fileName, false, false, true);
+		dataWatcher.onDidCreate(function(uri:Uri) {
+			load();
+		});
 		dataWatcher.onDidChange(function(uri:Uri) {
 			load();
 		});
