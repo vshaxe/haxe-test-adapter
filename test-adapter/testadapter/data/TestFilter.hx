@@ -7,6 +7,8 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
+using StringTools;
+
 typedef TestFilterList = Array<String>;
 
 class TestFilter {
@@ -61,7 +63,7 @@ class TestFilter {
 			if (location == filter) {
 				return true;
 			}
-			if (StringTools.startsWith(location, filter)) {
+			if (location.startsWith(filter)) {
 				return true;
 			}
 		}

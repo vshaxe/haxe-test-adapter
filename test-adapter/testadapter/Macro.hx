@@ -10,6 +10,8 @@ import haxe.display.Position.Location;
 #end
 import testadapter.data.TestPosCache;
 
+using StringTools;
+
 class Macro {
 	#if macro
 	public static function init() {
@@ -49,7 +51,7 @@ class Macro {
 		if (location == clazz) {
 			return location;
 		}
-		if (StringTools.endsWith(location, '.$clazz')) {
+		if (location.endsWith('.$clazz')) {
 			return location;
 		}
 		var parts:Array<String> = location.split(".");

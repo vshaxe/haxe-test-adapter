@@ -12,6 +12,8 @@ import utest.ui.common.IReport;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultAggregator;
 
+using StringTools;
+
 class Reporter implements IReport<Reporter> {
 	public var displaySuccessResults:SuccessResultsDisplayMode;
 	public var displayHeader:HeaderDisplayMode;
@@ -83,7 +85,7 @@ class Reporter implements IReport<Reporter> {
 		if (pack == "") {
 			return className;
 		}
-		return '${StringTools.replace(pack, ".", "_")}.${className}';
+		return '${pack.replace(".", "_")}.${className}';
 	}
 
 	function getTestName(pack:String, className:String, methodName:String):String {
