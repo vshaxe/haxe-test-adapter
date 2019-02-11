@@ -64,9 +64,9 @@
 			}
 		],
 		"configuration": {
-			"title": "Haxe Test Adapter",
+			"title": "Haxe Test Explorer",
 			"properties": {
-				"haxetestadapter.testCommand": {
+				"haxeTestExplorer.testCommand": {
 					"type": "array",
 					"default": [
 						"${haxe}",
