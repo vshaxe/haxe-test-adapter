@@ -31,7 +31,7 @@ class Injector {
 			function publishAdapterResults() {
 				for (r in result.m_tests) {
 					var state:testadapter.data.Data.TestState = Failure;
-					var errorLine = null;
+					var errorLine:Null<Int> = null;
 					if (r.success) {
 						state = Success;
 					} else if (r.error != null) {

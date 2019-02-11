@@ -44,7 +44,7 @@ class TestResultData {
 		}
 		for (data in suiteResults.classes) {
 			if (data.name == className) {
-				data.tests = data.tests.filter(results -> results.name != name);
+				data.tests = data.tests.filter(function(results) return results.name != name);
 				data.tests.push(makeTest());
 				saveData();
 				return;

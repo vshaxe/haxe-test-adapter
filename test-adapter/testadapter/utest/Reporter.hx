@@ -41,7 +41,7 @@ class Reporter implements IReport<Reporter> {
 					var fix:FixtureResult = cls.get(mname);
 					var message = null;
 					var state = TestState.Failure;
-					var errorLine = null;
+					var errorLine:Null<Int> = null;
 					for (assertation in fix.iterator()) {
 						switch (assertation) {
 							case Assertation.Success(_):
