@@ -38,15 +38,14 @@ class Reporter implements IReport<Reporter> {
 				var classSuiteName:String = getClassName(pname, cname);
 				for (mname in cls.methodNames()) {
 					var fix:FixtureResult = cls.get(mname);
-					var testName:String = getTestName(pname, cname, mname);
 
 					if (fix.stats.isOk) {
 						if (fix.stats.hasIgnores) {
-							testData.addIgnore(classSuiteName, mname, testName);
+							testData.addIgnore(classSuiteName, mname);
 							continue;
 						}
 						// TODO execution time
-						testData.addPass(classSuiteName, mname, testName, 0);
+						testData.addPass(classSuiteName, mname, 0);
 						continue;
 					}
 
@@ -74,7 +73,7 @@ class Reporter implements IReport<Reporter> {
 								}
 						}
 					}
-					testData.addFail(classSuiteName, mname, testName, 0, details);
+					testData.addFail(classSuiteName, mname, 0, details);
 				}
 			}
 		}
@@ -86,10 +85,6 @@ class Reporter implements IReport<Reporter> {
 			return className;
 		}
 		return '${pack.replace(".", "_")}.${className}';
-	}
-
-	function getTestName(pack:String, className:String, methodName:String):String {
-		return '${getClassName(pack, className)}#${methodName}';
 	}
 
 	function dumpStack(stack:Array<StackItem>):String {

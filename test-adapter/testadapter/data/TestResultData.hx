@@ -25,24 +25,24 @@ class TestResultData {
 		init();
 	}
 
-	public function addPass(className:String, name:String, location:String, executionTime:Float) {
-		addTestResult(className, name, location, executionTime, Success, null);
+	public function addPass(className:String, name:String, executionTime:Float) {
+		addTestResult(className, name, executionTime, Success, null);
 	}
 
-	public function addFail(className:String, name:String, location:String, executionTime:Float, errorText:String) {
-		addTestResult(className, name, location, executionTime, Failure, errorText);
+	public function addFail(className:String, name:String, executionTime:Float, errorText:String) {
+		addTestResult(className, name, executionTime, Failure, errorText);
 	}
 
-	public function addError(className:String, name:String, location:String, executionTime:Float, errorText:String) {
-		addTestResult(className, name, location, executionTime, Error, errorText);
+	public function addError(className:String, name:String, executionTime:Float, errorText:String) {
+		addTestResult(className, name, executionTime, Error, errorText);
 	}
 
-	public function addIgnore(className:String, name:String, location:String) {
-		addTestResult(className, name, location, 0, Ignore, null);
+	public function addIgnore(className:String, name:String) {
+		addTestResult(className, name, 0, Ignore, null);
 	}
 
-	public function addTestResult(className:String, name:String, location:String, executionTime:Float, state:TestState, errorText:String) {
-		var pos = TestPosCache.getPos(location);
+	public function addTestResult(className:String, name:String, executionTime:Float, state:TestState, errorText:String) {
+		var pos = TestPosCache.getPos(className, name);
 		var line:Null<Int> = null;
 		if (pos != null) {
 			line = pos.line;
@@ -50,7 +50,7 @@ class TestResultData {
 		for (data in suiteResults.classes) {
 			if (data.name == className) {
 				for (test in data.tests) {
-					if (location == '${data.name}#${test.name}') {
+					if (className == data.name && name == test.name) {
 						test.executionTime = executionTime;
 						test.state = state;
 						test.timestamp = Timer.stamp();
@@ -84,7 +84,7 @@ class TestResultData {
 					line: line
 				}
 			],
-			pos: TestPosCache.getPos(className)
+			pos: TestPosCache.getPos(className, null)
 		});
 		saveData();
 	}

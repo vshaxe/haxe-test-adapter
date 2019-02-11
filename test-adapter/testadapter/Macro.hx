@@ -45,13 +45,13 @@ class Macro {
 		if (!~/(Test|Tests|TestCase|TestCases)/.match(cls.name)) {
 			return fields;
 		}
-		addTestPos(makeLocation(cls.name), cls.pos);
+		var className = makeLocation(cls.name);
+		addTestPos(className, cls.pos);
 		for (field in fields) {
 			if (field.name == "new" || field.name.startsWith("__")) {
 				continue;
 			}
-			var name:String = makeLocation(cls.name) + "#" + field.name;
-			addTestPos(name, field.pos);
+			addTestPos(className, field.name, field.pos);
 		}
 		return fields;
 	}
@@ -70,13 +70,13 @@ class Macro {
 		return parts.join(".");
 	}
 
-	static function addTestPos(name:String, pos:Position) {
+	static function addTestPos(className:String, ?testName:String, pos:Position) {
 		#if (haxe_ver >= 4)
 		var location:Location = PositionTools.toLocation(pos);
 		if (location.file == "?") {
 			return;
 		}
-		TestPosCache.addPos(name, {
+		TestPosCache.addPos(className, testName, {
 			file: location.file,
 			line: location.range.start.line - 1
 		});

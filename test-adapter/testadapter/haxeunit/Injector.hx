@@ -50,12 +50,11 @@ class Injector {
 			@:access(haxe.unit.TestResult)
 			function publishAdapterResults() {
 				for (r in result.m_tests) {
-					var location:String = r.classname + "#" + r.method + "'";
 					var state:testadapter.data.Data.TestState = Failure;
 					if (r.success) {
 						state = Success;
 					}
-					testData.addTestResult(r.classname, r.method, location, 0, state, r.error);
+					testData.addTestResult(r.classname, r.method, 0, state, r.error);
 				}
 			}
 		}).fields;

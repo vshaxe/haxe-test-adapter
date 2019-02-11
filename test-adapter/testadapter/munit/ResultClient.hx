@@ -25,7 +25,7 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 	}
 
 	public function addPass(result:TestResult) {
-		testData.addPass(result.className, result.name, result.location, result.executionTime);
+		testData.addPass(result.className, result.name, result.executionTime);
 	}
 
 	public function addFail(result:TestResult) {
@@ -34,15 +34,15 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 		if (result.failure != null) {
 			errorText = result.failure.message;
 		}
-		testData.addFail(result.className, result.name, result.location, result.executionTime, errorText);
+		testData.addFail(result.className, result.name, result.executionTime, errorText);
 	}
 
 	public function addError(result:TestResult) {
-		testData.addError(result.className, result.name, result.location, result.executionTime, '${result.error}');
+		testData.addError(result.className, result.name, result.executionTime, '${result.error}');
 	}
 
 	public function addIgnore(result:TestResult) {
-		testData.addIgnore(result.className, result.name, result.location);
+		testData.addIgnore(result.className, result.name);
 	}
 
 	@SuppressWarnings("checkstyle:Dynamic")

@@ -11,31 +11,44 @@ import json2object.JsonParser;
 #end
 import testadapter.data.Data;
 
-typedef TestPositions = Map<String, Pos>;
+typedef ClassPosition = {
+	tests:Map<String, Pos>,
+	pos:Pos
+};
+
+typedef Positions = Map<String, ClassPosition>;
 
 class TestPosCache {
 	static inline var RESULT_FOLDER:String = ".unittest";
 	static inline var POS_FILE:String = "positions.json";
-	static var INSTANCE = new TestPosCache();
+	static var INSTANCE:TestPosCache = new TestPosCache();
 
-	var testPositions:TestPositions;
+	var positions:Positions;
 	var loaded:Bool;
 
 	function new() {
-		testPositions = new TestPositions();
+		positions = new Positions();
 		loadCache();
 	}
 
-	public static function addPos(location:String, pos:Pos) {
-		INSTANCE.testPositions[location] = pos;
+	public static function addPos(className:String, ?testName:String, pos:Pos) {
+		if (testName == null) {
+			INSTANCE.positions[className] = {tests: new Map<String, Pos>(), pos: pos};
+		} else {
+			INSTANCE.positions[className].tests[testName] = pos;
+		}
 		INSTANCE.saveCache();
 	}
 
-	public static function getPos(location:String):Pos {
+	public static function getPos(className:String, testName:String):Pos {
 		if (!INSTANCE.loaded) {
 			INSTANCE.loadCache();
 		}
-		return INSTANCE.testPositions[location];
+		var clazz = INSTANCE.positions[className];
+		if (testName == null) {
+			return clazz.pos;
+		}
+		return clazz.tests[testName];
 	}
 
 	function saveCache() {
@@ -44,7 +57,7 @@ class TestPosCache {
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 		}
-		File.saveContent(fileName, Json.stringify(testPositions, null, "    "));
+		File.saveContent(fileName, Json.stringify(positions, null, "    "));
 		#end
 	}
 
@@ -56,8 +69,8 @@ class TestPosCache {
 		}
 		var content:String = File.getContent(fileName);
 
-		var parser:JsonParser<TestPositions> = new JsonParser<TestPositions>();
-		testPositions = parser.fromJson(content, fileName);
+		var parser = new JsonParser<Positions>();
+		positions = parser.fromJson(content, fileName);
 		#end
 	}
 
