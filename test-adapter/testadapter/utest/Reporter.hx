@@ -32,13 +32,12 @@ class Reporter implements IReport<Reporter> {
 
 	@SuppressWarnings("checkstyle:NestedForDepth")
 	function complete(result:PackageResult) {
-		for (pname in result.packageNames()) {
-			var pack:PackageResult = result.getPackage(pname);
-			for (cname in pack.classNames()) {
-				var cls:ClassResult = pack.getClass(cname);
-				var classSuiteName:String = getClassName(pname, cname);
-				for (mname in cls.methodNames()) {
-					var fix:FixtureResult = cls.get(mname);
+		for (packageName in result.packageNames()) {
+			var pack:PackageResult = result.getPackage(packageName);
+			for (className in pack.classNames()) {
+				var cls:ClassResult = pack.getClass(className);
+				for (testName in cls.methodNames()) {
+					var fix:FixtureResult = cls.get(testName);
 					var message = null;
 					var state = TestState.Failure;
 					var errorLine:Null<Int> = null;
@@ -64,18 +63,12 @@ class Reporter implements IReport<Reporter> {
 								message = reason;
 						}
 					}
-					testData.addTestResult(classSuiteName, mname, 0, state, message, errorLine);
+					var dotPath = if (packageName == "") className else '$packageName.$className';
+					testData.addTestResult(dotPath, testName, 0, state, message, errorLine);
 				}
 			}
 		}
 		TestFilter.clearTestFilter();
-	}
-
-	function getClassName(pack:String, className:String):String {
-		if (pack == "") {
-			return className;
-		}
-		return '${pack.replace(".", "_")}.${className}';
 	}
 
 	function dumpStack(stack:Array<StackItem>):String {
