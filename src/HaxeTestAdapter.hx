@@ -28,6 +28,7 @@ class HaxeTestAdapter {
 	final log:Log;
 	final dataWatcher:FileSystemWatcher;
 	var suiteData:SuiteTestResultData;
+	var currentTask:Null<TaskExecution>;
 
 	public function new(workspaceFolder:WorkspaceFolder, channel:OutputChannel, log:Log) {
 		this.workspaceFolder = workspaceFolder;
@@ -55,6 +56,15 @@ class HaxeTestAdapter {
 		dataWatcher = Vscode.workspace.createFileSystemWatcher(fileName, false, false, true);
 		dataWatcher.onDidCreate(_ -> load());
 		dataWatcher.onDidChange(_ -> load());
+
+		Vscode.tasks.onDidEndTask(event -> {
+			if (event.execution == currentTask) {
+				testStatesEmitter.fire({type: Finished});
+				TestFilter.clearTestFilter();
+				channel.appendLine('Running tests finished');
+				currentTask = null;
+			}
+		});
 	}
 
 	/**
@@ -161,15 +171,12 @@ class HaxeTestAdapter {
 		};
 
 		var thenable:Thenable<TaskExecution> = Vscode.tasks.executeTask(task);
-		// TODO clear Filters after run
 		return thenable.then(function(taskExecution:TaskExecution) {
-			testStatesEmitter.fire({type: Finished});
-			// TestFilter.clearTestFilter();
-			channel.appendLine('Running tests ($tests) finished');
+			currentTask = taskExecution;
 		}, function(error) {
 			testStatesEmitter.fire({type: Finished});
-			// TestFilter.clearTestFilter();
-			channel.appendLine('Running tests ($tests) failed');
+			TestFilter.clearTestFilter();
+			channel.appendLine('Running tests ($tests) failed with ' + error);
 		});
 	}
 
