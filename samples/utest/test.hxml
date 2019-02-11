@@ -1,4 +1,4 @@
 -cp src
 -lib utest
 -main Main
---interp
+-x Main

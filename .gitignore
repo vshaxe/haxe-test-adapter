@@ -2,3 +2,4 @@ node_modules/
 bin/
 dump/
 .unittest/
+*.n

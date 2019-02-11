@@ -1,6 +1,7 @@
 language: haxe
 
 haxe:
+  - 3.4.7
   - development
 
 install:
@@ -15,10 +16,4 @@ install:
   - haxelib dev test-adapter test-adapter
 
 script:
-  - haxe build.hxml
-  - cd samples/munit
-  - sed -i /--interp/d test.hxml && haxe test.hxml
-  - cd ../utest
-  - sed -i /--interp/d test.hxml && haxe test.hxml
-  - cd ../haxeunit
-  - sed -i /--interp/d test.hxml && haxe test.hxml
+  - haxe --run RunCI
