@@ -1,0 +1,5 @@
+-cp src
+-lib munit
+-lib test-adapter
+-main Main
+--interp

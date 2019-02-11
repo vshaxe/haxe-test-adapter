@@ -8,6 +8,16 @@ install:
   - haxelib install vscode
   - haxelib install vshaxe
   - haxelib install json2object
+  - haxelib install munit
+  - haxelib git hamcrest https://github.com/kaikoga/hamcrest-haxe patch-haxe4-p5 src
+  - haxelib install utest
+  - haxelib install hx3compat
 
-hxml:
-  - build.hxml
+script:
+  - haxe build.hxml
+  - cd samples/munit
+  - haxe buildTest.hxml
+  - cd ../utest
+  - haxe buildTest.hxml
+  - cd ../haxeunit
+  - haxe buildTest.hxml
