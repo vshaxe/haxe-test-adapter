@@ -12,7 +12,7 @@ import json2object.JsonParser;
 import testadapter.data.Data;
 
 typedef ClassPosition = {
-	tests:Map<String, Pos>,
+	tests:Map<String, {line:Int}>,
 	pos:Pos
 };
 
@@ -33,9 +33,9 @@ class TestPosCache {
 
 	public static function addPos(className:String, ?testName:String, pos:Pos) {
 		if (testName == null) {
-			INSTANCE.positions[className] = {tests: new Map<String, Pos>(), pos: pos};
+			INSTANCE.positions[className] = {tests: new Map<String, {line:Int}>(), pos: pos};
 		} else {
-			INSTANCE.positions[className].tests[testName] = pos;
+			INSTANCE.positions[className].tests[testName] = {line: pos.line};
 		}
 		INSTANCE.saveCache();
 	}
@@ -48,7 +48,10 @@ class TestPosCache {
 		if (testName == null) {
 			return clazz.pos;
 		}
-		return clazz.tests[testName];
+		return {
+			file: clazz.pos.file,
+			line: clazz.tests[testName].line
+		};
 	}
 
 	function saveCache() {
