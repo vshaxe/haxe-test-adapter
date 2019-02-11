@@ -1,7 +1,3 @@
-import vscode.ProcessExecution;
-import vscode.ShellExecution;
-import vscode.TaskExecution;
-import vscode.Task;
 import haxe.io.Path;
 import js.Object;
 import js.Promise;
@@ -9,9 +5,11 @@ import testadapter.data.SuiteTestResultData;
 import testadapter.data.TestFilter;
 import testadapter.data.TestResultData;
 import vscode.EventEmitter;
-import vscode.Event;
 import vscode.FileSystemWatcher;
 import vscode.OutputChannel;
+import vscode.ProcessExecution;
+import vscode.Task;
+import vscode.TaskExecution;
 import vscode.Uri;
 import vscode.WorkspaceFolder;
 import vscode.testadapter.api.data.TestInfo;
@@ -208,20 +206,5 @@ class HaxeTestAdapter {
 	public function cancel() {
 		log.info("cancel tests");
 		channel.appendLine("Cancel tests: not implemented!");
-	}
-
-	// TODO replace with getter
-	public function tests():Event<TestLoadEvent> {
-		return testsEmitter.event;
-	}
-
-	// TODO replace with getter
-	public function testStates():Event<TestEvent> {
-		return testStatesEmitter.event;
-	}
-
-	// TODO replace with getter
-	public function autorun():Event<Void> {
-		return autorunEmitter.event;
 	}
 }

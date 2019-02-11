@@ -1,11 +1,11 @@
 package vscode.testadapter.api.event;
 
 import haxe.extern.EitherType;
+import vscode.testadapter.api.data.TestDecoration;
 import vscode.testadapter.api.data.TestInfo;
 import vscode.testadapter.api.data.TestState;
 import vscode.testadapter.api.data.TestSuiteInfo;
 import vscode.testadapter.api.data.TestSuiteState;
-import vscode.testadapter.api.data.TestDecoration;
 
 /**
 	Information about a test being started, completed or skipped during a test run.

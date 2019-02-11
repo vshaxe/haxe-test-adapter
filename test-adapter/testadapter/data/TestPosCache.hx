@@ -3,8 +3,8 @@ package testadapter.data;
 import haxe.Json;
 import haxe.io.Path;
 #if (sys || nodejs)
-import sys.io.File;
 import sys.FileSystem;
+import sys.io.File;
 #end
 #if !macro
 import json2object.JsonParser;

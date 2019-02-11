@@ -3,8 +3,8 @@ package testadapter.data;
 import haxe.io.Path;
 #if (sys || nodejs)
 import haxe.Json;
-import sys.io.File;
 import sys.FileSystem;
+import sys.io.File;
 #end
 
 typedef TestFilterList = Array<String>;

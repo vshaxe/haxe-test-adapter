@@ -1,6 +1,6 @@
-import vscode.testadapter.util.Log;
 import vscode.ExtensionContext;
 import vscode.testadapter.api.TestHub;
+import vscode.testadapter.util.Log;
 import vscode.testadapter.util.TestAdapterRegistrar;
 
 class Main {

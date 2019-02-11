@@ -1,8 +1,8 @@
 package testadapter.haxeunit;
 
 #if macro
-import haxe.macro.Expr;
 import haxe.macro.Context;
+import haxe.macro.Expr;
 
 class Injector {
 	public static function build():Array<Field> {

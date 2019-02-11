@@ -4,9 +4,9 @@ import haxe.Timer;
 import haxe.io.Path;
 #if (sys || nodejs)
 import haxe.Json;
+import json2object.JsonParser;
 import sys.FileSystem;
 import sys.io.File;
-import json2object.JsonParser;
 #end
 
 class TestResultData {

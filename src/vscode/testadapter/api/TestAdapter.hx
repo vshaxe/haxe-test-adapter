@@ -1,8 +1,8 @@
 package vscode.testadapter.api;
 
 import js.Promise.Thenable;
-import vscode.testadapter.api.event.TestLoadEvent;
 import vscode.testadapter.api.event.TestEvent;
+import vscode.testadapter.api.event.TestLoadEvent;
 
 typedef TestAdapter = {
 	/**

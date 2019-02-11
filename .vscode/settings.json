@@ -7,5 +7,10 @@
 	},
 	"haxe.displayConfigurations": [
 		["display.hxml"]
+	],
+	"haxecheckstyle.sourceFolders": [
+		"src",
+		"samples",
+		"test-adapter"
 	]
 } 
