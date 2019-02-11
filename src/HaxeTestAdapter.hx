@@ -28,7 +28,7 @@ class HaxeTestAdapter {
 	final channel:OutputChannel;
 	final log:Log;
 	final dataWatcher:FileSystemWatcher;
-	var suiteData:SuiteTestResultData;
+	var suiteResults:TestSuiteResults;
 	var currentTask:Null<TaskExecution>;
 
 	public function new(workspaceFolder:WorkspaceFolder, channel:OutputChannel, log:Log) {
@@ -76,27 +76,27 @@ class HaxeTestAdapter {
 	**/
 	public function load():Thenable<Void> {
 		testsEmitter.fire({type: Started});
-		suiteData = TestResultData.loadData(workspaceFolder.uri.fsPath);
-		if (suiteData == null) {
+		suiteResults = TestResultData.loadData(workspaceFolder.uri.fsPath);
+		if (suiteResults == null) {
 			testsEmitter.fire({type: Finished, suite: null, errorMessage: "invalid test result data"});
 			return null;
 		}
-		testsEmitter.fire({type: Finished, suite: parseSuiteData(suiteData)});
+		testsEmitter.fire({type: Finished, suite: parseSuiteData(suiteResults)});
 		channel.appendLine("Loaded tests results");
-		update(suiteData);
+		update(suiteResults);
 		return Promise.resolve();
 	}
 
-	function parseSuiteData(suiteTestResultData:SuiteTestResultData):TestSuiteInfo {
+	function parseSuiteData(testSuiteResults:TestSuiteResults):TestSuiteInfo {
 		var suiteChilds:Array<TestSuiteInfo> = [];
 		var suiteInfo:TestSuiteInfo = {
 			type: "suite",
-			label: suiteTestResultData.name,
-			id: suiteTestResultData.name,
+			label: testSuiteResults.name,
+			id: testSuiteResults.name,
 			children: suiteChilds
 		};
-		var classes = suiteTestResultData.classes;
-		ArraySort.sort(classes, (a:ClassTestResultData, b) -> {
+		var classes = testSuiteResults.classes;
+		ArraySort.sort(classes, (a, b) -> {
 			if (a.pos == null || b.pos == null || a.pos.file != b.pos.file) {
 				return 0;
 			}
@@ -135,11 +135,11 @@ class HaxeTestAdapter {
 		return a.line - b.line;
 	}
 
-	function update(suiteTestResultData:Null<SuiteTestResultData>) {
-		if (suiteTestResultData == null) {
+	function update(testSuiteResults:Null<TestSuiteResults>) {
+		if (testSuiteResults == null) {
 			return;
 		}
-		for (clazz in suiteTestResultData.classes) {
+		for (clazz in testSuiteResults.classes) {
 			for (test in clazz.tests) {
 				var testState:TestState = switch (test.state) {
 					case Success: Passed;

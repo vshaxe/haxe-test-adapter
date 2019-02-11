@@ -16,7 +16,7 @@ class TestResultData {
 	public static inline var LAST_RUN_FILE:String = "lastRun.json";
 	public static inline var ROOT_SUITE_NAME:String = "root";
 
-	var suiteData:SuiteTestResultData;
+	var suiteResults:TestSuiteResults;
 	var fileName:String;
 	var baseFolder:String;
 
@@ -42,17 +42,16 @@ class TestResultData {
 		addTestResult(className, name, location, 0, Ignore, null);
 	}
 
-	public function addTestResult(className:String, name:String, location:String, executionTime:Float, state:SingleTestResultState, errorText:String) {
+	public function addTestResult(className:String, name:String, location:String, executionTime:Float, state:TestState, errorText:String) {
 		var pos = TestPosCache.getPos(location);
 		var line:Null<Int> = null;
 		if (pos != null) {
 			line = pos.line;
 		}
-		for (data in suiteData.classes) {
+		for (data in suiteResults.classes) {
 			if (data.name == className) {
 				for (test in data.tests) {
-					if (test.location == location) {
-						test.location = location;
+					if (location == '${data.name}#${test.name}') {
 						test.executionTime = executionTime;
 						test.state = state;
 						test.timestamp = Timer.stamp();
@@ -64,7 +63,6 @@ class TestResultData {
 				}
 				data.tests.push({
 					name: name,
-					location: location,
 					executionTime: executionTime,
 					state: state,
 					errorText: errorText,
@@ -75,12 +73,11 @@ class TestResultData {
 				return;
 			}
 		}
-		suiteData.classes.push({
+		suiteResults.classes.push({
 			name: className,
 			tests: [
 				{
 					name: name,
-					location: location,
 					executionTime: executionTime,
 					state: state,
 					errorText: errorText,
@@ -97,7 +94,7 @@ class TestResultData {
 		#if (nodejs || sys)
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
-			suiteData = {name: ROOT_SUITE_NAME, classes: []};
+			suiteResults = {name: ROOT_SUITE_NAME, classes: []};
 			return;
 		}
 		#end
@@ -109,19 +106,19 @@ class TestResultData {
 			} catch (e:Any) {}
 			FileSystem.rename(fileName, lastRun);
 			#end
-			suiteData = {name: ROOT_SUITE_NAME, classes: []};
+			suiteResults = {name: ROOT_SUITE_NAME, classes: []};
 		} else {
-			suiteData = loadData(baseFolder);
+			suiteResults = loadData(baseFolder);
 		}
 	}
 
 	function saveData() {
 		#if (sys || nodejs)
-		File.saveContent(fileName, Json.stringify(suiteData, null, "    "));
+		File.saveContent(fileName, Json.stringify(suiteResults, null, "    "));
 		#end
 	}
 
-	public static function loadData(?baseFolder:String):SuiteTestResultData {
+	public static function loadData(?baseFolder:String):TestSuiteResults {
 		#if (sys || nodejs)
 		var dataFile:String = getTestDataFileName(baseFolder);
 		if (!FileSystem.exists(dataFile)) {
@@ -129,7 +126,7 @@ class TestResultData {
 		}
 		var content:String = File.getContent(dataFile);
 
-		var parser = new JsonParser<SuiteTestResultData>();
+		var parser = new JsonParser<TestSuiteResults>();
 		return parser.fromJson(content, dataFile);
 		#end
 		return {name: ROOT_SUITE_NAME, classes: []};

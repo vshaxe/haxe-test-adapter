@@ -11,7 +11,7 @@ import json2object.JsonParser;
 #end
 import testadapter.data.Data;
 
-typedef TestPositions = Map<String, TestPos>;
+typedef TestPositions = Map<String, Pos>;
 
 class TestPosCache {
 	public static inline var RESULT_FOLDER:String = ".unittest";
@@ -26,12 +26,12 @@ class TestPosCache {
 		loadCache();
 	}
 
-	public static function addPos(testPos:TestPos) {
-		INSTANCE.testPositions.set(testPos.location, testPos);
+	public static function addPos(pos:Pos) {
+		INSTANCE.testPositions.set(pos.location, pos);
 		INSTANCE.saveCache();
 	}
 
-	public static function getPos(location:String):TestPos {
+	public static function getPos(location:String):Pos {
 		if (!INSTANCE.loaded) {
 			INSTANCE.loadCache();
 		}

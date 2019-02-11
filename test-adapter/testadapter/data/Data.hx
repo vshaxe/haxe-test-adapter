@@ -1,35 +1,34 @@
 package testadapter.data;
 
-typedef TestPos = {
-	var location:String;
-	var file:String;
-	var line:Int;
+typedef TestSuiteResults = {
+	var name:String;
+	var classes:Array<TestClassResults>;
 }
 
-typedef ClassTestResultData = {
+typedef TestClassResults = {
 	var name:String;
-	var tests:Array<SingleTestResultData>;
-	@:optional var pos:TestPos;
+	var tests:Array<TestResults>;
+	@:optional var pos:Pos;
 }
 
-typedef SingleTestResultData = {
+typedef TestResults = {
 	var name:String;
-	var location:String;
-	var state:SingleTestResultState;
+	var state:TestState;
 	var errorText:String;
 	var executionTime:Float;
 	var timestamp:Float;
 	@:optional var line:Int;
 }
 
-typedef SuiteTestResultData = {
-	var name:String;
-	var classes:Array<ClassTestResultData>;
+@:enum abstract TestState(String) {
+	var Success = "success";
+	var Failure = "failure";
+	var Error = "error";
+	var Ignore = "ignore";
 }
 
-@:enum abstract SingleTestResultState(String) {
-	var Success = "OK";
-	var Failure = "FAIL";
-	var Error = "ERROR";
-	var Ignore = "IGNORE";
+typedef Pos = {
+	var location:String;
+	var file:String;
+	var line:Int;
 }

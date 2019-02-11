@@ -51,7 +51,7 @@ class Injector {
 			function publishAdapterResults() {
 				for (r in result.m_tests) {
 					var location:String = r.classname + "#" + r.method + "'";
-					var state:testadapter.data.Data.SingleTestResultState = Failure;
+					var state:testadapter.data.Data.TestState = Failure;
 					if (r.success) {
 						state = Success;
 					}
