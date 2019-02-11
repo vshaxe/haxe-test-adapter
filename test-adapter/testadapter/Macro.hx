@@ -35,6 +35,13 @@ class Macro {
 		if (cls.name == null) {
 			return fields;
 		}
+		var dotPath = cls.pack.join(".");
+		var ignoredPackages = ["testadapter", "massive.munit", "utest", "haxe.unit"];
+		for (ignoredPackage in ignoredPackages) {
+			if (dotPath.startsWith(ignoredPackage)) {
+				return fields;
+			}
+		}
 		if (!~/(Test|Tests|TestCase|TestCases)/.match(cls.name)) {
 			return fields;
 		}
