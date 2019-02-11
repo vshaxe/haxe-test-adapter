@@ -17,7 +17,7 @@ class Main {
 		context.subscriptions.push(log);
 		log.info("Starting Haxe Test Adapter");
 
-		context.subscriptions.push(new TestAdapterRegistrar<HaxeTestAdapter>(testHub, (folder) -> new HaxeTestAdapter(folder, channel, log), log));
+		context.subscriptions.push(new TestAdapterRegistrar<HaxeTestAdapter>(testHub, folder -> new HaxeTestAdapter(folder, channel, log), log));
 
 		updateHaxelib();
 	}
@@ -25,7 +25,7 @@ class Main {
 	function updateHaxelib() {
 		Vscode.commands.registerCommand("haxe-test-adapter.setup", function() {
 			var terminal = Vscode.window.createTerminal();
-			terminal.sendText("haxelib dev test-adapter " + context.extensionPath + " test-adapter");
+			terminal.sendText("haxelib dev test-adapter " + context.asAbsolutePath("test-adapter"));
 			terminal.show();
 			context.globalState.update("previousExtensionPath", context.extensionPath);
 		});
