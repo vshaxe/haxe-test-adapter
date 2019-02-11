@@ -86,8 +86,7 @@ class Macro {
 			return;
 		}
 		// TODO line numbers for Haxe 3 compile
-		TestPosCache.addPos({
-			location: name,
+		TestPosCache.addPos(className, testName, {
 			file: posInfo.file,
 			line: null
 		});
