@@ -20,7 +20,7 @@ class RunCI {
 			Sys.println("Building " + directory);
 			var oldCwd = Sys.getCwd();
 			Sys.setCwd(directory);
-			File.saveContent("test.hxml", File.getContent("test.hxml").replace("-x Main", ""));
+			File.saveContent("test.hxml", File.getContent("test.hxml").replace("-x Main", "-lib test-adapter"));
 			runCommand("haxe", ["test.hxml"]);
 			Sys.setCwd(oldCwd);
 		}
