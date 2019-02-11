@@ -23,6 +23,9 @@ class TestSuite extends massive.munit.TestSuite {
 class TestCase {
 	@Test
 	function testSuccess() {}
+
+	@Test @Ignore
+	function testIgnore() {}
 }
 
 class TestCase2 {

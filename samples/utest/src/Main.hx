@@ -11,6 +11,9 @@ class TestCase extends utest.Test {
 	function testSuccess() {
 		Assert.isTrue(true);
 	}
+
+	@Ignored
+	function testIgnore() {}
 }
 
 class TestCase2 extends utest.Test {
