@@ -4,8 +4,16 @@ using StringTools;
 
 class RunCI {
 	static function main() {
+		var success = true;
+		function runCommand(command:String, args:Array<String>) {
+			Sys.println(command + " " + args.join(" "));
+			if (Sys.command(command, args) != 0) {
+				success = false;
+			}
+		}
+
 		#if haxe4
-		Sys.command("haxe", ["build.hxml"]);
+		runCommand("haxe", ["build.hxml"]);
 		#end
 
 		function buildSample(directory:String) {
@@ -13,12 +21,14 @@ class RunCI {
 			var oldCwd = Sys.getCwd();
 			Sys.setCwd(directory);
 			File.saveContent("test.hxml", File.getContent("test.hxml").replace("-x Main", ""));
-			Sys.command("haxe", ["test.hxml"]);
+			runCommand("haxe", ["test.hxml"]);
 			Sys.setCwd(oldCwd);
 		}
 
 		buildSample("samples/munit");
 		buildSample("samples/utest");
 		buildSample("samples/haxeunit");
+
+		Sys.exit(success ? 0 : 1);
 	}
 }
