@@ -11,9 +11,9 @@ import sys.io.File;
 import testadapter.data.Data;
 
 class TestResultData {
-	public static inline var RESULT_FOLDER:String = ".unittest";
-	public static inline var RESULT_FILE:String = "testResults.json";
-	public static inline var ROOT_SUITE_NAME:String = "root";
+	static inline var RESULT_FOLDER:String = ".unittest";
+	static inline var RESULT_FILE:String = "results.json";
+	static inline var ROOT_SUITE_NAME:String = "root";
 
 	var suiteResults:TestSuiteResults;
 	var fileName:String;

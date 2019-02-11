@@ -12,9 +12,9 @@ using StringTools;
 typedef TestFilterList = Array<String>;
 
 class TestFilter {
-	public static inline var RESULT_FOLDER:String = ".unittest";
-	public static inline var FILTER_FILE:String = "testFilter.json";
-	static var INSTANCE:TestFilter = new TestFilter();
+	static inline var RESULT_FOLDER:String = ".unittest";
+	static inline var FILTER_FILE:String = "filter.json";
+	static var INSTANCE = new TestFilter();
 
 	var testFilters:TestFilterList;
 	var loaded:Bool;

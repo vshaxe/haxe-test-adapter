@@ -14,9 +14,9 @@ import testadapter.data.Data;
 typedef TestPositions = Map<String, Pos>;
 
 class TestPosCache {
-	public static inline var RESULT_FOLDER:String = ".unittest";
-	public static inline var POS_FILE:String = "testPositions.json";
-	static var INSTANCE:TestPosCache = new TestPosCache();
+	static inline var RESULT_FOLDER:String = ".unittest";
+	static inline var POS_FILE:String = "positions.json";
+	static var INSTANCE = new TestPosCache();
 
 	var testPositions:TestPositions;
 	var loaded:Bool;
