@@ -35,7 +35,7 @@ class Macro {
 		if (cls.name == null) {
 			return fields;
 		}
-		if (!~/(Test|Tests|TestCase|TestCases)$/.match(cls.name)) {
+		if (!~/(Test|Tests|TestCase|TestCases)/.match(cls.name)) {
 			return fields;
 		}
 		addTestPos(makeLocation(cls.name), Context.currentPos());
