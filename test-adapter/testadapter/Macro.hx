@@ -36,12 +36,26 @@ class Macro {
 		if (!~/(Test|Tests|TestCase|TestCases)$/.match(cls.name)) {
 			return fields;
 		}
-		addTestPos(Context.getLocalModule(), Context.currentPos());
+		addTestPos(makeLocation(cls.name), Context.currentPos());
 		for (field in fields) {
-			var name:String = Context.getLocalModule() + "#" + field.name;
+			var name:String = makeLocation(cls.name) + "#" + field.name;
 			addTestPos(name, field.pos);
 		}
 		return fields;
+	}
+
+	static function makeLocation(clazz:String):String {
+		var location:String = Context.getLocalModule();
+		if (location == clazz) {
+			return location;
+		}
+		if (StringTools.endsWith(location, '.$clazz')) {
+			return location;
+		}
+		var parts:Array<String> = location.split(".");
+		parts.pop();
+		parts.push(clazz);
+		return parts.join(".");
 	}
 
 	static function addTestPos(name:String, pos:Position) {
