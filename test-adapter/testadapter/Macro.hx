@@ -19,7 +19,8 @@ class Macro {
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");
 		Compiler.addMetadata("@:build(testadapter.utest.Injector.build())", "utest.Runner");
-		Compiler.addMetadata("@:build(testadapter.haxeunit.Injector.build())", "haxe.unit.TestRunner");
+		Compiler.addMetadata("@:build(testadapter.haxeunit.Injector.buildRunner())", "haxe.unit.TestRunner");
+		Compiler.addMetadata("@:autoBuild(testadapter.haxeunit.Injector.buildCase())", "haxe.unit.TestCase");
 	}
 
 	public static function build():Array<Field> {

@@ -3,47 +3,27 @@ package testadapter.haxeunit;
 #if macro
 import haxe.macro.Context;
 import haxe.macro.Expr;
+import testadapter.data.TestFilter;
+
+using StringTools;
 
 class Injector {
-	public static function build():Array<Field> {
+	public static function buildRunner():Array<Field> {
 		var fields = Context.getBuildFields();
 
 		for (field in fields) {
-			var f = switch (field.kind) {
-				case FFun(f): f;
-				case _: null;
-			}
-			if (f == null) {
-				continue;
-			}
 			switch (field.name) {
-				case "new":
-					switch (f.expr.expr) {
-						case EBlock(exprs):
-							exprs.push(macro testData = new testadapter.data.TestResultData());
-						case _:
-					}
 				case "run":
 					field.name = "__run";
 			}
 		}
 
 		var extraFields = (macro class {
-			var testData:testadapter.data.TestResultData;
+			var testData = new testadapter.data.TestResultData();
 
 			public function run():Bool {
-				var filteredCases:List<TestCase> = new List<TestCase>();
-				for (c in cases) {
-					var cl = Type.getClass(c);
-					if (testadapter.data.TestFilter.shouldRunTest(Type.getClassName(cl), "")) {
-						filteredCases.push(c);
-					}
-				}
-				cases = filteredCases;
 				var success:Bool = __run();
-
 				publishAdapterResults();
-				testadapter.data.TestFilter.clearTestFilter();
 				return success;
 			}
 
@@ -59,6 +39,22 @@ class Injector {
 			}
 		}).fields;
 		return fields.concat(extraFields);
+	}
+
+	public static function buildCase():Array<Field> {
+		var fields = Context.getBuildFields();
+		for (field in fields) {
+			switch (field.kind) {
+				case FFun(_) if (field.name.startsWith("test")):
+					var clazz = Context.getLocalClass().get();
+					var dotPath = clazz.pack.concat([clazz.name]).join(".");
+					if (!TestFilter.shouldRunTest(dotPath, field.name)) {
+						field.name = "disabled_" + field.name;
+					}
+				case _:
+			}
+		}
+		return fields;
 	}
 }
 #end

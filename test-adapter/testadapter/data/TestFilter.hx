@@ -63,7 +63,7 @@ class TestFilter {
 			if (location == filter) {
 				return true;
 			}
-			if (location.startsWith(filter)) {
+			if (location.startsWith(filter + ".")) {
 				return true;
 			}
 		}
