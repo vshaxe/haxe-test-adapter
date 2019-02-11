@@ -31,6 +31,16 @@ class TestResultData {
 		if (pos != null) {
 			line = pos.line;
 		}
+		function makeTest():TestResults {
+			return {
+				name: name,
+				executionTime: executionTime,
+				state: state,
+				errorText: errorText,
+				timestamp: Timer.stamp(),
+				line: line
+			}
+		}
 		for (data in suiteResults.classes) {
 			if (data.name == className) {
 				for (test in data.tests) {
@@ -44,30 +54,14 @@ class TestResultData {
 						return;
 					}
 				}
-				data.tests.push({
-					name: name,
-					executionTime: executionTime,
-					state: state,
-					errorText: errorText,
-					timestamp: Timer.stamp(),
-					line: line
-				});
+				data.tests.push(makeTest());
 				saveData();
 				return;
 			}
 		}
 		suiteResults.classes.push({
 			name: className,
-			tests: [
-				{
-					name: name,
-					executionTime: executionTime,
-					state: state,
-					errorText: errorText,
-					timestamp: Timer.stamp(),
-					line: line
-				}
-			],
+			tests: [makeTest()],
 			pos: TestPosCache.getPos(className, null)
 		});
 		saveData();
