@@ -1,3 +1,4 @@
+import tests.TestCase3;
 import massive.munit.client.RichPrintClient;
 import massive.munit.TestRunner;
 import massive.munit.Assert;
@@ -15,6 +16,7 @@ class TestSuite extends massive.munit.TestSuite {
 		super();
 		add(TestCase);
 		add(TestCase2);
+		add(TestCase3);
 	}
 }
 

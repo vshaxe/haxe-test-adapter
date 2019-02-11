@@ -1,8 +1,11 @@
+import tests.TestCase3;
+
 class Main {
 	static function main() {
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new TestCase());
 		runner.add(new TestCase2());
+		runner.add(new TestCase3());
 		runner.run();
 	}
 }
