@@ -195,7 +195,12 @@ class HaxeTestAdapter {
 		Stop the current test run.
 	**/
 	public function cancel() {
-		log.info("cancel tests");
-		channel.appendLine("Cancel tests: not implemented!");
+		if (currentTask != null) {
+			log.info("cancel tests");
+			channel.appendLine("Test execution canceled.");
+			currentTask.terminate();
+		} else {
+			channel.append("No Tests to cancel.");
+		}
 	}
 }
