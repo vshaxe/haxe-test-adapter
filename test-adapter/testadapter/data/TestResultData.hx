@@ -25,7 +25,7 @@ class TestResultData {
 		init();
 	}
 
-	public function addTestResult(className:String, name:String, executionTime:Float = 0, state:TestState, ?errorText:String) {
+	public function addTestResult(className:String, name:String, executionTime:Float = 0, state:TestState, ?errorText:String, ?errorLine:Int) {
 		var pos = TestPosCache.getPos(className, name);
 		var line:Null<Int> = null;
 		if (pos != null) {
@@ -38,22 +38,13 @@ class TestResultData {
 				state: state,
 				errorText: errorText,
 				timestamp: Timer.stamp(),
-				line: line
+				line: line,
+				errorLine: errorLine
 			}
 		}
 		for (data in suiteResults.classes) {
 			if (data.name == className) {
-				for (test in data.tests) {
-					if (className == data.name && name == test.name) {
-						test.executionTime = executionTime;
-						test.state = state;
-						test.timestamp = Timer.stamp();
-						test.errorText = errorText;
-						test.line = line;
-						saveData();
-						return;
-					}
-				}
+				data.tests = data.tests.filter(results -> results.name != name);
 				data.tests.push(makeTest());
 				saveData();
 				return;

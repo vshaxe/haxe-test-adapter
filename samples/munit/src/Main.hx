@@ -26,7 +26,7 @@ class TestCase {
 
 	@Test
 	function testFailure() {
-		Assert.fail("failure");
+		Assert.areEqual("A", "B");
 	}
 
 	@Test

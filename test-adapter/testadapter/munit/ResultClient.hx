@@ -29,7 +29,7 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 	}
 
 	public function addFail(result:TestResult) {
-		var errorText:String = "unknown";
+		var errorText:String = null;
 		if (result.failure != null) {
 			errorText = result.failure.message;
 		}

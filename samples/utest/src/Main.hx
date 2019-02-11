@@ -13,7 +13,7 @@ class TestCase extends utest.Test {
 	}
 
 	function testFailure() {
-		Assert.fail();
+		Assert.equals("A", "B");
 	}
 
 	function testError() {

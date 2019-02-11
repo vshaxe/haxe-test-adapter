@@ -41,13 +41,15 @@ class Reporter implements IReport<Reporter> {
 					var fix:FixtureResult = cls.get(mname);
 					var details = null;
 					var state = TestState.Failure;
+					var errorLine = null;
 					for (assertation in fix.iterator()) {
 						switch (assertation) {
 							case Assertation.Success(_):
 								state = Success;
 							case Assertation.Failure(msg, pos):
 								state = Failure;
-								details = "line: " + pos.lineNumber + ", " + msg;
+								details = msg;
+								errorLine = pos.lineNumber - 1;
 							case Assertation.Error(e, s), Assertation.SetupError(e, s), Assertation.TeardownError(e, s), Assertation.AsyncError(e, s):
 								state = Error;
 								details = Std.string(e) + dumpStack(s);
@@ -62,7 +64,7 @@ class Reporter implements IReport<Reporter> {
 								details = reason;
 						}
 					}
-					testData.addTestResult(classSuiteName, mname, 0, state, details);
+					testData.addTestResult(classSuiteName, mname, 0, state, details, errorLine);
 				}
 			}
 		}

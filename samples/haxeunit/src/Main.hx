@@ -16,7 +16,7 @@ class TestCase extends haxe.unit.TestCase {
 	}
 
 	function testFailure() {
-		assertTrue(false);
+		assertEquals("A", "B");
 	}
 
 	function testError() {

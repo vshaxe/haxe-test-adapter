@@ -31,12 +31,18 @@ class Injector {
 			function publishAdapterResults() {
 				for (r in result.m_tests) {
 					var state:testadapter.data.Data.TestState = Failure;
+					var errorLine = null;
 					if (r.success) {
 						state = Success;
-					} else if (StringTools.startsWith(r.error, "exception thrown : ")) {
-						state = Error;
+					} else if (r.error != null) {
+						if (StringTools.startsWith(r.error, "exception thrown : ")) {
+							state = Error;
+						}
+						if (r.posInfos != null) {
+							errorLine = r.posInfos.lineNumber - 1;
+						}
 					}
-					testData.addTestResult(r.classname, r.method, 0, state, r.error);
+					testData.addTestResult(r.classname, r.method, 0, state, r.error, errorLine);
 				}
 			}
 		}).fields;

@@ -18,6 +18,7 @@ typedef TestResults = {
 	var executionTime:Float;
 	var timestamp:Float;
 	@:optional var line:Int;
+	@:optional var errorLine:Int;
 }
 
 @:enum abstract TestState(String) {

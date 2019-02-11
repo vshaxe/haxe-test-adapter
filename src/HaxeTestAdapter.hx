@@ -156,12 +156,22 @@ class HaxeTestAdapter {
 					case Error: Errored;
 					case Ignore: Skipped;
 				}
-				testStatesEmitter.fire({
+				var event:TestEvent = {
 					type: Test,
 					test: clazz.name + "." + test.name,
 					state: testState,
 					message: test.errorText
-				});
+				};
+				if (test.errorText != null) {
+					event.message =  test.errorText;
+					if (test.errorLine != null) {
+						event.decorations = [{
+							line: test.errorLine,
+							message: event.message
+						}];
+					}
+				}
+				testStatesEmitter.fire(event);
 			}
 		}
 	}
