@@ -28,7 +28,6 @@ typedef TestResults = {
 }
 
 typedef Pos = {
-	var location:String;
 	var file:String;
 	var line:Int;
 }

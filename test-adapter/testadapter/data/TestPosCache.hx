@@ -26,8 +26,8 @@ class TestPosCache {
 		loadCache();
 	}
 
-	public static function addPos(pos:Pos) {
-		INSTANCE.testPositions.set(pos.location, pos);
+	public static function addPos(location:String, pos:Pos) {
+		INSTANCE.testPositions[location] = pos;
 		INSTANCE.saveCache();
 	}
 
@@ -35,7 +35,7 @@ class TestPosCache {
 		if (!INSTANCE.loaded) {
 			INSTANCE.loadCache();
 		}
-		return INSTANCE.testPositions.get(location);
+		return INSTANCE.testPositions[location];
 	}
 
 	function saveCache() {

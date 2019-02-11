@@ -76,8 +76,7 @@ class Macro {
 		if (location.file == "?") {
 			return;
 		}
-		TestPosCache.addPos({
-			location: name,
+		TestPosCache.addPos(name, {
 			file: location.file,
 			line: location.range.start.line - 1
 		});
