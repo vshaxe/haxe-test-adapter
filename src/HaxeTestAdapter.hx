@@ -1,3 +1,4 @@
+import haxe.ds.ArraySort;
 import haxe.io.Path;
 import js.Object;
 import js.Promise;
@@ -102,6 +103,12 @@ class HaxeTestAdapter {
 				id: clazz.name,
 				children: classChilds
 			};
+			ArraySort.sort(clazz.tests, function(test1, test2) {
+				if (test1.line == null || test2.line == null) {
+					return 0;
+				}
+				return test1.line - test2.line;
+			});
 			for (test in clazz.tests) {
 				var testInfo:TestInfo = {
 					type: "test",
