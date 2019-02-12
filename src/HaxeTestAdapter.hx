@@ -30,6 +30,7 @@ class HaxeTestAdapter {
 	final channel:OutputChannel;
 	final log:Log;
 	final dataWatcher:FileSystemWatcher;
+	final filter:TestFilter;
 	var suiteResults:TestSuiteResults;
 	var currentTask:Null<TaskExecution>;
 
@@ -60,10 +61,11 @@ class HaxeTestAdapter {
 		dataWatcher.onDidCreate(_ -> load());
 		dataWatcher.onDidChange(_ -> load());
 
+		filter = new TestFilter(workspaceFolder.uri.fsPath);
+
 		Vscode.tasks.onDidEndTask(event -> {
 			if (event.execution == currentTask) {
 				testStatesEmitter.fire({type: Finished});
-				TestFilter.clearTestFilter();
 				channel.appendLine('Running tests finished');
 				currentTask = null;
 			}
@@ -78,7 +80,7 @@ class HaxeTestAdapter {
 	**/
 	public function load():Thenable<Void> {
 		testsEmitter.fire({type: Started});
-		suiteResults = TestResultData.loadData(workspaceFolder.uri.fsPath);
+		suiteResults = TestResultData.load(workspaceFolder.uri.fsPath);
 		if (suiteResults == null) {
 			testsEmitter.fire({type: Finished, suite: null, errorMessage: "invalid test result data"});
 			return null;
@@ -184,7 +186,7 @@ class HaxeTestAdapter {
 	public function run(tests:Array<String>):Thenable<Void> {
 		log.info("run tests " + tests);
 		channel.appendLine('Running tests ($tests)');
-		TestFilter.setTestFilter(workspaceFolder.uri.fsPath, tests);
+		filter.set(tests);
 		testStatesEmitter.fire({type: Started, tests: tests});
 
 		var vshaxe:Vshaxe = Vscode.extensions.getExtension("nadako.vshaxe").exports;
@@ -210,7 +212,6 @@ class HaxeTestAdapter {
 			currentTask = taskExecution;
 		}, function(error) {
 			testStatesEmitter.fire({type: Finished});
-			TestFilter.clearTestFilter();
 			channel.appendLine('Running tests ($tests) failed with ' + error);
 		});
 	}

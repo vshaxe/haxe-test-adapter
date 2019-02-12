@@ -21,30 +21,31 @@ typedef Positions = Map<String, ClassPosition>;
 class TestPosCache {
 	static inline var RESULT_FOLDER:String = ".unittest";
 	static inline var POS_FILE:String = "positions.json";
-	static var INSTANCE:TestPosCache = new TestPosCache();
 
+	var baseFolder:String;
 	var positions:Positions;
 	var loaded:Bool;
 
-	function new() {
+	public function new(baseFolder:String) {
+		this.baseFolder = baseFolder;
 		positions = new Positions();
-		loadCache();
+		load();
 	}
 
-	public static function addPos(className:String, ?testName:String, pos:Pos) {
+	public function add(className:String, ?testName:String, pos:Pos) {
 		if (testName == null) {
-			INSTANCE.positions[className] = {tests: new Map<String, {line:Int}>(), pos: pos};
+			positions[className] = {tests: new Map<String, {line:Int}>(), pos: pos};
 		} else {
-			INSTANCE.positions[className].tests[testName] = {line: pos.line};
+			positions[className].tests[testName] = {line: pos.line};
 		}
-		INSTANCE.saveCache();
+		save();
 	}
 
-	public static function getPos(className:String, testName:String):Pos {
-		if (!INSTANCE.loaded) {
-			INSTANCE.loadCache();
+	public function get(className:String, testName:String):Pos {
+		if (!loaded) {
+			load();
 		}
-		var clazz = INSTANCE.positions[className];
+		var clazz = positions[className];
 		if ((clazz == null) || (clazz.pos == null) || (clazz.tests == null)) {
 			return null;
 		}
@@ -60,17 +61,17 @@ class TestPosCache {
 		};
 	}
 
-	function saveCache() {
+	function save() {
 		#if (sys || nodejs)
 		var fileName:String = getTestPosFileName();
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 		}
-		File.saveContent(fileName, Json.stringify(positions, null, "    "));
+		File.saveContent(fileName, Json.stringify(positions, null, "\t"));
 		#end
 	}
 
-	function loadCache() {
+	function load() {
 		#if (!macro && (sys || nodejs))
 		var fileName:String = getTestPosFileName();
 		if (!FileSystem.exists(fileName)) {
@@ -83,7 +84,7 @@ class TestPosCache {
 		#end
 	}
 
-	public static function getTestPosFileName():String {
-		return Path.join([RESULT_FOLDER, POS_FILE]);
+	public function getTestPosFileName():String {
+		return Path.join([baseFolder, RESULT_FOLDER, POS_FILE]);
 	}
 }

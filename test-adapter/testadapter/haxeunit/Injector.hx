@@ -19,7 +19,7 @@ class Injector {
 		}
 
 		var extraFields = (macro class {
-			var testData = new testadapter.data.TestResultData();
+			var testData = new testadapter.data.TestResultData($v{Sys.getCwd()});
 
 			public function run():Bool {
 				var success:Bool = __run();
@@ -56,7 +56,7 @@ class Injector {
 				case FFun(_) if (field.name.startsWith("test")):
 					var clazz = Context.getLocalClass().get();
 					var dotPath = clazz.pack.concat([clazz.name]).join(".");
-					if (!TestFilter.shouldRunTest(dotPath, field.name)) {
+					if (!TestFilter.shouldRunTest(Macro.filters, dotPath, field.name)) {
 						field.name = "disabled_" + field.name;
 					}
 				case _:

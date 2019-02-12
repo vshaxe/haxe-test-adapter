@@ -19,7 +19,7 @@ class Injector {
 				case EBlock(exprs):
 					switch (field.name) {
 						case "new":
-							exprs.push(macro addResultClient(new testadapter.munit.ResultClient()));
+							exprs.push(macro addResultClient(new testadapter.munit.ResultClient($v{Sys.getCwd()})));
 						case _:
 					}
 				case _:
@@ -51,7 +51,7 @@ class Injector {
 			}
 
 			function addTest(field:String, testFunction:Function, testInstance:Dynamic, isAsync:Bool, isIgnored:Bool, description:String) {
-				if (!testadapter.data.TestFilter.shouldRunTest(className, field)) {
+				if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, className, field)) {
 					return;
 				}
 				__addTest(field, testFunction, testInstance, isAsync, isIgnored, description);

@@ -2,7 +2,6 @@ package testadapter.utest;
 
 import testadapter.data.Data.TestState;
 import haxe.CallStack;
-import testadapter.data.TestFilter;
 import testadapter.data.TestResultData;
 import utest.Assertation;
 import utest.Runner;
@@ -22,7 +21,7 @@ class Reporter implements IReport<Reporter> {
 	var testData:TestResultData;
 	var aggregator:ResultAggregator;
 
-	public function new(runner:Runner, ?baseFolder:String) {
+	public function new(runner:Runner, baseFolder:String) {
 		testData = new TestResultData(baseFolder);
 		displaySuccessResults = NeverShowSuccessResults;
 		displayHeader = NeverShowHeader;
@@ -68,7 +67,6 @@ class Reporter implements IReport<Reporter> {
 				}
 			}
 		}
-		TestFilter.clearTestFilter();
 	}
 
 	function dumpStack(stack:Array<StackItem>):String {

@@ -11,7 +11,7 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 	@:isVar public var completionHandler(get, set):ITestResultClient->Void;
 	public var id(default, null):String;
 
-	public function new(?baseFolder:String) {
+	public function new(baseFolder) {
 		testData = new TestResultData(baseFolder);
 	}
 
@@ -51,7 +51,6 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 		if (completionHandler != null) {
 			completionHandler(this);
 		}
-		TestFilter.clearTestFilter();
 		return null;
 	}
 

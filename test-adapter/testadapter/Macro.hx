@@ -9,11 +9,15 @@ import haxe.macro.Type;
 import haxe.display.Position.Location;
 #end
 import testadapter.data.TestPosCache;
+import testadapter.data.TestFilter;
 
 using StringTools;
 
 class Macro {
 	#if macro
+	static var positions = new TestPosCache(Sys.getCwd());
+	public static var filters(default, null):Array<String>;
+
 	public static function init() {
 		Compiler.addGlobalMetadata("", "@:build(testadapter.Macro.build())", true, true, false);
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
@@ -21,6 +25,10 @@ class Macro {
 		Compiler.addMetadata("@:build(testadapter.utest.Injector.build())", "utest.Runner");
 		Compiler.addMetadata("@:build(testadapter.haxeunit.Injector.buildRunner())", "haxe.unit.TestRunner");
 		Compiler.addMetadata("@:autoBuild(testadapter.haxeunit.Injector.buildCase())", "haxe.unit.TestCase");
+
+		var testFilter = new TestFilter(Sys.getCwd());
+		filters = testFilter.get();
+		testFilter.clear();
 	}
 
 	public static function build():Array<Field> {
@@ -80,7 +88,7 @@ class Macro {
 		if (location.file == "?") {
 			return;
 		}
-		TestPosCache.addPos(className, testName, {
+		positions.add(className, testName, {
 			file: location.file,
 			line: location.range.start.line - 1
 		});
@@ -90,7 +98,7 @@ class Macro {
 			return;
 		}
 		// TODO line numbers for Haxe 3 compile
-		TestPosCache.addPos(className, testName, {
+		positions.add(className, testName, {
 			file: posInfo.file,
 			line: null
 		});

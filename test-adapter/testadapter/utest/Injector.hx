@@ -19,7 +19,7 @@ class Injector {
 				case "new":
 					switch (f.expr.expr) {
 						case EBlock(exprs):
-							exprs.push(macro new testadapter.utest.Reporter(this));
+							exprs.push(macro new testadapter.utest.Reporter(this, $v{Sys.getCwd()}));
 						case _:
 					}
 				case "addITest":
@@ -34,7 +34,7 @@ class Injector {
 								continue;
 							}
 							var cls:String = Type.getClassName(Type.getClass(testCase));
-							if (!testadapter.data.TestFilter.shouldRunTest(cls, test.name)) {
+							if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, cls, test.name)) {
 								continue;
 							}
 							var fixture = utest.TestFixture.ofData(testCase, test, init.accessories);

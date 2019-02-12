@@ -14,76 +14,61 @@ typedef TestFilterList = Array<String>;
 class TestFilter {
 	static inline var RESULT_FOLDER:String = ".unittest";
 	static inline var FILTER_FILE:String = "filter.json";
-	static var INSTANCE = new TestFilter();
 
 	var testFilters:TestFilterList;
+	var baseFolder:String;
 	var loaded:Bool;
 
-	function new() {
+	public function new(baseFolder:String) {
+		this.baseFolder = baseFolder;
 		testFilters = [];
 		loaded = false;
 	}
 
-	public static function setTestFilter(?baseFolder:String, filter:Array<String>) {
-		INSTANCE.testFilters = [];
+	public function set(filter:Array<String>) {
+		testFilters = [];
 		for (f in filter) {
 			if (f == "root") {
-				INSTANCE.testFilters = [];
+				testFilters = [];
 				break;
 			}
-			INSTANCE.testFilters.push(f);
+			testFilters.push(f);
 		}
-		INSTANCE.saveFilters(baseFolder);
+		save(baseFolder);
 	}
 
-	public static function clearTestFilter() {
-		INSTANCE.testFilters = [];
-		INSTANCE.saveFilters();
+	public function get():Array<String> {
+		if (!loaded) {
+			load();
+		}
+		return testFilters;
 	}
 
-	public static function hasFilter():Bool {
-		if (!INSTANCE.loaded) {
-			INSTANCE.loadFilters();
-		}
-		if ((INSTANCE.testFilters == null) || (INSTANCE.testFilters.length <= 0)) {
-			return false;
-		}
-		return true;
+	public function clear() {
+		testFilters = [];
+		save();
 	}
 
-	public static function shouldRunTest(className:String, testName:String):Bool {
-		if (!INSTANCE.loaded) {
-			INSTANCE.loadFilters();
-		}
-		if ((INSTANCE.testFilters == null) || (INSTANCE.testFilters.length <= 0)) {
-			return true;
-		}
-		var location:String = '$className.$testName';
-		for (filter in INSTANCE.testFilters) {
-			if (location == filter) {
-				return true;
-			}
-			if (location.startsWith(filter + ".")) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function saveFilters(?baseFolder:String) {
+	function save(?baseFolder:String) {
 		#if (sys || nodejs)
-		var fileName:String = getTestFilterFileName(baseFolder);
+		var fileName:String = getFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(Path.join([baseFolder, RESULT_FOLDER]));
 		}
-		File.saveContent(fileName, Json.stringify(testFilters, null, "    "));
+		if (testFilters.length == 0) {
+			if (FileSystem.exists(fileName)) {
+				FileSystem.deleteFile(fileName);
+			}
+		} else {
+			File.saveContent(fileName, Json.stringify(testFilters, null, "\t"));
+		}
 		#end
 	}
 
-	function loadFilters() {
+	function load() {
 		testFilters = [];
 		#if (sys || nodejs)
-		var fileName:String = getTestFilterFileName();
+		var fileName:String = getFileName();
 		if (!FileSystem.exists(fileName)) {
 			return;
 		}
@@ -96,7 +81,23 @@ class TestFilter {
 		loaded = true;
 	}
 
-	public static function getTestFilterFileName(?baseFolder:String):String {
+	function getFileName(?baseFolder:String):String {
 		return Path.join([baseFolder, RESULT_FOLDER, FILTER_FILE]);
+	}
+
+	public static function shouldRunTest(testFilters:TestFilterList, className:String, testName:String):Bool {
+		if (testFilters == null || testFilters.length <= 0) {
+			return true;
+		}
+		var location:String = '$className.$testName';
+		for (filter in testFilters) {
+			if (location == filter) {
+				return true;
+			}
+			if (location.startsWith(filter + ".")) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

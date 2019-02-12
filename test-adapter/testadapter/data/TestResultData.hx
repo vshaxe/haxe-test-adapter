@@ -15,18 +15,20 @@ class TestResultData {
 	static inline var RESULT_FILE:String = "results.json";
 	static inline var ROOT_SUITE_NAME:String = "root";
 
-	var suiteResults:TestSuiteResults;
-	var fileName:String;
 	var baseFolder:String;
+	var fileName:String;
+	var positions:TestPosCache;
+	var suiteResults:TestSuiteResults;
 
-	public function new(?baseFolder:String) {
+	public function new(baseFolder:String) {
 		this.baseFolder = baseFolder;
+		positions = new TestPosCache(baseFolder);
 		fileName = getTestDataFileName(baseFolder);
 		init();
 	}
 
 	public function addTestResult(className:String, name:String, executionTime:Float = 0, state:TestState, ?message:String, ?errorLine:Int) {
-		var pos = TestPosCache.getPos(className, name);
+		var pos = positions.get(className, name);
 		var line:Null<Int> = null;
 		if (pos != null) {
 			line = pos.line;
@@ -46,16 +48,16 @@ class TestResultData {
 			if (data.name == className) {
 				data.tests = data.tests.filter(function(results) return results.name != name);
 				data.tests.push(makeTest());
-				saveData();
+				save();
 				return;
 			}
 		}
 		suiteResults.classes.push({
 			name: className,
 			tests: [makeTest()],
-			pos: TestPosCache.getPos(className, null)
+			pos: positions.get(className, null)
 		});
-		saveData();
+		save();
 	}
 
 	function init() {
@@ -66,20 +68,16 @@ class TestResultData {
 			return;
 		}
 		#end
-		if (!TestFilter.hasFilter()) {
-			suiteResults = {name: ROOT_SUITE_NAME, classes: []};
-		} else {
-			suiteResults = loadData(baseFolder);
-		}
+		suiteResults = load(baseFolder);
 	}
 
-	function saveData() {
+	function save() {
 		#if (sys || nodejs)
-		File.saveContent(fileName, Json.stringify(suiteResults, null, "    "));
+		File.saveContent(fileName, Json.stringify(suiteResults, null, "\t"));
 		#end
 	}
 
-	public static function loadData(?baseFolder:String):TestSuiteResults {
+	public static function load(?baseFolder:String):TestSuiteResults {
 		#if (sys || nodejs)
 		var dataFile:String = getTestDataFileName(baseFolder);
 		if (!FileSystem.exists(dataFile)) {

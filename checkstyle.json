@@ -17,13 +17,6 @@
 			"type": "CatchParameterName"
 		},
 		{
-			"props": {
-				"ignoreExtern": true,
-				"format": "^[A-Z][A-Z0-9]*(_[A-Z0-9_]+)*$"
-			},
-			"type": "ConstantName"
-		},
-		{
 			"type": "DefaultComesLast"
 		},
 		{
