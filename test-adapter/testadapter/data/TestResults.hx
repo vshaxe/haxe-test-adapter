@@ -88,7 +88,11 @@ class TestResults {
 		#end
 	}
 
-	public static function getFileName(?baseFolder:String):String {
-		return Path.join([baseFolder, Data.FOLDER, "results.json"]);
+	static function getFileName(?baseFolder:String):String {
+		return Path.join([baseFolder, getRelativeFileName()]);
+	}
+
+	public static function getRelativeFileName():String {
+		return Path.join([Data.FOLDER, "results.json"]);
 	}
 }

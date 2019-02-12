@@ -5,6 +5,8 @@ import js.Promise;
 import testadapter.data.Data;
 import testadapter.data.TestFilter;
 import testadapter.data.TestResults;
+import vscode.Uri;
+import vscode.RelativePattern;
 import vscode.EventEmitter;
 import vscode.FileSystemWatcher;
 import vscode.OutputChannel;
@@ -30,7 +32,7 @@ class HaxeTestAdapter {
 	final channel:OutputChannel;
 	final log:Log;
 	final dataWatcher:FileSystemWatcher;
-	final filter:TestFilter;
+	var filter:TestFilter;
 	var suiteResults:TestSuiteResults;
 	var currentTask:Null<TaskExecution>;
 
@@ -56,10 +58,10 @@ class HaxeTestAdapter {
 			get: () -> autorunEmitter.event
 		});
 
-		var fileName:String = TestResults.getFileName(workspaceFolder.uri.fsPath);
-		dataWatcher = Vscode.workspace.createFileSystemWatcher(fileName, false, false, true);
-		dataWatcher.onDidCreate(_ -> load());
-		dataWatcher.onDidChange(_ -> load());
+		var pattern = new RelativePattern(workspaceFolder, "**/" + TestResults.getRelativeFileName());
+		dataWatcher = Vscode.workspace.createFileSystemWatcher(pattern);
+		dataWatcher.onDidCreate(onResultFile);
+		dataWatcher.onDidChange(onResultFile);
 
 		filter = new TestFilter(workspaceFolder.uri.fsPath);
 
@@ -79,19 +81,33 @@ class HaxeTestAdapter {
 		@returns A promise that is resolved when the adapter finished loading the test definitions.
 	**/
 	public function load():Thenable<Void> {
-		testsEmitter.fire({type: Started});
-		suiteResults = TestResults.load(workspaceFolder.uri.fsPath);
-		if (suiteResults == null) {
-			testsEmitter.fire({type: Finished, suite: null, errorMessage: "invalid test result data"});
-			return null;
-		}
-		testsEmitter.fire({type: Finished, suite: parseSuiteData(suiteResults)});
-		channel.appendLine("Loaded tests results");
-		update(suiteResults);
+		loadFrom(workspaceFolder.uri.fsPath);
 		return Promise.resolve();
 	}
 
-	function parseSuiteData(testSuiteResults:TestSuiteResults):TestSuiteInfo {
+	function onResultFile(uri:Uri) {
+		// TODO: combine results if there's multiple .unittest dirs in the workspace?
+		var unitTestFolder = Path.directory(uri.fsPath);
+		var baseFolder = Path.directory(unitTestFolder);
+		loadFrom(baseFolder);
+	}
+
+	function loadFrom(baseFolder:String) {
+		testsEmitter.fire({type: Started});
+
+		filter = new TestFilter(baseFolder);
+		suiteResults = TestResults.load(baseFolder);
+		if (suiteResults == null) {
+			testsEmitter.fire({type: Finished, suite: null, errorMessage: "invalid test result data"});
+			return;
+		}
+
+		testsEmitter.fire({type: Finished, suite: parseSuiteData(baseFolder, suiteResults)});
+		channel.appendLine("Loaded tests results");
+		update(suiteResults);
+	}
+
+	function parseSuiteData(baseFolder:String, testSuiteResults:TestSuiteResults):TestSuiteInfo {
 		var suiteChilds:Array<TestSuiteInfo> = [];
 		var suiteInfo:TestSuiteInfo = {
 			type: "suite",
@@ -125,7 +141,7 @@ class HaxeTestAdapter {
 					label: test.name,
 				};
 				if (clazz.pos != null && clazz.pos.file != null) {
-					testInfo.file = Path.join([workspaceFolder.uri.fsPath, clazz.pos.file]);
+					testInfo.file = Path.join([baseFolder, clazz.pos.file]);
 					// it seems Test Explorer UI wants backslashes on Windows
 					if (Sys.systemName() == "Windows") {
 						testInfo.file = testInfo.file.replace("/", "\\");
