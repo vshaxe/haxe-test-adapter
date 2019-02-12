@@ -22,7 +22,7 @@ class TestResultData {
 
 	public function new(baseFolder:String) {
 		this.baseFolder = baseFolder;
-		positions = new TestPosCache(baseFolder);
+		positions = TestPosCache.load(baseFolder);
 		fileName = getFileName(baseFolder);
 		init();
 	}

@@ -24,12 +24,10 @@ class TestPosCache {
 
 	var baseFolder:String;
 	var positions:Positions;
-	var loaded:Bool;
 
-	public function new(baseFolder:String) {
+	public function new(baseFolder:String, positions:Positions) {
 		this.baseFolder = baseFolder;
-		positions = new Positions();
-		load();
+		this.positions = positions;
 	}
 
 	public function add(className:String, ?testName:String, pos:Pos) {
@@ -42,9 +40,6 @@ class TestPosCache {
 	}
 
 	public function get(className:String, testName:String):Pos {
-		if (!loaded) {
-			load();
-		}
 		var clazz = positions[className];
 		if ((clazz == null) || (clazz.pos == null) || (clazz.tests == null)) {
 			return null;
@@ -63,7 +58,7 @@ class TestPosCache {
 
 	function save() {
 		#if (sys || nodejs)
-		var fileName:String = getFileName();
+		var fileName:String = getFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 		}
@@ -71,20 +66,23 @@ class TestPosCache {
 		#end
 	}
 
-	function load() {
+	public static function load(baseFolder:String):Null<TestPosCache> {
 		#if (!macro && (sys || nodejs))
-		var fileName:String = getFileName();
+		var fileName:String = getFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
-			return;
+			return null;
 		}
 		var content:String = File.getContent(fileName);
 
 		var parser = new JsonParser<Positions>();
-		positions = parser.fromJson(content, fileName);
+		var positions = parser.fromJson(content, fileName);
+		return new TestPosCache(baseFolder, positions);
+		#else
+		return null;
 		#end
 	}
 
-	function getFileName():String {
+	static function getFileName(baseFolder:String):String {
 		return Path.join([baseFolder, RESULT_FOLDER, POS_FILE]);
 	}
 }

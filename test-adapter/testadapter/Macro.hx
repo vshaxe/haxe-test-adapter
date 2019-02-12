@@ -15,7 +15,7 @@ using StringTools;
 
 class Macro {
 	#if macro
-	static var positions = new TestPosCache(Sys.getCwd());
+	static var positions = new TestPosCache(Sys.getCwd(), new Positions());
 	public static var filters(default, null):Array<String>;
 
 	public static function init() {
