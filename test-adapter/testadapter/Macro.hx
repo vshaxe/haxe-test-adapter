@@ -31,6 +31,10 @@ class Macro {
 		var testFilter = new TestFilter(Sys.getCwd());
 		filters = testFilter.get();
 		testFilter.clear();
+
+		Context.onGenerate(function(_) {
+			positions.save();
+		});
 	}
 
 	public static function build():Array<Field> {

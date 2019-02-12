@@ -33,7 +33,6 @@ class TestPositions {
 		} else {
 			positions[className].methods[testName] = {line: pos.line};
 		}
-		save();
 	}
 
 	public function get(className:String, testName:String):Pos {
@@ -53,7 +52,7 @@ class TestPositions {
 		};
 	}
 
-	function save() {
+	public function save() {
 		#if (sys || nodejs)
 		var fileName:String = getFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
