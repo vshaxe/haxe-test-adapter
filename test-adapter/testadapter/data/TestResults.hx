@@ -69,7 +69,7 @@ class TestResults {
 		suiteResults = load(baseFolder);
 	}
 
-	function save() {
+	public function save() {
 		#if (sys || nodejs)
 		File.saveContent(fileName, Json.stringify(suiteResults, null, "\t"));
 		#end

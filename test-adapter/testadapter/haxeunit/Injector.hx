@@ -44,6 +44,7 @@ class Injector {
 					}
 					testResults.add(r.classname, r.method, 0, state, r.error, errorLine);
 				}
+				testResults.save();
 			}
 		}).fields;
 		return fields.concat(extraFields);

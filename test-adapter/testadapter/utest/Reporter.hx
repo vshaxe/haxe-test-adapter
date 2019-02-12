@@ -65,6 +65,7 @@ class Reporter implements IReport<Reporter> {
 				}
 			}
 		}
+		testResults.save();
 	}
 
 	function dumpStack(stack:Array<StackItem>):String {

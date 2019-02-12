@@ -2,7 +2,6 @@ package testadapter.munit;
 
 import massive.munit.ITestResultClient;
 import massive.munit.TestResult;
-import testadapter.data.TestFilter;
 import testadapter.data.TestResults;
 
 class ResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
@@ -20,8 +19,7 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 	}
 
 	function set_completionHandler(value:ITestResultClient->Void):ITestResultClient->Void {
-		completionHandler = value;
-		return completionHandler;
+		return completionHandler = value;
 	}
 
 	public function addPass(result:TestResult) {
@@ -51,6 +49,7 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 		if (completionHandler != null) {
 			completionHandler(this);
 		}
+		testResults.save();
 		return null;
 	}
 
