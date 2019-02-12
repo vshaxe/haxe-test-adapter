@@ -23,7 +23,7 @@ class TestResultData {
 	public function new(baseFolder:String) {
 		this.baseFolder = baseFolder;
 		positions = new TestPosCache(baseFolder);
-		fileName = getTestDataFileName(baseFolder);
+		fileName = getFileName(baseFolder);
 		init();
 	}
 
@@ -79,7 +79,7 @@ class TestResultData {
 
 	public static function load(?baseFolder:String):TestSuiteResults {
 		#if (sys || nodejs)
-		var dataFile:String = getTestDataFileName(baseFolder);
+		var dataFile:String = getFileName(baseFolder);
 		if (!FileSystem.exists(dataFile)) {
 			return {name: ROOT_SUITE_NAME, classes: []};
 		}
@@ -91,7 +91,7 @@ class TestResultData {
 		return {name: ROOT_SUITE_NAME, classes: []};
 	}
 
-	public static function getTestDataFileName(?baseFolder:String):String {
+	public static function getFileName(?baseFolder:String):String {
 		return Path.join([baseFolder, RESULT_FOLDER, RESULT_FILE]);
 	}
 }

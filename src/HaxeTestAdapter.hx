@@ -56,7 +56,7 @@ class HaxeTestAdapter {
 			get: () -> autorunEmitter.event
 		});
 
-		var fileName:String = TestResultData.getTestDataFileName(workspaceFolder.uri.fsPath);
+		var fileName:String = TestResultData.getFileName(workspaceFolder.uri.fsPath);
 		dataWatcher = Vscode.workspace.createFileSystemWatcher(fileName, false, false, true);
 		dataWatcher.onDidCreate(_ -> load());
 		dataWatcher.onDidChange(_ -> load());

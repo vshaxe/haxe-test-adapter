@@ -63,7 +63,7 @@ class TestPosCache {
 
 	function save() {
 		#if (sys || nodejs)
-		var fileName:String = getTestPosFileName();
+		var fileName:String = getFileName();
 		if (!FileSystem.exists(fileName)) {
 			FileSystem.createDirectory(RESULT_FOLDER);
 		}
@@ -73,7 +73,7 @@ class TestPosCache {
 
 	function load() {
 		#if (!macro && (sys || nodejs))
-		var fileName:String = getTestPosFileName();
+		var fileName:String = getFileName();
 		if (!FileSystem.exists(fileName)) {
 			return;
 		}
@@ -84,7 +84,7 @@ class TestPosCache {
 		#end
 	}
 
-	public function getTestPosFileName():String {
+	function getFileName():String {
 		return Path.join([baseFolder, RESULT_FOLDER, POS_FILE]);
 	}
 }
