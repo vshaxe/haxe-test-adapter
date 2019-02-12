@@ -30,6 +30,9 @@
 		"testing",
 		"haxe"
 	],
+	"scripts": {
+		"vscode:prepublish": "haxe build.hxml"
+	},
 	"main": "bin/main.js",
 	"dependencies": {
 		"vscode-test-adapter-api": "^1.1.0",
@@ -61,7 +64,7 @@
 			{
 				"title": "Setup",
 				"command": "haxeTestExplorer.setup",
-				"category": "Haxe Test Adapter"
+				"category": "Haxe Test Explorer"
 			}
 		],
 		"configuration": {
