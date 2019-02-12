@@ -4,7 +4,7 @@ import js.Object;
 import js.Promise;
 import testadapter.data.Data;
 import testadapter.data.TestFilter;
-import testadapter.data.TestResultData;
+import testadapter.data.TestResults;
 import vscode.EventEmitter;
 import vscode.FileSystemWatcher;
 import vscode.OutputChannel;
@@ -56,7 +56,7 @@ class HaxeTestAdapter {
 			get: () -> autorunEmitter.event
 		});
 
-		var fileName:String = TestResultData.getFileName(workspaceFolder.uri.fsPath);
+		var fileName:String = TestResults.getFileName(workspaceFolder.uri.fsPath);
 		dataWatcher = Vscode.workspace.createFileSystemWatcher(fileName, false, false, true);
 		dataWatcher.onDidCreate(_ -> load());
 		dataWatcher.onDidChange(_ -> load());
@@ -80,7 +80,7 @@ class HaxeTestAdapter {
 	**/
 	public function load():Thenable<Void> {
 		testsEmitter.fire({type: Started});
-		suiteResults = TestResultData.load(workspaceFolder.uri.fsPath);
+		suiteResults = TestResults.load(workspaceFolder.uri.fsPath);
 		if (suiteResults == null) {
 			testsEmitter.fire({type: Finished, suite: null, errorMessage: "invalid test result data"});
 			return null;
@@ -117,8 +117,8 @@ class HaxeTestAdapter {
 				id: clazz.name,
 				children: classChilds
 			};
-			ArraySort.sort(clazz.tests, sortByLine);
-			for (test in clazz.tests) {
+			ArraySort.sort(clazz.methods, sortByLine);
+			for (test in clazz.methods) {
 				var testInfo:TestInfo = {
 					type: "test",
 					id: clazz.name + "." + test.name,
@@ -151,7 +151,7 @@ class HaxeTestAdapter {
 			return;
 		}
 		for (clazz in testSuiteResults.classes) {
-			for (test in clazz.tests) {
+			for (test in clazz.methods) {
 				var testState:TestState = switch (test.state) {
 					case Success: Passed;
 					case Failure: Failed;

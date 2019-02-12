@@ -19,7 +19,7 @@ class Injector {
 		}
 
 		var extraFields = (macro class {
-			var testData = new testadapter.data.TestResultData($v{Sys.getCwd()});
+			var testResults = new testadapter.data.TestResults($v{Sys.getCwd()});
 
 			public function run():Bool {
 				var success:Bool = __run();
@@ -42,7 +42,7 @@ class Injector {
 							errorLine = r.posInfos.lineNumber - 1;
 						}
 					}
-					testData.addTestResult(r.classname, r.method, 0, state, r.error, errorLine);
+					testResults.add(r.classname, r.method, 0, state, r.error, errorLine);
 				}
 			}
 		}).fields;

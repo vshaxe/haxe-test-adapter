@@ -54,14 +54,6 @@
 		},
 		{
 			"props": {
-				"ignoreSetter": true,
-				"ignoreFormat": "^(main|run)$",
-				"ignoreConstructorParameter": true
-			},
-			"type": "HiddenField"
-		},
-		{
-			"props": {
 				"allowMarkerInterfaces": true,
 				"allowProperties": true
 			},

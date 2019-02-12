@@ -10,28 +10,28 @@ import sys.io.File;
 #end
 import testadapter.data.Data;
 
-class TestResultData {
+class TestResults {
 	static inline var ROOT_SUITE_NAME:String = "root";
 
 	var baseFolder:String;
 	var fileName:String;
-	var positions:TestPosCache;
+	var positions:TestPositions;
 	var suiteResults:TestSuiteResults;
 
 	public function new(baseFolder:String) {
 		this.baseFolder = baseFolder;
-		positions = TestPosCache.load(baseFolder);
+		positions = TestPositions.load(baseFolder);
 		fileName = getFileName(baseFolder);
 		init();
 	}
 
-	public function addTestResult(className:String, name:String, executionTime:Float = 0, state:TestState, ?message:String, ?errorLine:Int) {
+	public function add(className:String, name:String, executionTime:Float = 0, state:TestState, ?message:String, ?errorLine:Int) {
 		var pos = positions.get(className, name);
 		var line:Null<Int> = null;
 		if (pos != null) {
 			line = pos.line;
 		}
-		function makeTest():TestResults {
+		function makeTest():TestMethodResults {
 			return {
 				name: name,
 				executionTime: executionTime,
@@ -44,15 +44,15 @@ class TestResultData {
 		}
 		for (data in suiteResults.classes) {
 			if (data.name == className) {
-				data.tests = data.tests.filter(function(results) return results.name != name);
-				data.tests.push(makeTest());
+				data.methods = data.methods.filter(function(results) return results.name != name);
+				data.methods.push(makeTest());
 				save();
 				return;
 			}
 		}
 		suiteResults.classes.push({
 			name: className,
-			tests: [makeTest()],
+			methods: [makeTest()],
 			pos: positions.get(className, null)
 		});
 		save();
@@ -85,8 +85,9 @@ class TestResultData {
 
 		var parser = new JsonParser<TestSuiteResults>();
 		return parser.fromJson(content, dataFile);
-		#end
+		#else
 		return {name: ROOT_SUITE_NAME, classes: []};
+		#end
 	}
 
 	public static function getFileName(?baseFolder:String):String {

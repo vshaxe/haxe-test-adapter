@@ -11,11 +11,11 @@ typedef TestSuiteResults = {
 
 typedef TestClassResults = {
 	var name:String;
-	var tests:Array<TestResults>;
+	var methods:Array<TestMethodResults>;
 	@:optional var pos:Pos;
 }
 
-typedef TestResults = {
+typedef TestMethodResults = {
 	var name:String;
 	var state:TestState;
 	var message:String;

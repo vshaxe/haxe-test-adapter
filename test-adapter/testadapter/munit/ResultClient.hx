@@ -3,16 +3,16 @@ package testadapter.munit;
 import massive.munit.ITestResultClient;
 import massive.munit.TestResult;
 import testadapter.data.TestFilter;
-import testadapter.data.TestResultData;
+import testadapter.data.TestResults;
 
 class ResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
-	var testData:TestResultData;
+	var testResults:TestResults;
 
 	@:isVar public var completionHandler(get, set):ITestResultClient->Void;
 	public var id(default, null):String;
 
 	public function new(baseFolder) {
-		testData = new TestResultData(baseFolder);
+		testResults = new TestResults(baseFolder);
 	}
 
 	function get_completionHandler():ITestResultClient->Void {
@@ -25,7 +25,7 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 	}
 
 	public function addPass(result:TestResult) {
-		testData.addTestResult(result.className, result.name, result.executionTime, Success);
+		testResults.add(result.className, result.name, result.executionTime, Success);
 	}
 
 	public function addFail(result:TestResult) {
@@ -35,15 +35,15 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 			message = result.failure.message;
 			lineNumber = result.failure.info.lineNumber - 1;
 		}
-		testData.addTestResult(result.className, result.name, result.executionTime, Failure, message, lineNumber);
+		testResults.add(result.className, result.name, result.executionTime, Failure, message, lineNumber);
 	}
 
 	public function addError(result:TestResult) {
-		testData.addTestResult(result.className, result.name, result.executionTime, Error, Std.string(result.error));
+		testResults.add(result.className, result.name, result.executionTime, Error, Std.string(result.error));
 	}
 
 	public function addIgnore(result:TestResult) {
-		testData.addTestResult(result.className, result.name, result.executionTime, Ignore, result.description);
+		testResults.add(result.className, result.name, result.executionTime, Ignore, result.description);
 	}
 
 	@SuppressWarnings("checkstyle:Dynamic")

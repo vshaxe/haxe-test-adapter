@@ -8,14 +8,14 @@ import haxe.macro.Type;
 #if (haxe_ver >= 4)
 import haxe.display.Position.Location;
 #end
-import testadapter.data.TestPosCache;
+import testadapter.data.TestPositions;
 import testadapter.data.TestFilter;
 
 using StringTools;
 
 class Macro {
 	#if macro
-	static var positions = new TestPosCache(Sys.getCwd(), new Positions());
+	static var positions = new TestPositions(Sys.getCwd(), new Positions());
 	public static var filters(default, null):Array<String>;
 
 	public static function init() {

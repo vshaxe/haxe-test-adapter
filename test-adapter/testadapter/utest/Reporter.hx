@@ -2,7 +2,7 @@ package testadapter.utest;
 
 import testadapter.data.Data.TestState;
 import haxe.CallStack;
-import testadapter.data.TestResultData;
+import testadapter.data.TestResults;
 import utest.Assertation;
 import utest.Runner;
 import utest.ui.common.ClassResult;
@@ -12,17 +12,15 @@ import utest.ui.common.IReport;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultAggregator;
 
-using StringTools;
-
 class Reporter implements IReport<Reporter> {
 	public var displaySuccessResults:SuccessResultsDisplayMode;
 	public var displayHeader:HeaderDisplayMode;
 
-	var testData:TestResultData;
+	var testResults:TestResults;
 	var aggregator:ResultAggregator;
 
 	public function new(runner:Runner, baseFolder:String) {
-		testData = new TestResultData(baseFolder);
+		testResults = new TestResults(baseFolder);
 		displaySuccessResults = NeverShowSuccessResults;
 		displayHeader = NeverShowHeader;
 		aggregator = new ResultAggregator(runner, true);
@@ -63,7 +61,7 @@ class Reporter implements IReport<Reporter> {
 						}
 					}
 					var dotPath = if (packageName == "") className else '$packageName.$className';
-					testData.addTestResult(dotPath, testName, 0, state, message, errorLine);
+					testResults.add(dotPath, testName, 0, state, message, errorLine);
 				}
 			}
 		}

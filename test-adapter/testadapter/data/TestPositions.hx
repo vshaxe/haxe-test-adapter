@@ -12,13 +12,13 @@ import json2object.JsonParser;
 import testadapter.data.Data;
 
 typedef ClassPosition = {
-	tests:Map<String, {line:Int}>,
+	methods:Map<String, {line:Int}>,
 	pos:Pos
 };
 
 typedef Positions = Map<String, ClassPosition>;
 
-class TestPosCache {
+class TestPositions {
 	var baseFolder:String;
 	var positions:Positions;
 
@@ -29,27 +29,27 @@ class TestPosCache {
 
 	public function add(className:String, ?testName:String, pos:Pos) {
 		if (testName == null) {
-			positions[className] = {tests: new Map<String, {line:Int}>(), pos: pos};
+			positions[className] = {methods: new Map<String, {line:Int}>(), pos: pos};
 		} else {
-			positions[className].tests[testName] = {line: pos.line};
+			positions[className].methods[testName] = {line: pos.line};
 		}
 		save();
 	}
 
 	public function get(className:String, testName:String):Pos {
 		var clazz = positions[className];
-		if ((clazz == null) || (clazz.pos == null) || (clazz.tests == null)) {
+		if ((clazz == null) || (clazz.pos == null) || (clazz.methods == null)) {
 			return null;
 		}
 		if (testName == null) {
 			return clazz.pos;
 		}
-		if (clazz.tests[testName] == null) {
+		if (clazz.methods[testName] == null) {
 			return clazz.pos;
 		}
 		return {
 			file: clazz.pos.file,
-			line: clazz.tests[testName].line
+			line: clazz.methods[testName].line
 		};
 	}
 
@@ -63,7 +63,7 @@ class TestPosCache {
 		#end
 	}
 
-	public static function load(baseFolder:String):Null<TestPosCache> {
+	public static function load(baseFolder:String):Null<TestPositions> {
 		#if (!macro && (sys || nodejs))
 		var fileName:String = getFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
@@ -73,9 +73,9 @@ class TestPosCache {
 
 		var parser = new JsonParser<Positions>();
 		var positions = parser.fromJson(content, fileName);
-		return new TestPosCache(baseFolder, positions);
+		return new TestPositions(baseFolder, positions);
 		#else
-		return null;
+		return new TestPositions(baseFolder, new Positions());
 		#end
 	}
 
