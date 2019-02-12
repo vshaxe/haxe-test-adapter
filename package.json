@@ -53,13 +53,14 @@
 		"onCommand:test-explorer.rerun",
 		"onCommand:test-explorer.debug-test-at-cursor",
 		"onCommand:test-explorer.redebug",
-		"onCommand:test-explorer.cancel"
+		"onCommand:test-explorer.cancel",
+		"onCommand:haxeTestExplorer.setup"
 	],
 	"contributes": {
 		"commands": [
 			{
 				"title": "Setup",
-				"command": "haxe-test-adapter.setup",
+				"command": "haxeTestExplorer.setup",
 				"category": "Haxe Test Adapter"
 			}
 		],

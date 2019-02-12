@@ -23,7 +23,7 @@ class Main {
 	}
 
 	function updateHaxelib() {
-		Vscode.commands.registerCommand("haxe-test-adapter.setup", function() {
+		Vscode.commands.registerCommand("haxeTestExplorer.setup", function() {
 			var terminal = Vscode.window.createTerminal();
 			terminal.sendText("haxelib dev test-adapter " + context.asAbsolutePath("test-adapter"));
 			terminal.show();
@@ -31,7 +31,7 @@ class Main {
 		});
 
 		if (isExtensionPathChanged(context)) {
-			Vscode.commands.executeCommand("haxe-test-adapter.setup");
+			Vscode.commands.executeCommand("haxeTestExplorer.setup");
 		}
 	}
 
