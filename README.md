@@ -5,7 +5,7 @@
 
 A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) extension.
 
-![VSCode Test Adapter for Haxe](images/haxe-test-adapter.gif)
+![VSCode Test Adapter for Haxe](images/demo.gif)
 
 ## Features
 
@@ -16,6 +16,8 @@ A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visua
 * Currently only works for Node.js and sys targets
 
 ## Usage
+
+A small sample project for each supported framework can be found in the [samples](https://github.com/vshaxe/haxe-test-adapter/tree/master/samples) directory.
 
 You can run your tests using the `Test Explorer: Run all tests` command or by clicking the button in the "Test" tab of the activity bar. The command that it runs can be configured with this setting:
 
