@@ -181,13 +181,6 @@
 		},
 		{
 			"props": {
-				"allowEmptyReturn": true,
-				"enforceReturnType": false
-			},
-			"type": "Return"
-		},
-		{
-			"props": {
 				"tokens": [
 					","
 				],

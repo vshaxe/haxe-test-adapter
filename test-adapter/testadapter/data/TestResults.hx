@@ -11,18 +11,14 @@ import sys.io.File;
 import testadapter.data.Data;
 
 class TestResults {
-	static inline var ROOT_SUITE_NAME:String = "root";
-
 	var baseFolder:String;
-	var fileName:String;
 	var positions:TestPositions;
 	var suiteResults:TestSuiteResults;
 
 	public function new(baseFolder:String) {
 		this.baseFolder = baseFolder;
 		positions = TestPositions.load(baseFolder);
-		fileName = getFileName(baseFolder);
-		init();
+		suiteResults = load(baseFolder);
 	}
 
 	public function add(className:String, name:String, executionTime:Float = 0, state:TestState, ?message:String, ?errorLine:Int) {
@@ -56,35 +52,28 @@ class TestResults {
 		});
 	}
 
-	function init() {
-		#if (nodejs || sys)
-		if (!FileSystem.exists(fileName)) {
-			FileSystem.createDirectory(Data.FOLDER);
-			suiteResults = {name: ROOT_SUITE_NAME, classes: []};
-			return;
-		}
-		#end
-		suiteResults = load(baseFolder);
-	}
-
 	public function save() {
 		#if (sys || nodejs)
-		File.saveContent(fileName, Json.stringify(suiteResults, null, "\t"));
+		File.saveContent(getFileName(baseFolder), Json.stringify(suiteResults, null, "\t"));
 		#end
 	}
 
 	public static function load(?baseFolder:String):TestSuiteResults {
+		function emptySuite() {
+			return {name: "root", classes: []};
+		}
+
 		#if (sys || nodejs)
 		var dataFile:String = getFileName(baseFolder);
 		if (!FileSystem.exists(dataFile)) {
-			return {name: ROOT_SUITE_NAME, classes: []};
+			return emptySuite();
 		}
 		var content:String = File.getContent(dataFile);
 
 		var parser = new JsonParser<TestSuiteResults>();
 		return parser.fromJson(content, dataFile);
 		#else
-		return {name: ROOT_SUITE_NAME, classes: []};
+		return emptySuite();
 		#end
 	}
 
