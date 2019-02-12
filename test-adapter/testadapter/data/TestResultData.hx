@@ -11,8 +11,6 @@ import sys.io.File;
 import testadapter.data.Data;
 
 class TestResultData {
-	static inline var RESULT_FOLDER:String = ".unittest";
-	static inline var RESULT_FILE:String = "results.json";
 	static inline var ROOT_SUITE_NAME:String = "root";
 
 	var baseFolder:String;
@@ -63,7 +61,7 @@ class TestResultData {
 	function init() {
 		#if (nodejs || sys)
 		if (!FileSystem.exists(fileName)) {
-			FileSystem.createDirectory(RESULT_FOLDER);
+			FileSystem.createDirectory(Data.FOLDER);
 			suiteResults = {name: ROOT_SUITE_NAME, classes: []};
 			return;
 		}
@@ -92,6 +90,6 @@ class TestResultData {
 	}
 
 	public static function getFileName(?baseFolder:String):String {
-		return Path.join([baseFolder, RESULT_FOLDER, RESULT_FILE]);
+		return Path.join([baseFolder, Data.FOLDER, "results.json"]);
 	}
 }

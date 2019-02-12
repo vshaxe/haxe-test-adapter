@@ -12,9 +12,6 @@ using StringTools;
 typedef TestFilterList = Array<String>;
 
 class TestFilter {
-	static inline var RESULT_FOLDER:String = ".unittest";
-	static inline var FILTER_FILE:String = "filter.json";
-
 	var testFilters:TestFilterList;
 	var baseFolder:String;
 	var loaded:Bool;
@@ -53,7 +50,7 @@ class TestFilter {
 		#if (sys || nodejs)
 		var fileName:String = getFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
-			FileSystem.createDirectory(Path.join([baseFolder, RESULT_FOLDER]));
+			FileSystem.createDirectory(Path.join([baseFolder, Data.FOLDER]));
 		}
 		if (testFilters.length == 0) {
 			if (FileSystem.exists(fileName)) {
@@ -82,7 +79,7 @@ class TestFilter {
 	}
 
 	function getFileName(?baseFolder:String):String {
-		return Path.join([baseFolder, RESULT_FOLDER, FILTER_FILE]);
+		return Path.join([baseFolder, Data.FOLDER, "filter.json"]);
 	}
 
 	public static function shouldRunTest(testFilters:TestFilterList, className:String, testName:String):Bool {

@@ -1,5 +1,9 @@
 package testadapter.data;
 
+class Data {
+	public static inline var FOLDER = ".unittest";
+}
+
 typedef TestSuiteResults = {
 	var name:String;
 	var classes:Array<TestClassResults>;

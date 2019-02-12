@@ -19,9 +19,6 @@ typedef ClassPosition = {
 typedef Positions = Map<String, ClassPosition>;
 
 class TestPosCache {
-	static inline var RESULT_FOLDER:String = ".unittest";
-	static inline var POS_FILE:String = "positions.json";
-
 	var baseFolder:String;
 	var positions:Positions;
 
@@ -60,7 +57,7 @@ class TestPosCache {
 		#if (sys || nodejs)
 		var fileName:String = getFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
-			FileSystem.createDirectory(RESULT_FOLDER);
+			FileSystem.createDirectory(Data.FOLDER);
 		}
 		File.saveContent(fileName, Json.stringify(positions, null, "\t"));
 		#end
@@ -83,6 +80,6 @@ class TestPosCache {
 	}
 
 	static function getFileName(baseFolder:String):String {
-		return Path.join([baseFolder, RESULT_FOLDER, POS_FILE]);
+		return Path.join([baseFolder, Data.FOLDER, "positions.json"]);
 	}
 }
