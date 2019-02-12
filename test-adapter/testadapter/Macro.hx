@@ -19,6 +19,8 @@ class Macro {
 	public static var filters(default, null):Array<String>;
 
 	public static function init() {
+		Sys.println("test-adapter is recording results...\n");
+
 		Compiler.addGlobalMetadata("", "@:build(testadapter.Macro.build())", true, true, false);
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");

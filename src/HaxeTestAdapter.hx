@@ -199,7 +199,7 @@ class HaxeTestAdapter {
 			new ProcessExecution(testCommand.shift(), testCommand, {env: haxeExecutable.env}), vshaxe.problemMatchers.get());
 		var presentation = vshaxe.taskPresentation;
 		task.presentationOptions = {
-			reveal: presentation.reveal,
+			reveal: Never,
 			echo: presentation.echo,
 			focus: presentation.focus,
 			panel: presentation.panel,
