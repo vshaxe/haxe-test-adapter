@@ -54,11 +54,7 @@ class TestPositions {
 
 	public function save() {
 		#if (sys || nodejs)
-		var fileName:String = getFileName(baseFolder);
-		if (!FileSystem.exists(fileName)) {
-			FileSystem.createDirectory(Data.FOLDER);
-		}
-		File.saveContent(fileName, Json.stringify(positions, null, "\t"));
+		Data.save(getFileName(baseFolder), positions);
 		#end
 	}
 

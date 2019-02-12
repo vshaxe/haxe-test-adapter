@@ -1,7 +1,20 @@
 package testadapter.data;
 
+import haxe.io.Path;
+import haxe.Json;
+
 class Data {
 	public static inline var FOLDER = ".unittest";
+
+	public static function save(path:String, content:Any) {
+		#if (sys || hxnodejs)
+		var directory = Path.directory(path);
+		if (!sys.FileSystem.exists(directory)) {
+			sys.FileSystem.createDirectory(directory);
+		}
+		sys.io.File.saveContent(path, Json.stringify(content, "\t"));
+		#end
+	}
 }
 
 typedef TestSuiteResults = {

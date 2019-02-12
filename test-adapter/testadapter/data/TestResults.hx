@@ -54,7 +54,7 @@ class TestResults {
 
 	public function save() {
 		#if (sys || nodejs)
-		File.saveContent(getFileName(baseFolder), Json.stringify(suiteResults, null, "\t"));
+		Data.save(getFileName(baseFolder), suiteResults);
 		#end
 	}
 

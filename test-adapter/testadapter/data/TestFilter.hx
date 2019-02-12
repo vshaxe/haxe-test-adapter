@@ -49,15 +49,12 @@ class TestFilter {
 	function save(?baseFolder:String) {
 		#if (sys || nodejs)
 		var fileName:String = getFileName(baseFolder);
-		if (!FileSystem.exists(fileName)) {
-			FileSystem.createDirectory(Path.join([baseFolder, Data.FOLDER]));
-		}
 		if (testFilters.length == 0) {
 			if (FileSystem.exists(fileName)) {
 				FileSystem.deleteFile(fileName);
 			}
 		} else {
-			File.saveContent(fileName, Json.stringify(testFilters, null, "\t"));
+			Data.save(fileName, testFilters);
 		}
 		#end
 	}
