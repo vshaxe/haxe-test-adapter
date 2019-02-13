@@ -3,11 +3,11 @@ import buddy.BuddySuite;
 
 using buddy.Should;
 
-import buddy.reporting.ConsoleColorReporter;
+import buddy.reporting.ConsoleReporter;
 
 class Main extends BuddySuite {
 	public static function main() {
-		var reporter = new ConsoleColorReporter();
+		var reporter = new ConsoleReporter();
 		var runner = new buddy.SuitesRunner([new Main(), new TestCase3()], reporter);
 		runner.run();
 	}
