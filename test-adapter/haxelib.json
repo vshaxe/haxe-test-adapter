@@ -7,8 +7,8 @@
 		"testing"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "1.0.0",
-	"releasenote": "initial release - see CHANGELOG for details.",
+	"version": "1.0.1",
+	"releasenote": "Fixed compatibility with utest 1.9.2.",
 	"contributors": [
 		"AlexHaxe",
 		"Gama11"
