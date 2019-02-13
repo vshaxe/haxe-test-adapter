@@ -28,7 +28,7 @@ class Injector {
 							throw "Cannot add the same test twice.";
 						}
 						var fixtures = [];
-						var init:utest.TestData.InitializeUtest = testCase.__initializeUtest__();
+						var init:utest.TestData.InitializeUtest = (cast testCase : utest.TestData.Initializer).__initializeUtest__();
 						for (test in init.tests) {
 							if (!isTestFixtureName(test.name, ["test", "spec"], pattern, globalPattern)) {
 								continue;
