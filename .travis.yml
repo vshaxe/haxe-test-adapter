@@ -13,6 +13,7 @@ install:
   - haxelib git hamcrest https://github.com/kaikoga/hamcrest-haxe patch-haxe4-p5 src
   - haxelib install utest
   - haxelib install hx3compat
+  - haxelib install buddy
   - haxelib dev test-adapter test-adapter
 
 script:
