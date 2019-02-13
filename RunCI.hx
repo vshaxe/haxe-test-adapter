@@ -28,6 +28,7 @@ class RunCI {
 		buildSample("samples/munit");
 		buildSample("samples/utest");
 		buildSample("samples/haxeunit");
+		buildSample("samples/buddy");
 
 		Sys.exit(success ? 0 : 1);
 	}
