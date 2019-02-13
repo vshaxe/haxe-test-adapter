@@ -15,24 +15,21 @@ class Main extends BuddySuite {
 	public function new() {
 		// A test suite:
 		describe("Using Buddy", {
-			var experience = "?";
-			var mood = "?";
-
-			beforeEach({
-				experience = "great";
-			});
+			beforeEach({});
 
 			it("should succeed", {
-				experience.should.be("great");
+				"A".should.be("A");
 			});
 
 			it("should fail", {
 				"A".should.be("B");
 			});
 
-			afterEach({
-				mood = "happy";
+			it("should throw", {
+				throw "error";
 			});
+
+			afterEach({});
 		});
 	}
 }
