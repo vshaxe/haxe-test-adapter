@@ -19,9 +19,13 @@ class Macro {
 	public static var filters(default, null):Array<String>;
 
 	public static function init() {
-		#if (utest < "1.9.2")
-		Context.fatalError("test-adapter requires utest 1.9.2 or newer", Context.currentPos());
-		#end
+		var utest = Context.definedValue("utest");
+		if (utest != null) {
+			var v = utest.split(".").map(Std.parseInt);
+			if (v[0] == 1 && v[1] <= 9 && v[2] <= 1) {
+				Context.fatalError('test-adapter requires utest 1.9.2 or newer, found $utest', Context.currentPos());
+			}
+		}
 
 		Sys.println("test-adapter is recording results...\n");
 
