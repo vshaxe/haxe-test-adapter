@@ -43,9 +43,6 @@ class TestResults {
 			if (data.name == className) {
 				data.methods = data.methods.filter(function(results) return results.name != name);
 				data.methods.push(makeTest());
-				if (data.pos == null) {
-					data.pos = positions.get(className, null);
-				}
 				return;
 			}
 		}
