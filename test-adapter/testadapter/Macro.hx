@@ -30,6 +30,7 @@ class Macro {
 		Sys.println("test-adapter is recording results...\n");
 
 		Compiler.addGlobalMetadata("", "@:build(testadapter.Macro.build())", true, true, false);
+		Compiler.addMetadata("@:build(testadapter.buddy.Injector.buildRunner())", "buddy.SuitesRunner");
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");
 		Compiler.addMetadata("@:build(testadapter.utest.Injector.build())", "utest.Runner");
