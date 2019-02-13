@@ -19,6 +19,10 @@ class Macro {
 	public static var filters(default, null):Array<String>;
 
 	public static function init() {
+		#if (utest < "1.9.2")
+		Context.fatalError("test-adapter requires utest 1.9.2 or newer", Context.currentPos());
+		#end
+
 		Sys.println("test-adapter is recording results...\n");
 
 		Compiler.addGlobalMetadata("", "@:build(testadapter.Macro.build())", true, true, false);
