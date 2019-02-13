@@ -40,11 +40,35 @@ class Injector {
 					case Describe(_):
 					case It(description, _, _, pos, _):
 						adapterReporter.addPosition(pos.fileName, description, pos.lineNumber - 1);
-						if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, pos.fileName, description)) {
-							return null;
-						}
 				}
 				return __mapTestSpec(buddySuite, testSuite, beforeEachStack, afterEachStack, testSpec, done);
+			}
+		}).fields;
+		return fields.concat(extraFields);
+	}
+
+	public static function buildSuite():Array<Field> {
+		var fields = Context.getBuildFields();
+		for (field in fields) {
+			var f = switch (field.kind) {
+				case FFun(f): f;
+				case _: null;
+			}
+			if (f == null) {
+				continue;
+			}
+			switch (field.name) {
+				case "it":
+					field.name = "__" + field.name;
+				case _:
+			}
+		}
+		var extraFields = (macro class {
+			private function it(desc:String, ?spec:TestFunc, _hasInclude = false, ?pos:PosInfos, time:Float = 0):Void {
+				if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, pos.fileName, desc)) {
+					return;
+				}
+				__it(desc, spec, _hasInclude, pos, time);
 			}
 		}).fields;
 		return fields.concat(extraFields);
