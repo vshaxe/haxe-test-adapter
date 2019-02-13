@@ -15,18 +15,24 @@ class Injector {
 			if (f == null) {
 				continue;
 			}
+			switch (f.expr.expr) {
+				case EBlock(exprs):
+					switch (field.name) {
+						case "new":
+							exprs.push(macro adapterReporter = new testadapter.buddy.Reporter($v{Sys.getCwd()}, reporter));
+							exprs.push(macro this.reporter = adapterReporter);
+						case _:
+					}
+				case _:
+			}
 			switch (field.name) {
-				case "new", "mapTestSpec":
+				case "mapTestSpec":
 					field.name = "__" + field.name;
 				case _:
 			}
 		}
 		var extraFields = (macro class {
 			var adapterReporter:testadapter.buddy.Reporter;
-			public function new(buddySuites:Iterable<BuddySuite>, ?reporter:Reporter) {
-				adapterReporter = new testadapter.buddy.Reporter($v{Sys.getCwd()}, reporter);
-				__new(buddySuites, adapterReporter);
-			}
 
 			private function mapTestSpec(buddySuite:BuddySuite, testSuite:TestSuite, beforeEachStack:Array<Array<TestFunc>>,
 					afterEachStack:Array<Array<TestFunc>>, testSpec:TestSpec, done:Dynamic->Step->Void):Null<SyncTestResult> {
