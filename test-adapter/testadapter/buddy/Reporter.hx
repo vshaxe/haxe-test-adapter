@@ -42,7 +42,6 @@ class Reporter implements buddy.reporting.Reporter {
 								if (lineNumber == null) {
 									lineNumber = line - 1;
 								}
-								continue;
 								if (line < lineNumber) {
 									lineNumber = line - 1;
 								}
