@@ -1,0 +1,18 @@
+ {
+	"name":"test-adapter-hook", 
+	"url":"https://github.com/vshaxe/haxe-test-adapter",
+	"license":"MIT", 
+	"tags":[
+		"test", 
+		"testing"
+	], 
+	"description":"Test Adapter Hook library - connects test frameworks with test adapter", 
+	"version":"1.0.0", 
+	"releasenote":"initial release - see CHANGELOG for details.", 
+	"contributors":[
+		"AlexHaxe", 
+		"Gama11"
+	], 
+	"dependencies": {
+	}
+}
