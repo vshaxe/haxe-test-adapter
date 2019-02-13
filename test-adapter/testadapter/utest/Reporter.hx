@@ -27,7 +27,6 @@ class Reporter implements IReport<Reporter> {
 		aggregator.onComplete.add(complete);
 	}
 
-	@SuppressWarnings("checkstyle:NestedForDepth")
 	function complete(result:PackageResult) {
 		for (packageName in result.packageNames()) {
 			var pack:PackageResult = result.getPackage(packageName);

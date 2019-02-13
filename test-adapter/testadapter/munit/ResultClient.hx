@@ -44,7 +44,6 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 		testResults.add(result.className, result.name, result.executionTime, Ignore, result.description);
 	}
 
-	@SuppressWarnings("checkstyle:Dynamic")
 	public function reportFinalStatistics(testCount:Int, passCount:Int, failCount:Int, errorCount:Int, ignoreCount:Int, time:Float):Dynamic {
 		if (completionHandler != null) {
 			completionHandler(this);
