@@ -29,6 +29,8 @@ class Main extends BuddySuite {
 				throw "error";
 			});
 
+			it("should also succeed", {});
+
 			afterEach({});
 		});
 	}

@@ -53,6 +53,7 @@ class Reporter implements buddy.reporting.Reporter {
 			case Passed:
 				testResults.add(spec.fileName, spec.description, spec.time, Success);
 			case Pending:
+				testResults.add(spec.fileName, spec.description, spec.time, Success);
 			case Unknown:
 				testResults.add(spec.fileName, spec.description, spec.time, Error);
 		}
