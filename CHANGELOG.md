@@ -1,6 +1,7 @@
-## 1.1.0 (to be released)
+## 1.1.0 (February 14, 2019)
 
 - added support for the [buddy](https://github.com/ciscoheat/buddy) test framework
+- fixed results + decorations of removed tests sticking around
 
 ## 1.0.1 (February 13, 2019)
 
