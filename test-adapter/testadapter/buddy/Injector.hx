@@ -65,7 +65,7 @@ class Injector {
 		}
 		var extraFields = (macro class {
 			private function it(desc:String, ?spec:TestFunc, _hasInclude = false, ?pos:PosInfos, time:Float = 0):Void {
-				if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, pos.fileName, desc)) {
+				if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, currentSuite.description, desc)) {
 					return;
 				}
 				__it(desc, spec, _hasInclude, pos, time);
