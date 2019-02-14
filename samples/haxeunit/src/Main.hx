@@ -22,6 +22,8 @@ class TestCase extends haxe.unit.TestCase {
 	function testError() {
 		throw "error";
 	}
+
+	function testEmpty() {}
 }
 
 class TestCase2 extends haxe.unit.TestCase {

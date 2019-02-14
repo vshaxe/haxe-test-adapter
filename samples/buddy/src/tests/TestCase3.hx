@@ -5,7 +5,7 @@ using buddy.Should;
 class TestCase3 extends buddy.SingleSuite {
 	public function new() {
 		describe("TestCase3", {
-			it("should succeed", {
+			it("testSuccess", {
 				"A".should.be("A");
 			});
 		});

@@ -1,8 +1,6 @@
-# Version History
+## 1.1.0 (to be released)
 
-## dev branch / next version (1.x.x)
-
-- added support for buddy test framework
+- added support for the [buddy](https://github.com/ciscoheat/buddy) test framework
 
 ## 1.0.1 (February 13, 2019)
 

@@ -1,36 +1,35 @@
 import tests.TestCase3;
 import buddy.BuddySuite;
+import buddy.SuitesRunner;
 
 using buddy.Should;
 
-import buddy.reporting.ConsoleReporter;
-
 class Main extends BuddySuite {
 	public static function main() {
-		var reporter = new ConsoleReporter();
-		var runner = new buddy.SuitesRunner([new Main(), new TestCase3()], reporter);
-		runner.run();
+		new SuitesRunner([new Main(), new TestCase3()]).run();
 	}
 
 	public function new() {
 		describe("TestCase", {
-			beforeEach({});
-
-			it("should succeed", {
+			it("testSuccess", {
 				"A".should.be("A");
 			});
 
-			it("should fail", {
+			it("testFailure", {
 				"A".should.be("B");
 			});
 
-			it("should throw", {
+			it("testError", {
 				throw "error";
 			});
 
-			it("should also succeed", {});
+			it("testEmpty", {});
+		});
 
-			afterEach({});
+		describe("TestCase2", {
+			it("testSuccess", {
+				"A".should.be("A");
+			});
 		});
 	}
 }

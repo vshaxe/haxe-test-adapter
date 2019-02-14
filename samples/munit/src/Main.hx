@@ -34,6 +34,9 @@ class TestCase {
 		throw "error";
 	}
 
+	@Test
+	function testEmpty() {}
+
 	@Test @Ignore("Description")
 	function testIgnore() {}
 }

@@ -20,6 +20,8 @@ class TestCase extends utest.Test {
 		throw "failure";
 	}
 
+	function testEmpty() {}
+
 	@Ignored("Description")
 	function testIgnore() {}
 }
