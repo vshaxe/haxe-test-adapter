@@ -13,7 +13,6 @@ class Main extends BuddySuite {
 	}
 
 	public function new() {
-		// A test suite:
 		describe("TestCase", {
 			beforeEach({});
 
