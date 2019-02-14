@@ -9,7 +9,7 @@ A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visua
 
 ## Features
 
-* Records [munit](https://github.com/massiveinteractive/MassiveUnit), [utest](https://github.com/haxe-utest/utest) and [haxe.unit](https://api.haxe.org/haxe/unit/TestRunner.html) test results as JSON files
+* Records [munit](https://github.com/massiveinteractive/MassiveUnit), [utest](https://github.com/haxe-utest/utest), [buddy](https://github.com/ciscoheat/buddy) and [haxe.unit](https://api.haxe.org/haxe/unit/TestRunner.html) test results as JSON files
 * Shows latest test results in VSCode using the Test Explorer UI extension
 * Supports filtering / running individual tests directly from VSCode
 * Supports Haxe 3.4.7 and 4.0.0-rc.1 (detection of test function line numbers only works with Haxe 4)
