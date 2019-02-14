@@ -20,6 +20,9 @@ class Injector {
 					switch (field.name) {
 						case "new":
 							exprs.push(macro {
+								if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
+									testadapter.data.TestResults.clearResults($v{Sys.getCwd()});
+								}
 								adapterReporter = new testadapter.buddy.Reporter($v{Sys.getCwd()}, reporter);
 								this.reporter = adapterReporter;
 							});

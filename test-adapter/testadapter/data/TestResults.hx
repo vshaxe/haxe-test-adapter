@@ -58,6 +58,12 @@ class TestResults {
 		#end
 	}
 
+	public static function clearResults(baseFolder:String) {
+		#if (sys || nodejs)
+		Data.clear(getFileName(baseFolder));
+		#end
+	}
+
 	public static function load(?baseFolder:String):TestSuiteResults {
 		function emptySuite() {
 			return {name: "root", classes: []};

@@ -15,6 +15,15 @@ class Data {
 		sys.io.File.saveContent(path, Json.stringify(content, "\t"));
 		#end
 	}
+
+	public static function clear(path:String) {
+		#if (sys || hxnodejs)
+		if (!sys.FileSystem.exists(path)) {
+			return;
+		}
+		sys.FileSystem.deleteFile(path);
+		#end
+	}
 }
 
 typedef TestSuiteResults = {

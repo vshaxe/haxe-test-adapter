@@ -19,7 +19,12 @@ class Injector {
 				case "new":
 					switch (f.expr.expr) {
 						case EBlock(exprs):
-							exprs.push(macro new testadapter.utest.Reporter(this, $v{Sys.getCwd()}));
+							exprs.push(macro {
+								if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
+									testadapter.data.TestResults.clearResults($v{Sys.getCwd()});
+								}
+								new testadapter.utest.Reporter(this, $v{Sys.getCwd()});
+							});
 						case _:
 					}
 				case "addITest":

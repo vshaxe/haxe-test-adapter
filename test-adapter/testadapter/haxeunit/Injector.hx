@@ -22,6 +22,10 @@ class Injector {
 			var testResults = new testadapter.data.TestResults($v{Sys.getCwd()});
 
 			public function run():Bool {
+				if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
+					testadapter.data.TestResults.clearResults($v{Sys.getCwd()});
+					testResults = new testadapter.data.TestResults($v{Sys.getCwd()});
+				}
 				var success:Bool = __run();
 				publishAdapterResults();
 				return success;

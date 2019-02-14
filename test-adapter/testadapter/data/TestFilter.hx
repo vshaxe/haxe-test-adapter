@@ -79,6 +79,10 @@ class TestFilter {
 		return Path.join([baseFolder, Data.FOLDER, "filter.json"]);
 	}
 
+	public static function hasFilters(testFilters:TestFilterList):Bool {
+		return (testFilters != null) && (testFilters.length > 0);
+	}
+
 	public static function shouldRunTest(testFilters:TestFilterList, className:String, testName:String):Bool {
 		if (testFilters == null || testFilters.length <= 0) {
 			return true;

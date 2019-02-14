@@ -19,7 +19,12 @@ class Injector {
 				case EBlock(exprs):
 					switch (field.name) {
 						case "new":
-							exprs.push(macro addResultClient(new testadapter.munit.ResultClient($v{Sys.getCwd()})));
+							exprs.push(macro {
+								if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
+									testadapter.data.TestResults.clearResults($v{Sys.getCwd()});
+								}
+								addResultClient(new testadapter.munit.ResultClient($v{Sys.getCwd()}));
+							});
 						case _:
 					}
 				case _:
