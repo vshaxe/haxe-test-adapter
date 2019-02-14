@@ -5,6 +5,7 @@ checkstyle.json
 hxformat.json
 package-lock.json
 *.hxml
+*.zip
 src/**
 **/*.map
 .vscode/**
