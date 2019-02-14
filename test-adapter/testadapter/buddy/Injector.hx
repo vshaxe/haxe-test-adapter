@@ -46,7 +46,7 @@ class Injector {
 				case FFun(f): f;
 				case _: null;
 			}
-			if (f != null && field.name == "it") {
+			if (f != null && (field.name == "it" || field.name == "xit")) {
 				switch (f.expr.expr) {
 					case EBlock(exprs):
 						exprs.unshift(macro if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, currentSuite.description, desc)) {
