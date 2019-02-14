@@ -39,7 +39,7 @@ class Injector {
 				switch (testSpec) {
 					case Describe(_):
 					case It(description, _, _, pos, _):
-						adapterReporter.addPosition(pos.fileName, description, pos.lineNumber - 1);
+						adapterReporter.addPosition(testSuite.description, description, pos.fileName, pos.lineNumber - 1);
 				}
 				return __mapTestSpec(buddySuite, testSuite, beforeEachStack, afterEachStack, testSpec, done);
 			}

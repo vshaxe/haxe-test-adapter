@@ -14,7 +14,7 @@ class Main extends BuddySuite {
 
 	public function new() {
 		// A test suite:
-		describe("Using Buddy", {
+		describe("TestCase", {
 			beforeEach({});
 
 			it("should succeed", {

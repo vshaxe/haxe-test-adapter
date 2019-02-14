@@ -6,6 +6,7 @@ import testadapter.data.Data;
 import testadapter.data.TestResults;
 import buddy.reporting.ConsoleReporter;
 import buddy.BuddySuite.Spec;
+import buddy.BuddySuite.Step;
 import buddy.BuddySuite.Suite;
 
 class Reporter implements buddy.reporting.Reporter {
@@ -20,9 +21,9 @@ class Reporter implements buddy.reporting.Reporter {
 		this.baseReporter = baseReporter;
 	}
 
-	public function addPosition(fileName:String, description:String, lineNumber:Int) {
+	public function addPosition(suiteName, description:String, fileName:String, lineNumber:Int) {
 		var pos:Pos = {file: fileName, line: lineNumber};
-		testResults.positions.add(fileName, description, pos);
+		testResults.positions.add(suiteName, description, pos);
 	}
 
 	public function start() {
@@ -30,6 +31,30 @@ class Reporter implements buddy.reporting.Reporter {
 	}
 
 	public function progress(spec:Spec) {
+		return baseReporter.progress(spec);
+	}
+
+	public function done(suites:Iterable<Suite>, status:Bool) {
+		function iterateSteps(suiteName:String, steps:Array<Step>) {
+			for (step in steps) {
+				switch step {
+					case TSpec(spec):
+						reportSpec(suiteName, spec);
+					case TSuite(s):
+						suiteName = s.description;
+						iterateSteps(suiteName, s.steps);
+				}
+			}
+		}
+		for (suite in suites) {
+			iterateSteps("", suite.steps);
+		}
+
+		testResults.save();
+		return baseReporter.done(suites, status);
+	}
+
+	function reportSpec(suiteName:String, spec:Spec) {
 		switch (spec.status) {
 			case Failed:
 				var message:String = "";
@@ -49,19 +74,13 @@ class Reporter implements buddy.reporting.Reporter {
 						}
 					}
 				}
-				testResults.add(spec.fileName, spec.description, spec.time, Failure, message, lineNumber);
+				testResults.add(suiteName, spec.description, spec.time, Failure, message, lineNumber);
 			case Passed:
-				testResults.add(spec.fileName, spec.description, spec.time, Success);
+				testResults.add(suiteName, spec.description, spec.time, Success);
 			case Pending:
-				testResults.add(spec.fileName, spec.description, spec.time, Success);
+				testResults.add(suiteName, spec.description, spec.time, Success);
 			case Unknown:
-				testResults.add(spec.fileName, spec.description, spec.time, Error);
+				testResults.add(suiteName, spec.description, spec.time, Error);
 		}
-		return baseReporter.progress(spec);
-	}
-
-	public function done(suites:Iterable<Suite>, status:Bool) {
-		testResults.save();
-		return baseReporter.done(suites, status);
 	}
 }
