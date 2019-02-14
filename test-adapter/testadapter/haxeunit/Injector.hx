@@ -5,6 +5,7 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import testadapter.data.TestFilter;
 
+using testadapter.PatchTools;
 using StringTools;
 
 class Injector {
@@ -12,25 +13,9 @@ class Injector {
 		var fields = Context.getBuildFields();
 
 		for (field in fields) {
-			var f = switch (field.kind) {
-				case FFun(f): f;
-				case _: null;
-			}
-			if (f == null) {
-				continue;
-			}
 			switch (field.name) {
 				case "new":
-					switch (f.expr.expr) {
-						case EBlock(exprs):
-							exprs.push(macro {
-								if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
-									testadapter.data.TestResults.clear($v{Sys.getCwd()});
-								}
-								testResults = new testadapter.data.TestResults($v{Sys.getCwd()});
-							});
-						case _:
-					}
+					field.addInit(macro testResults = new testadapter.data.TestResults($v{Sys.getCwd()}));
 				case "run":
 					field.name = "__run";
 			}

@@ -4,31 +4,18 @@ package testadapter.utest;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 
+using testadapter.PatchTools;
+
 class Injector {
 	public static function build():Array<Field> {
 		var fields = Context.getBuildFields();
 		for (field in fields) {
-			var f = switch (field.kind) {
-				case FFun(f): f;
-				case _: null;
-			}
-			if (f == null) {
-				continue;
-			}
 			switch (field.name) {
 				case "new":
-					switch (f.expr.expr) {
-						case EBlock(exprs):
-							exprs.push(macro {
-								if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
-									testadapter.data.TestResults.clear($v{Sys.getCwd()});
-								}
-								new testadapter.utest.Reporter(this, $v{Sys.getCwd()});
-							});
-						case _:
-					}
+					field.addInit(macro new testadapter.utest.Reporter(this, $v{Sys.getCwd()}));
+
 				case "addITest":
-					f.expr = macro {
+					field.patch(Replace, macro {
 						if (iTestFixtures.exists(testCase)) {
 							throw "Cannot add the same test twice.";
 						}
@@ -54,7 +41,7 @@ class Injector {
 							fixtures: fixtures,
 							teardownClass: init.accessories.getTeardownClass()
 						});
-					};
+					});
 			}
 		}
 		return fields;
