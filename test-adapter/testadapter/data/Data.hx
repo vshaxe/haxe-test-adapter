@@ -2,6 +2,10 @@ package testadapter.data;
 
 import haxe.io.Path;
 import haxe.Json;
+#if (sys || hxnodejs)
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 class Data {
 	public static inline var FOLDER = ".unittest";
@@ -9,19 +13,18 @@ class Data {
 	public static function save(path:String, content:Any) {
 		#if (sys || hxnodejs)
 		var directory = Path.directory(path);
-		if (!sys.FileSystem.exists(directory)) {
-			sys.FileSystem.createDirectory(directory);
+		if (!FileSystem.exists(directory)) {
+			FileSystem.createDirectory(directory);
 		}
-		sys.io.File.saveContent(path, Json.stringify(content, "\t"));
+		File.saveContent(path, Json.stringify(content, "\t"));
 		#end
 	}
 
 	public static function clear(path:String) {
 		#if (sys || hxnodejs)
-		if (!sys.FileSystem.exists(path)) {
-			return;
+		if (FileSystem.exists(path)) {
+			FileSystem.deleteFile(path);
 		}
-		sys.FileSystem.deleteFile(path);
 		#end
 	}
 }

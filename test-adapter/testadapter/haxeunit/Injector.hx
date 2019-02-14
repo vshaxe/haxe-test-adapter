@@ -12,20 +12,34 @@ class Injector {
 		var fields = Context.getBuildFields();
 
 		for (field in fields) {
+			var f = switch (field.kind) {
+				case FFun(f): f;
+				case _: null;
+			}
+			if (f == null) {
+				continue;
+			}
 			switch (field.name) {
+				case "new":
+					switch (f.expr.expr) {
+						case EBlock(exprs):
+							exprs.push(macro {
+								if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
+									testadapter.data.TestResults.clear($v{Sys.getCwd()});
+								}
+								testResults = new testadapter.data.TestResults($v{Sys.getCwd()});
+							});
+						case _:
+					}
 				case "run":
 					field.name = "__run";
 			}
 		}
 
 		var extraFields = (macro class {
-			var testResults = new testadapter.data.TestResults($v{Sys.getCwd()});
+			var testResults:testadapter.data.TestResults;
 
 			public function run():Bool {
-				if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
-					testadapter.data.TestResults.clearResults($v{Sys.getCwd()});
-					testResults = new testadapter.data.TestResults($v{Sys.getCwd()});
-				}
 				var success:Bool = __run();
 				publishAdapterResults();
 				return success;

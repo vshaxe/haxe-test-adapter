@@ -49,12 +49,10 @@ class TestFilter {
 	function save(?baseFolder:String) {
 		#if (sys || nodejs)
 		var fileName:String = getFileName(baseFolder);
-		if (testFilters.length == 0) {
-			if (FileSystem.exists(fileName)) {
-				FileSystem.deleteFile(fileName);
-			}
-		} else {
+		if (hasFilters(testFilters)) {
 			Data.save(fileName, testFilters);
+		} else {
+			Data.clear(fileName);
 		}
 		#end
 	}
@@ -84,7 +82,7 @@ class TestFilter {
 	}
 
 	public static function shouldRunTest(testFilters:TestFilterList, className:String, testName:String):Bool {
-		if (testFilters == null || testFilters.length <= 0) {
+		if (!hasFilters(testFilters)) {
 			return true;
 		}
 		var location:String = '$className.$testName';

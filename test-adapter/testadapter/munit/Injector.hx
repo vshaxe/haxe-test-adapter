@@ -21,7 +21,7 @@ class Injector {
 						case "new":
 							exprs.push(macro {
 								if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
-									testadapter.data.TestResults.clearResults($v{Sys.getCwd()});
+									testadapter.data.TestResults.clear($v{Sys.getCwd()});
 								}
 								addResultClient(new testadapter.munit.ResultClient($v{Sys.getCwd()}));
 							});

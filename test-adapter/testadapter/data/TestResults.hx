@@ -58,7 +58,7 @@ class TestResults {
 		#end
 	}
 
-	public static function clearResults(baseFolder:String) {
+	public static function clear(baseFolder:String) {
 		#if (sys || nodejs)
 		Data.clear(getFileName(baseFolder));
 		#end

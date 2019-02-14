@@ -21,7 +21,7 @@ class Injector {
 						case EBlock(exprs):
 							exprs.push(macro {
 								if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
-									testadapter.data.TestResults.clearResults($v{Sys.getCwd()});
+									testadapter.data.TestResults.clear($v{Sys.getCwd()});
 								}
 								new testadapter.utest.Reporter(this, $v{Sys.getCwd()});
 							});
