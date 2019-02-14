@@ -31,6 +31,9 @@ class TestPositions {
 		if (testName == null) {
 			positions[className] = {methods: new Map<String, {line:Int}>(), pos: pos};
 		} else {
+			if (positions[className] == null) {
+				positions[className] = {methods: new Map<String, {line:Int}>(), pos: pos};
+			}
 			positions[className].methods[testName] = {line: pos.line};
 		}
 	}

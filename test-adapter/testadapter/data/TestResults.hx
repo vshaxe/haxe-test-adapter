@@ -12,8 +12,9 @@ import testadapter.data.Data;
 
 class TestResults {
 	var baseFolder:String;
-	var positions:TestPositions;
 	var suiteResults:TestSuiteResults;
+
+	public var positions:TestPositions;
 
 	public function new(baseFolder:String) {
 		this.baseFolder = baseFolder;
