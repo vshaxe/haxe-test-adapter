@@ -1,17 +1,15 @@
 import vscode.ExtensionContext;
-import vscode.testadapter.api.TestHub;
 import vscode.testadapter.util.Log;
 import vscode.testadapter.util.TestAdapterRegistrar;
 
 class Main {
 	final context:ExtensionContext;
-	final testHub:TestHub;
 
 	function new(context:ExtensionContext) {
 		this.context = context;
 
 		var channel = Vscode.window.createOutputChannel('Haxe Tests');
-		testHub = Vscode.extensions.getExtension("hbenl.vscode-test-explorer").exports;
+		var testHub = Vscode.extensions.getExtension("hbenl.vscode-test-explorer").exports;
 
 		var log = new Log("haxeTestAdapter", Vscode.workspace.workspaceFolders[0], "Haxe Test Adapter");
 		context.subscriptions.push(log);
@@ -25,7 +23,7 @@ class Main {
 	function updateHaxelib() {
 		Vscode.commands.registerCommand("haxeTestExplorer.setup", function() {
 			var terminal = Vscode.window.createTerminal();
-			terminal.sendText("haxelib dev test-adapter " + context.asAbsolutePath("test-adapter"));
+			terminal.sendText("haxelib dev test-adapter \"" + context.asAbsolutePath("test-adapter") + "\"");
 			terminal.show();
 			context.globalState.update("previousExtensionPath", context.extensionPath);
 		});

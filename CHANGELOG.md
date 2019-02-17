@@ -1,3 +1,7 @@
+## 1.1.1 (to be released)
+
+- fixed test-adapter setup with spaces in username
+
 ## 1.1.0 (February 14, 2019)
 
 - added support for the [buddy](https://github.com/ciscoheat/buddy) test framework
