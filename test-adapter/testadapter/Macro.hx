@@ -42,6 +42,9 @@ class Macro {
 		Compiler.addMetadata("@:build(testadapter.haxeunit.Injector.buildRunner())", "haxe.unit.TestRunner");
 		Compiler.addMetadata("@:autoBuild(testadapter.haxeunit.Injector.buildCase())", "haxe.unit.TestCase");
 
+		Compiler.addMetadata("@:build(testadapter.hexunit.Injector.buildCore())", "hex.unittest.runner.ExMachinaUnitCore");
+		Compiler.addMetadata("@:build(testadapter.hexunit.Injector.buildRunner())", "hex.unittest.runner.MethodRunner");
+
 		var testFilter = new TestFilter(Sys.getCwd());
 		filters = testFilter.get();
 		testFilter.clear();
