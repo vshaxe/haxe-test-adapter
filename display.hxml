@@ -2,4 +2,5 @@ build.hxml
 -lib munit
 -lib utest
 -lib buddy
+-lib hexunit
 -lib hx3compat
