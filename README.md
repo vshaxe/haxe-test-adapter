@@ -2,14 +2,13 @@
 
 [![Build Status](https://travis-ci.org/vshaxe/haxe-test-adapter.svg?branch=master)](https://travis-ci.org/vshaxe/haxe-test-adapter) [![Version](https://vsmarketplacebadge.apphb.com/version-short/vshaxe.haxe-test-adapter.svg)](https://marketplace.visualstudio.com/items?itemName=vshaxe.haxe-test-adapter) [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/vshaxe.haxe-test-adapter.svg)](https://marketplace.visualstudio.com/items?itemName=vshaxe.haxe-test-adapter)
 
-
 A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) extension.
 
 ![VSCode Test Adapter for Haxe](images/demo.gif)
 
 ## Features
 
-* Records [munit](https://github.com/massiveinteractive/MassiveUnit), [utest](https://github.com/haxe-utest/utest), [buddy](https://github.com/ciscoheat/buddy) and [haxe.unit](https://api.haxe.org/haxe/unit/TestRunner.html) test results as JSON files
+* Records [munit](https://github.com/massiveinteractive/MassiveUnit), [utest](https://github.com/haxe-utest/utest), [buddy](https://github.com/ciscoheat/buddy), [hexUnit](https://github.com/DoclerLabs/hexUnit) and [haxe.unit](https://api.haxe.org/haxe/unit/TestRunner.html) test results as JSON files
 * Shows latest test results in VSCode using the Test Explorer UI extension
 * Supports filtering / running individual tests directly from VSCode
 * Supports Haxe 3.4.7 and 4.0.0-rc.1 (detection of test function line numbers only works with Haxe 4)

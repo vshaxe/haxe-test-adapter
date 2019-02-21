@@ -1,5 +1,6 @@
-## 1.1.1 (to be released)
+## 1.2.0 (to be released)
 
+- added support for [hexUnit](https://github.com/DoclerLabs/hexUnit) test framework
 - fixed test-adapter setup with spaces in username
 
 ## 1.1.0 (February 14, 2019)
