@@ -54,6 +54,25 @@ class TestPositions {
 		};
 	}
 
+	public function resolveClassName(fileName:String, lineNumber:Int):Null<String> {
+		for (clazz in positions.keys()) {
+			var classPositions = positions.get(clazz);
+			if (classPositions.pos.file != fileName) {
+				continue;
+			}
+			if (classPositions.pos.line == lineNumber) {
+				return clazz;
+			}
+			for (method in classPositions.methods.keys()) {
+				var methodPos = classPositions.methods.get(method);
+				if (methodPos.line == lineNumber) {
+					return clazz;
+				}
+			}
+		}
+		return null;
+	}
+
 	public function save() {
 		#if (sys || nodejs)
 		Data.save(getFileName(baseFolder), positions);
