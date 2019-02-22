@@ -25,9 +25,9 @@ class Reporter implements tink.testrunner.Reporter {
 			case BatchStart:
 			case BatchFinish(_):
 				testResults.save();
-			case SuiteStart(info):
+			case SuiteStart(info,  _):
 				currentSuite = info.name;
-			case CaseStart(info):
+			case CaseStart(info, _):
 				currentCase = info.name;
 				var clazz:Null<String> = testResults.positions.resolveClassName(info.pos.fileName, info.pos.lineNumber - 1);
 				if (clazz != null) {
@@ -43,11 +43,13 @@ class Reporter implements tink.testrunner.Reporter {
 						}
 						testResults.add(currentSuite, currentCase, 0, TestState.Failure, msg, assertion.pos.lineNumber - 1);
 				}
-			case CaseFinish(results):
-				switch (results.results) {
-					case Success(_):
-					case Failure(msg):
-						testResults.add(currentSuite, currentCase, 0, TestState.Error, msg.toString(), results.info.pos.lineNumber);
+			case CaseFinish(result):
+				switch (result.result) {
+					case Failed(msg):
+						testResults.add(currentSuite, currentCase, 0, TestState.Error, msg.toString(), result.info.pos.lineNumber);
+					case Succeeded(_):					
+					case Excluded:
+						testResults.add(currentSuite, currentCase, 0, TestState.Ignore);
 				}
 			case SuiteFinish(_):
 		}

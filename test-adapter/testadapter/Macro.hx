@@ -46,7 +46,7 @@ class Macro {
 		// hexUnit
 		Compiler.addMetadata("@:build(testadapter.hexunit.Injector.buildCore())", "hex.unittest.runner.ExMachinaUnitCore");
 
-		// tink_testrunner
+		// tink_unittest
 		Compiler.addMetadata("@:build(testadapter.tinktestrunner.Injector.buildRunner())", "tink.testrunner.Runner");
 
 		// haxe.unit

@@ -24,7 +24,7 @@ class Injector {
 				adapterReporter = new testadapter.tinktestrunner.Reporter($v{Sys.getCwd()}, reporter);
 				return __run(batch, adapterReporter, timers);
 			}
-			static function runCase(caze:Case, suite:Suite, reporter:Reporter, timers:TimerManager):Future<CaseResult> {
+			static function runCase(caze:Case, suite:Suite, reporter:Reporter, timers:TimerManager, shouldRun:Bool):Future<CaseResult> {
 				var clazz:Null<String> = adapterReporter.testResults.positions.resolveClassName(caze.pos.fileName, caze.pos.lineNumber - 1);
 				if (clazz == null) {
 					clazz = suite.info.name;
@@ -33,11 +33,11 @@ class Injector {
 					return Future.async(function(cb) {
 						cb({
 							info: caze.info,
-							results: Outcome.Success([])
+							result: Succeeded([])
 						});
 					});
 				}
-				return __runCase(caze, suite, reporter, timers);
+				return __runCase(caze, suite, reporter, timers, shouldRun);
 			}
 		}).fields;
 		return fields.concat(extraFields);
