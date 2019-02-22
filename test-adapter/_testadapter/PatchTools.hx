@@ -25,8 +25,11 @@ class PatchTools {
 		}
 	}
 
-	public static function addInit(field:Field, init:Expr) {
-		patch(field, End, macro {
+	public static function addInit(field:Field, ?kind:PatchKind, init:Expr) {
+		if (kind == null) {
+			kind = End;
+		}
+		patch(field, kind, macro {
 			if (!_testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
 				_testadapter.data.TestResults.clear($v{Sys.getCwd()});
 			}
