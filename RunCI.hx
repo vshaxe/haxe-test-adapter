@@ -30,6 +30,7 @@ class RunCI {
 		buildSample("samples/haxeunit");
 		buildSample("samples/buddy");
 		buildSample("samples/hexunit");
+		buildSample("samples/tinktestrunner");
 
 		Sys.exit(success ? 0 : 1);
 	}
