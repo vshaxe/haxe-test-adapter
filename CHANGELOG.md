@@ -1,8 +1,9 @@
-## 1.2.0 (to be released)
+## 1.2.0 (February 23, 2019)
 
 - added support for the [hexUnit](https://github.com/DoclerLabs/hexUnit) test framework
 - added support for the [tink_unittest](https://github.com/haxetink/tink_unittest) test framework
 - fixed test-adapter setup with spaces in username
+- improved behavior during code completion
 
 ## 1.1.0 (February 14, 2019)
 

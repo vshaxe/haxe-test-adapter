@@ -7,8 +7,8 @@
 		"testing"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "1.1.0",
-	"releasenote": "Added buddy support, fixed handling of removed tests.",
+	"version": "1.2.0",
+	"releasenote": "Added hexUnit and tink_unittest support.",
 	"contributors": [
 		"AlexHaxe",
 		"Gama11"
