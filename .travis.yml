@@ -15,7 +15,7 @@ install:
   - haxelib install hx3compat
   - haxelib install buddy
   - haxelib install hexunit
-  - haxelib install tink_unittest
+  - yes | haxelib install tink_unittest
   - haxelib dev test-adapter test-adapter
 
 script:
