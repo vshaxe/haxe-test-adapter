@@ -36,8 +36,6 @@ class Macro {
 		require("hexunit", "0.35.0");
 		require("tink_unittest", "0.6.0");
 
-		Sys.println("test-adapter is recording results...\n");
-
 		// record positions / line numbers
 		Compiler.addGlobalMetadata("", "@:build(_testadapter.Macro.build())", true, true, false);
 
@@ -67,7 +65,11 @@ class Macro {
 		testFilter.clear();
 
 		Context.onGenerate(function(_) {
-			positions.save();
+			// no side effects for caching, only actual builds
+			if (Sys.args().indexOf("--no-output") == -1) {
+				Sys.println("test-adapter is recording results...\n");
+				positions.save();
+			}
 		});
 	}
 
