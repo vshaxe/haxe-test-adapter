@@ -1,4 +1,4 @@
-package testadapter.tinktestrunner;
+package testadapter.tink_unittest;
 
 import testadapter.data.Data;
 import testadapter.data.TestResults;
@@ -25,7 +25,7 @@ class Reporter implements tink.testrunner.Reporter {
 			case BatchStart:
 			case BatchFinish(_):
 				testResults.save();
-			case SuiteStart(info,  _):
+			case SuiteStart(info, _):
 				currentSuite = info.name;
 			case CaseStart(info, _):
 				currentCase = info.name;
@@ -47,7 +47,7 @@ class Reporter implements tink.testrunner.Reporter {
 				switch (result.result) {
 					case Failed(msg):
 						testResults.add(currentSuite, currentCase, 0, TestState.Error, msg.toString(), result.info.pos.lineNumber);
-					case Succeeded(_):					
+					case Succeeded(_):
 					case Excluded:
 						testResults.add(currentSuite, currentCase, 0, TestState.Ignore);
 				}

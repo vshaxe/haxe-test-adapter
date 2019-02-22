@@ -1,4 +1,4 @@
-package testadapter.tinktestrunner;
+package testadapter.tink_unittest;
 
 #if macro
 import haxe.macro.Context;
@@ -16,12 +16,12 @@ class Injector {
 		}
 
 		var extraFields = (macro class {
-			static var adapterReporter:testadapter.tinktestrunner.Reporter;
+			static var adapterReporter:testadapter.tink_unittest.Reporter;
 			public static function run(batch:Batch, ?reporter:Reporter, ?timers:TimerManager):Future<BatchResult> {
 				if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
 					testadapter.data.TestResults.clear($v{Sys.getCwd()});
 				}
-				adapterReporter = new testadapter.tinktestrunner.Reporter($v{Sys.getCwd()}, reporter);
+				adapterReporter = new testadapter.tink_unittest.Reporter($v{Sys.getCwd()}, reporter);
 				return __run(batch, adapterReporter, timers);
 			}
 			static function runCase(caze:Case, suite:Suite, reporter:Reporter, timers:TimerManager, shouldRun:Bool):Future<CaseResult> {
