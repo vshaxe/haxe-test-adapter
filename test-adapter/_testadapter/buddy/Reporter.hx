@@ -1,7 +1,5 @@
 package _testadapter.buddy;
 
-import _testadapter.data.Data.TestState;
-import haxe.CallStack;
 import _testadapter.data.Data;
 import _testadapter.data.TestResults;
 import buddy.reporting.ConsoleReporter;

@@ -12,42 +12,36 @@ class Injector {
 		for (field in fields) {
 			switch (field.name) {
 				case "new":
-					field.addInit(macro {
-						addListener(new _testadapter.hexunit.Notifier($v{Sys.getCwd()}));
-					});
+					field.addInit(macro addListener(new _testadapter.hexunit.Notifier($v{Sys.getCwd()})));
 				case "run":
-					field.name = "__run";
+					field.patch(Start, macro {
+						var filters = $v{Macro.filters};
+						if (filters.length > 0) {
+							var filteredClassDescriptors:Array<hex.unittest.description.ClassDescriptor> = [];
+
+							for (desc in _classDescriptors) {
+								if (filters.indexOf(desc.className) >= 0) {
+									filteredClassDescriptors.push(desc);
+									continue;
+								}
+								var filteredMethodDescriptors:Array<hex.unittest.description.MethodDescriptor> = [];
+								for (method in desc.methodDescriptors) {
+									if (filters.indexOf(desc.className + "." + method.methodName) >= 0) {
+										filteredMethodDescriptors.push(method);
+									}
+								}
+								if (filteredMethodDescriptors.length > 0) {
+									desc.methodDescriptors = filteredMethodDescriptors;
+									filteredClassDescriptors.push(desc);
+								}
+							}
+							_classDescriptors = filteredClassDescriptors;
+						}
+					});
 				case _:
 			}
 		}
-		var extraFields = (macro class {
-			public function run() {
-				var filters = $v{Macro.filters};
-				if (filters.length > 0) {
-					var filteredClassDescriptors:Array<hex.unittest.description.ClassDescriptor> = [];
-
-					for (desc in _classDescriptors) {
-						if (filters.indexOf(desc.className) >= 0) {
-							filteredClassDescriptors.push(desc);
-							continue;
-						}
-						var filteredMethodDescriptors:Array<hex.unittest.description.MethodDescriptor> = [];
-						for (method in desc.methodDescriptors) {
-							if (filters.indexOf(desc.className + "." + method.methodName) >= 0) {
-								filteredMethodDescriptors.push(method);
-							}
-						}
-						if (filteredMethodDescriptors.length > 0) {
-							desc.methodDescriptors = filteredMethodDescriptors;
-							filteredClassDescriptors.push(desc);
-						}
-					}
-					_classDescriptors = filteredClassDescriptors;
-				}
-				__run();
-			}
-		}).fields;
-		return fields.concat(extraFields);
+		return fields;
 	}
 }
 #end

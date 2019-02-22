@@ -1,13 +1,10 @@
 package _testadapter.hexunit;
 
-import _testadapter.data.Data;
 import _testadapter.data.TestResults;
-import hex.unittest.assertion.Assert;
 import hex.unittest.description.ClassDescriptor;
 import hex.unittest.error.AssertException;
 import hex.unittest.event.ITestClassResultListener;
 
-using tink.CoreApi;
 using hex.unittest.description.ClassDescriptorUtil;
 
 class Notifier implements ITestClassResultListener {
@@ -55,7 +52,7 @@ class Notifier implements ITestClassResultListener {
 
 	function getLineNumber(error:hex.error.Exception):Null<Int> {
 		if (Std.is(error, AssertException)) {
-			return (cast(error, AssertException)).posInfos.lineNumber - 1;
+			return (cast error : AssertException).posInfos.lineNumber - 1;
 		}
 		return null;
 	}

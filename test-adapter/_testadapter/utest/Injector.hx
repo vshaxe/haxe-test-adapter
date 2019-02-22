@@ -13,7 +13,6 @@ class Injector {
 			switch (field.name) {
 				case "new":
 					field.addInit(macro new _testadapter.utest.Reporter(this, $v{Sys.getCwd()}));
-
 				case "addITest":
 					field.patch(Replace, macro {
 						if (iTestFixtures.exists(testCase)) {

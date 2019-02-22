@@ -56,6 +56,6 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 
 	public function setCurrentTestClassCoverage(result:CoverageResult) {}
 
-	public function reportFinalCoverage(?percent:Float = 0, missingCoverageResults:Array<CoverageResult>, summary:String, ?classBreakdown:String = null,
-		?packageBreakdown:String = null, ?executionFrequency:String = null) {}
+	public function reportFinalCoverage(?percent:Float = 0, missingCoverageResults:Array<CoverageResult>, summary:String, ?classBreakdown:String,
+		?packageBreakdown:String, ?executionFrequency:String) {}
 }
