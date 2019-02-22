@@ -43,7 +43,12 @@ class Reporter implements tink.testrunner.Reporter {
 						}
 						testResults.add(currentSuite, currentCase, 0, TestState.Failure, msg, assertion.pos.lineNumber - 1);
 				}
-			case CaseFinish(_):
+			case CaseFinish(results):
+				switch (results.results) {
+					case Success(_):
+					case Failure(msg):
+						testResults.add(currentSuite, currentCase, 0, TestState.Error, msg.toString(), results.info.pos.lineNumber - 1);
+				}
 			case SuiteFinish(_):
 		}
 		return reporter.report(type);

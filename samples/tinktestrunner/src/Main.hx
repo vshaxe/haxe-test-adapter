@@ -21,9 +21,10 @@ class TestCase {
 		return Assert.assert("A" == "B");
 	}
 
-	// public function testError() {
-	// 	throw "failure";
-	// }
+	public function testError() {
+		return new tink.core.Error("failure");
+	}
+
 	public function testEmpty() {
 		return asserts.done();
 	}
