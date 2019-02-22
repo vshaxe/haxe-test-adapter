@@ -6,10 +6,11 @@ import testadapter.data.TestResults;
 using tink.CoreApi;
 
 class Reporter implements tink.testrunner.Reporter {
-	var testResults:TestResults;
 	var reporter:tink.testrunner.Reporter;
 	var currentSuite:String;
 	var currentCase:String;
+
+	public var testResults:TestResults;
 
 	public function new(baseFolder:String, reporter:tink.testrunner.Reporter) {
 		testResults = new TestResults(baseFolder);
@@ -28,6 +29,10 @@ class Reporter implements tink.testrunner.Reporter {
 				currentSuite = info.name;
 			case CaseStart(info):
 				currentCase = info.name;
+				var clazz:Null<String> = testResults.positions.resolveClassName(info.pos.fileName, info.pos.lineNumber - 1);
+				if (clazz != null) {
+					currentSuite = clazz;
+				}
 			case Assertion(assertion):
 				switch (assertion.holds) {
 					case Success(_):
