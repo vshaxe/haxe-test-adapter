@@ -46,7 +46,7 @@ class Reporter implements tink.testrunner.Reporter {
 			case CaseFinish(result):
 				switch (result.result) {
 					case Failed(msg):
-						testResults.add(currentSuite, currentCase, 0, TestState.Error, msg.toString(), result.info.pos.lineNumber - 1);
+						testResults.add(currentSuite, currentCase, 0, TestState.Error, msg.toString(), result.info.pos.lineNumber);
 					case Succeeded(_):
 					case Excluded:
 						testResults.add(currentSuite, currentCase, 0, TestState.Ignore);
