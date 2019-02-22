@@ -8,9 +8,6 @@
 			"type": "ArrayLiteral"
 		},
 		{
-			"type": "AvoidStarImport"
-		},
-		{
 			"props": {
 				"format": "^(e)$"
 			},

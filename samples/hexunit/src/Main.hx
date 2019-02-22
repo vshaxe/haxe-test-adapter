@@ -1,13 +1,13 @@
 import tests.TestCase3;
-import hex.unittest.runner.ExMachinaUnitCore;
 import hex.unittest.assertion.Assert;
-import hex.unittest.notifier.ConsoleNotifier;
+import hex.unittest.runner.ExMachinaUnitCore;
+import hex.unittest.notifier.TraceNotifier;
 
 class Main {
 	static function main() {
 		var emu = new ExMachinaUnitCore();
 
-		emu.addListener(new ConsoleNotifier());
+		emu.addListener(new TraceNotifier());
 		emu.addTest(TestCase);
 		emu.addTest(TestCase2);
 		emu.addTest(TestCase3);
@@ -16,30 +16,30 @@ class Main {
 }
 
 class TestCase {
-	@Test("Description")
+	@Test
 	function testSuccess() {
 		Assert.isTrue(true);
 	}
 
-	@Test("Description")
+	@Test
 	function testFailure() {
 		Assert.equals("A", "B");
 	}
 
-	@Test("Description")
+	@Test
 	function testError() {
 		throw "failure";
 	}
 
-	@Test("Description")
+	@Test
 	function testEmpty() {}
 
-	@Ignore("Description")
+	@Ignore
 	function testIgnore() {}
 }
 
 class TestCase2 {
-	@Test("Description")
+	@Test
 	function testSuccess() {
 		Assert.isTrue(true);
 	}
