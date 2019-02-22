@@ -29,20 +29,28 @@ class Macro {
 
 		Sys.println("test-adapter is recording results...\n");
 
+		// record positions / line numbers
 		Compiler.addGlobalMetadata("", "@:build(testadapter.Macro.build())", true, true, false);
 
+		// munit
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
 		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");
-
+		// utest
 		Compiler.addMetadata("@:build(testadapter.utest.Injector.build())", "utest.Runner");
 
+		// buddy
 		Compiler.addMetadata("@:build(testadapter.buddy.Injector.buildSuite())", "buddy.BuddySuite");
 		Compiler.addMetadata("@:build(testadapter.buddy.Injector.buildRunner())", "buddy.SuitesRunner");
 
+		// haxe.unit
 		Compiler.addMetadata("@:build(testadapter.haxeunit.Injector.buildRunner())", "haxe.unit.TestRunner");
 		Compiler.addMetadata("@:autoBuild(testadapter.haxeunit.Injector.buildCase())", "haxe.unit.TestCase");
 
+		// hexUnit
 		Compiler.addMetadata("@:build(testadapter.hexunit.Injector.buildCore())", "hex.unittest.runner.ExMachinaUnitCore");
+
+		// tink_testrunner
+		Compiler.addMetadata("@:build(testadapter.tinktestrunner.Injector.buildRunner())", "tink.testrunner.Runner");
 
 		var testFilter = new TestFilter(Sys.getCwd());
 		filters = testFilter.get();
