@@ -18,14 +18,23 @@ class Macro {
 	static var positions = new TestPositions(Sys.getCwd(), new Positions());
 	public static var filters(default, null):Array<String>;
 
-	public static function init() {
-		var utest = Context.definedValue("utest");
-		if (utest != null) {
-			var v = utest.split(".").map(Std.parseInt);
-			if (v[0] == 1 && v[1] <= 9 && v[2] <= 1) {
-				Context.fatalError('test-adapter requires utest 1.9.2 or newer, found $utest', Context.currentPos());
+	static function require(lib:String, minVersion:String) {
+		var version = Context.definedValue(lib);
+		if (version != null) {
+			var a = version.split(".").map(Std.parseInt);
+			var b = minVersion.split(".").map(Std.parseInt);
+			if (a[0] < b[0] || a[1] < b[1] || a[2] < b[2]) {
+				Context.fatalError('test-adapter requires $lib $minVersion or newer, found $version', Context.currentPos());
 			}
 		}
+	}
+
+	public static function init() {
+		require("munit", "2.3.3");
+		require("utest", "1.9.2");
+		require("buddy", "2.10.0");
+		require("hexunit", "0.35.0");
+		require("tink_unittest", "0.6.0");
 
 		Sys.println("test-adapter is recording results...\n");
 
