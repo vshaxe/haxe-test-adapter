@@ -1,17 +1,17 @@
-package testadapter.munit;
+package _testadapter.munit;
 
 #if macro
 import haxe.macro.Context;
 import haxe.macro.Expr;
 
-using testadapter.PatchTools;
+using _testadapter.PatchTools;
 
 class Injector {
 	public static function buildRunner():Array<Field> {
 		var fields = Context.getBuildFields();
 		for (field in fields) {
 			if (field.name == "new") {
-				field.addInit(macro addResultClient(new testadapter.munit.ResultClient($v{Sys.getCwd()})));
+				field.addInit(macro addResultClient(new _testadapter.munit.ResultClient($v{Sys.getCwd()})));
 			}
 		}
 		return fields;
@@ -29,7 +29,7 @@ class Injector {
 						after = nullFunc;
 					});
 				case "addTest":
-					field.patch(Start, macro if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, className, field)) {
+					field.patch(Start, macro if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, className, field)) {
 						return;
 					});
 				case _:

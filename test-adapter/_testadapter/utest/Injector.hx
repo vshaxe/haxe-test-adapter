@@ -1,10 +1,10 @@
-package testadapter.utest;
+package _testadapter.utest;
 
 #if macro
 import haxe.macro.Context;
 import haxe.macro.Expr;
 
-using testadapter.PatchTools;
+using _testadapter.PatchTools;
 
 class Injector {
 	public static function build():Array<Field> {
@@ -12,7 +12,7 @@ class Injector {
 		for (field in fields) {
 			switch (field.name) {
 				case "new":
-					field.addInit(macro new testadapter.utest.Reporter(this, $v{Sys.getCwd()}));
+					field.addInit(macro new _testadapter.utest.Reporter(this, $v{Sys.getCwd()}));
 
 				case "addITest":
 					field.patch(Replace, macro {
@@ -26,7 +26,7 @@ class Injector {
 								continue;
 							}
 							var cls:String = Type.getClassName(Type.getClass(testCase));
-							if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, cls, test.name)) {
+							if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, cls, test.name)) {
 								continue;
 							}
 							var fixture = utest.TestFixture.ofData(testCase, test, init.accessories);

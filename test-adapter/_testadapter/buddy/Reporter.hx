@@ -1,9 +1,9 @@
-package testadapter.buddy;
+package _testadapter.buddy;
 
-import testadapter.data.Data.TestState;
+import _testadapter.data.Data.TestState;
 import haxe.CallStack;
-import testadapter.data.Data;
-import testadapter.data.TestResults;
+import _testadapter.data.Data;
+import _testadapter.data.TestResults;
 import buddy.reporting.ConsoleReporter;
 import buddy.BuddySuite.Spec;
 import buddy.BuddySuite.Step;

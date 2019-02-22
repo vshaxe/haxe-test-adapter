@@ -1,4 +1,4 @@
-package testadapter;
+package _testadapter;
 
 import haxe.macro.Compiler;
 import haxe.macro.Context;
@@ -8,8 +8,8 @@ import haxe.macro.Type;
 #if (haxe_ver >= 4)
 import haxe.display.Position.Location;
 #end
-import testadapter.data.TestPositions;
-import testadapter.data.TestFilter;
+import _testadapter.data.TestPositions;
+import _testadapter.data.TestFilter;
 
 using StringTools;
 
@@ -30,7 +30,7 @@ class Macro {
 	}
 
 	public static function init() {
-		require("munit", "2.3.3");
+		require("munit", "2.3.2");
 		require("utest", "1.9.2");
 		require("buddy", "2.10.0");
 		require("hexunit", "0.35.0");
@@ -39,28 +39,28 @@ class Macro {
 		Sys.println("test-adapter is recording results...\n");
 
 		// record positions / line numbers
-		Compiler.addGlobalMetadata("", "@:build(testadapter.Macro.build())", true, true, false);
+		Compiler.addGlobalMetadata("", "@:build(_testadapter.Macro.build())", true, true, false);
 
 		// munit
-		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
-		Compiler.addMetadata("@:build(testadapter.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");
+		Compiler.addMetadata("@:build(_testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
+		Compiler.addMetadata("@:build(_testadapter.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");
 
 		// utest
-		Compiler.addMetadata("@:build(testadapter.utest.Injector.build())", "utest.Runner");
+		Compiler.addMetadata("@:build(_testadapter.utest.Injector.build())", "utest.Runner");
 
 		// buddy
-		Compiler.addMetadata("@:build(testadapter.buddy.Injector.buildSuite())", "buddy.BuddySuite");
-		Compiler.addMetadata("@:build(testadapter.buddy.Injector.buildRunner())", "buddy.SuitesRunner");
+		Compiler.addMetadata("@:build(_testadapter.buddy.Injector.buildSuite())", "buddy.BuddySuite");
+		Compiler.addMetadata("@:build(_testadapter.buddy.Injector.buildRunner())", "buddy.SuitesRunner");
 
 		// hexUnit
-		Compiler.addMetadata("@:build(testadapter.hexunit.Injector.buildCore())", "hex.unittest.runner.ExMachinaUnitCore");
+		Compiler.addMetadata("@:build(_testadapter.hexunit.Injector.buildCore())", "hex.unittest.runner.ExMachinaUnitCore");
 
 		// tink_unittest
-		Compiler.addMetadata("@:build(testadapter.tink_unittest.Injector.buildRunner())", "tink.testrunner.Runner");
+		Compiler.addMetadata("@:build(_testadapter.tink_unittest.Injector.buildRunner())", "tink.testrunner.Runner");
 
 		// haxe.unit
-		Compiler.addMetadata("@:build(testadapter.haxeunit.Injector.buildRunner())", "haxe.unit.TestRunner");
-		Compiler.addMetadata("@:autoBuild(testadapter.haxeunit.Injector.buildCase())", "haxe.unit.TestCase");
+		Compiler.addMetadata("@:build(_testadapter.haxeunit.Injector.buildRunner())", "haxe.unit.TestRunner");
+		Compiler.addMetadata("@:autoBuild(_testadapter.haxeunit.Injector.buildCase())", "haxe.unit.TestCase");
 
 		var testFilter = new TestFilter(Sys.getCwd());
 		filters = testFilter.get();

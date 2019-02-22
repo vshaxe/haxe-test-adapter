@@ -1,11 +1,11 @@
-package testadapter.haxeunit;
+package _testadapter.haxeunit;
 
 #if macro
 import haxe.macro.Context;
 import haxe.macro.Expr;
-import testadapter.data.TestFilter;
+import _testadapter.data.TestFilter;
 
-using testadapter.PatchTools;
+using _testadapter.PatchTools;
 using StringTools;
 
 class Injector {
@@ -15,14 +15,14 @@ class Injector {
 		for (field in fields) {
 			switch (field.name) {
 				case "new":
-					field.addInit(macro testResults = new testadapter.data.TestResults($v{Sys.getCwd()}));
+					field.addInit(macro testResults = new _testadapter.data.TestResults($v{Sys.getCwd()}));
 				case "run":
 					field.name = "__run";
 			}
 		}
 
 		var extraFields = (macro class {
-			var testResults:testadapter.data.TestResults;
+			var testResults:_testadapter.data.TestResults;
 
 			public function run():Bool {
 				var success:Bool = __run();
@@ -33,7 +33,7 @@ class Injector {
 			@:access(haxe.unit.TestResult)
 			function publishAdapterResults() {
 				for (r in result.m_tests) {
-					var state:testadapter.data.Data.TestState = Failure;
+					var state:_testadapter.data.Data.TestState = Failure;
 					var errorLine:Null<Int> = null;
 					if (r.success) {
 						state = Success;

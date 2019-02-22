@@ -1,4 +1,4 @@
-package testadapter.data;
+package _testadapter.data;
 
 import haxe.io.Path;
 #if (sys || nodejs)
@@ -8,7 +8,7 @@ import sys.io.File;
 #if !macro
 import json2object.JsonParser;
 #end
-import testadapter.data.Data;
+import _testadapter.data.Data;
 
 typedef ClassPosition = {
 	methods:Map<String, {line:Int}>,

@@ -1,7 +1,7 @@
-package testadapter.hexunit;
+package _testadapter.hexunit;
 
-import testadapter.data.Data;
-import testadapter.data.TestResults;
+import _testadapter.data.Data;
+import _testadapter.data.TestResults;
 import hex.unittest.assertion.Assert;
 import hex.unittest.description.ClassDescriptor;
 import hex.unittest.error.AssertException;

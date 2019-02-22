@@ -1,4 +1,4 @@
-package testadapter.data;
+package _testadapter.data;
 
 import haxe.io.Path;
 #if (sys || nodejs)

@@ -1,4 +1,4 @@
-package testadapter.data;
+package _testadapter.data;
 
 import haxe.Timer;
 import haxe.io.Path;
@@ -7,7 +7,7 @@ import json2object.JsonParser;
 import sys.FileSystem;
 import sys.io.File;
 #end
-import testadapter.data.Data;
+import _testadapter.data.Data;
 
 class TestResults {
 	var baseFolder:String;

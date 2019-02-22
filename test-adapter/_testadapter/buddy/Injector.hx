@@ -1,10 +1,10 @@
-package testadapter.buddy;
+package _testadapter.buddy;
 
 #if macro
 import haxe.macro.Context;
 import haxe.macro.Expr;
 
-using testadapter.PatchTools;
+using _testadapter.PatchTools;
 
 class Injector {
 	public static function buildRunner():Array<Field> {
@@ -13,7 +13,7 @@ class Injector {
 			switch (field.name) {
 				case "new":
 					field.addInit(macro {
-						adapterReporter = new testadapter.buddy.Reporter($v{Sys.getCwd()}, reporter);
+						adapterReporter = new _testadapter.buddy.Reporter($v{Sys.getCwd()}, reporter);
 						this.reporter = adapterReporter;
 					});
 				case "mapTestSpec":
@@ -27,7 +27,7 @@ class Injector {
 		}
 
 		var extraFields = (macro class {
-			var adapterReporter:testadapter.buddy.Reporter;
+			var adapterReporter:_testadapter.buddy.Reporter;
 		}).fields;
 		return fields.concat(extraFields);
 	}
@@ -36,7 +36,7 @@ class Injector {
 		var fields = Context.getBuildFields();
 		for (field in fields) {
 			if (field.name == "it" || field.name == "xit") {
-				field.patch(Start, macro if (!testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, currentSuite.description, desc)) {
+				field.patch(Start, macro if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, currentSuite.description, desc)) {
 					return;
 				});
 			}

@@ -1,10 +1,10 @@
-package testadapter.hexunit;
+package _testadapter.hexunit;
 
 #if macro
 import haxe.macro.Context;
 import haxe.macro.Expr;
 
-using testadapter.PatchTools;
+using _testadapter.PatchTools;
 
 class Injector {
 	public static function buildCore():Array<Field> {
@@ -13,7 +13,7 @@ class Injector {
 			switch (field.name) {
 				case "new":
 					field.addInit(macro {
-						addListener(new testadapter.hexunit.Notifier($v{Sys.getCwd()}));
+						addListener(new _testadapter.hexunit.Notifier($v{Sys.getCwd()}));
 					});
 				case "run":
 					field.name = "__" + field.name;

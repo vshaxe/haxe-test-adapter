@@ -1,8 +1,8 @@
-package testadapter.utest;
+package _testadapter.utest;
 
-import testadapter.data.Data.TestState;
+import _testadapter.data.Data.TestState;
 import haxe.CallStack;
-import testadapter.data.TestResults;
+import _testadapter.data.TestResults;
 import utest.Assertation;
 import utest.Runner;
 import utest.ui.common.ClassResult;

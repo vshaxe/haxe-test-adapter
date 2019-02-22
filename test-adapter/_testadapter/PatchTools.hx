@@ -1,9 +1,9 @@
-package testadapter;
+package _testadapter;
 
 #if macro
 import haxe.macro.Expr;
 import haxe.macro.Expr.Field;
-import testadapter.Macro;
+import _testadapter.Macro;
 
 class PatchTools {
 	public static function patch(field:Field, kind:PatchKind, expr:Expr) {
@@ -27,8 +27,8 @@ class PatchTools {
 
 	public static function addInit(field:Field, init:Expr) {
 		patch(field, End, macro {
-			if (!testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
-				testadapter.data.TestResults.clear($v{Sys.getCwd()});
+			if (!_testadapter.data.TestFilter.hasFilters($v{Macro.filters})) {
+				_testadapter.data.TestResults.clear($v{Sys.getCwd()});
 			}
 			$init;
 		});
