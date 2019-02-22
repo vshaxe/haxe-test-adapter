@@ -30,6 +30,10 @@ class Macro {
 	}
 
 	public static function init() {
+		if (Context.defined("display")) {
+			return;
+		}
+
 		require("munit", "2.3.2");
 		require("utest", "1.9.2");
 		require("buddy", "2.10.0");
