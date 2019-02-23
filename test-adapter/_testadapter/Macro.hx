@@ -59,6 +59,7 @@ class Macro {
 
 		// tink_unittest
 		Compiler.addMetadata("@:build(_testadapter.tink_unittest.Injector.buildRunner())", "tink.testrunner.Runner");
+		Compiler.addMetadata("@:build(_testadapter.tink_unittest.Injector.buildCase())", "tink.testrunner.Case");
 
 		// haxe.unit
 		Compiler.addMetadata("@:build(_testadapter.haxeunit.Injector.buildRunner())", "haxe.unit.TestRunner");

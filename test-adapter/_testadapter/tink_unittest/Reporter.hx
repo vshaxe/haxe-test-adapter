@@ -29,10 +29,6 @@ class Reporter implements tink.testrunner.Reporter {
 				currentSuite = info.name;
 			case CaseStart(info, _):
 				currentCase = info.name;
-				var clazz:Null<String> = testResults.positions.resolveClassName(info.pos.fileName, info.pos.lineNumber - 1);
-				if (clazz != null) {
-					currentSuite = clazz;
-				}
 			case Assertion(assertion):
 				switch (assertion.holds) {
 					case Success(_):
