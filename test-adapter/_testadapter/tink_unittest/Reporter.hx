@@ -26,7 +26,7 @@ class Reporter implements tink.testrunner.Reporter {
 			case BatchFinish(_):
 				testResults.save();
 			case SuiteStart(info, _):
-				currentSuite = info.name;
+				currentSuite = info.name + ' [' + info.pos.fileName + ':' + info.pos.lineNumber + ']';
 			case CaseStart(info, _):
 				currentCase = info.name;
 			case Assertion(assertion):

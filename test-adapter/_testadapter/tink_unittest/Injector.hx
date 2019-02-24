@@ -13,8 +13,10 @@ class Injector {
 		for (field in fields) {
 			switch (field.name) {
 				case "shouldRun":
-					field.patch(Start, macro if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, this.suite.info.name, this.info.name))
-						return false);
+					field.patch(Start,
+						macro if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters},
+								this.suite.info.name + ' [' + this.suite.info.pos.fileName + ':' + this.suite.info.pos.lineNumber + ']', this.info.name))
+							return false);
 			}
 		}
 
