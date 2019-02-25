@@ -24,7 +24,7 @@ class Injector {
 							if (!isTestFixtureName(test.name, ["test", "spec"], pattern, globalPattern)) {
 								continue;
 							}
-							var cls:String = Type.getClassName(Type.getClass(testCase));
+							var cls:_testadapter.data.Data.SuiteId = ClassName(Type.getClassName(Type.getClass(testCase)));
 							if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, cls, test.name)) {
 								continue;
 							}

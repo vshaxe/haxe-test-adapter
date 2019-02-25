@@ -29,8 +29,11 @@ class Injector {
 						after = nullFunc;
 					});
 				case "addTest":
-					field.patch(Start, macro if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, className, field)) {
-						return;
+					field.patch(Start, macro {
+						var suiteId:_testadapter.data.Data.SuiteId = ClassName(className);
+						if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, suiteId, field)) {
+							return;
+						}
 					});
 				case _:
 			}

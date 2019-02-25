@@ -60,7 +60,7 @@ class Reporter implements IReport<Reporter> {
 						}
 					}
 					var dotPath = if (packageName == "") className else '$packageName.$className';
-					testResults.add(dotPath, testName, 0, state, message, errorLine);
+					testResults.add(ClassName(dotPath), TestName(testName), 0, state, message, errorLine);
 				}
 			}
 		}

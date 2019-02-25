@@ -130,14 +130,14 @@ class HaxeTestAdapter {
 			var classInfo:TestSuiteInfo = {
 				type: "suite",
 				label: clazz.name,
-				id: clazz.name,
+				id: clazz.id,
 				children: classChilds
 			};
 			ArraySort.sort(clazz.methods, sortByLine);
 			for (test in clazz.methods) {
 				var testInfo:TestInfo = {
 					type: "test",
-					id: clazz.name + "." + test.name,
+					id: clazz.id + "." + test.name,
 					label: test.name,
 				};
 				if (clazz.pos != null && clazz.pos.file != null) {
@@ -176,7 +176,7 @@ class HaxeTestAdapter {
 				}
 				var event:TestEvent = {
 					type: Test,
-					test: clazz.name + "." + test.name,
+					test: clazz.id + "." + test.name,
 					state: testState,
 					message: test.message
 				};

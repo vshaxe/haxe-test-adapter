@@ -35,6 +35,7 @@ typedef TestSuiteResults = {
 }
 
 typedef TestClassResults = {
+	var id:String;
 	var name:String;
 	var methods:Array<TestMethodResults>;
 	@:optional var pos:Pos;
@@ -60,4 +61,29 @@ typedef TestMethodResults = {
 typedef Pos = {
 	var file:String;
 	var line:Int;
+}
+
+enum SuiteIdentifier {
+	ClassName(className:String);
+	SuiteNameAndPos(name:String, fileName:String, lineNumber:Int);
+	SuiteNameAndFile(name:String, fileName:String);
+}
+
+enum TestIdentifier {
+	TestName(name:String);
+	TestNameAndPos(name:String, fileName:String, lineNumber:Int);
+}
+
+abstract SuiteId(SuiteIdentifier) from SuiteIdentifier to SuiteIdentifier {
+	@:to
+	public function toString():String {
+		switch (this) {
+			case ClassName(className):
+				return className;
+			case SuiteNameAndPos(name, fileName, lineNumber):
+				return '$name [$fileName:$lineNumber]';
+			case SuiteNameAndFile(name, fileName):
+				return '$name [$fileName]';
+		}
+	}
 }

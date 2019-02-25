@@ -5,6 +5,7 @@ class Main {
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new TestCase());
 		runner.add(new TestCase2());
+		runner.add(new tests.TestCase());
 		runner.add(new TestCase3());
 		runner.run();
 	}
