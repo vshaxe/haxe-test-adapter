@@ -34,7 +34,7 @@ class TestResults {
 				suitePos = {file: fileName, line: lineNumber};
 			case SuiteNameAndFile(name, fileName):
 				className = name;
-				suitePos = {file: fileName, line: null};
+				suitePos = {file: fileName, line: 0};
 		}
 		var testName:String;
 		switch (testId) {
