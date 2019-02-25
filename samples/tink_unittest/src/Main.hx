@@ -5,7 +5,7 @@ import tink.testrunner.Runner;
 
 class Main {
 	static function main() {
-		Runner.run(TestBatch.make([new TestCase(), new TestCase2(), new TestCase3()])).handle(Runner.exit);
+		Runner.run(TestBatch.make([new TestCase(), new TestCase2(), new tests.TestCase(), new TestCase3()])).handle(Runner.exit);
 	}
 }
 

@@ -19,7 +19,8 @@ class Injector {
 				case "mapTestSpec":
 					field.patch(Start, macro switch (testSpec) {
 						case It(description, _, _, pos, _):
-							adapterReporter.addPosition(testSuite.description, description, pos.fileName, pos.lineNumber - 1);
+							var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndFile(testSuite.description, pos.fileName);
+							adapterReporter.addPosition(suiteId, description, pos.fileName, pos.lineNumber - 1);
 						case _:
 					});
 				case _:
@@ -36,8 +37,11 @@ class Injector {
 		var fields = Context.getBuildFields();
 		for (field in fields) {
 			if (field.name == "it" || field.name == "xit") {
-				field.patch(Start, macro if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, currentSuite.description, desc)) {
-					return;
+				field.patch(Start, macro {
+					var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndFile(currentSuite.description, pos.fileName);
+					if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, suiteId, desc)) {
+						return;
+					}
 				});
 			}
 		}

@@ -30,24 +30,24 @@ class Notifier implements ITestClassResultListener {
 
 	public function onSuccess(descriptor:ClassDescriptor, timeElapsed:Float):Void {
 		var methodDescriptor = descriptor.currentMethodDescriptor();
-		testResults.add(descriptor.className, methodDescriptor.methodName, timeElapsed, Success);
+		testResults.add(ClassName(descriptor.className), TestName(methodDescriptor.methodName), timeElapsed, Success);
 	}
 
 	public function onFail(descriptor:ClassDescriptor, timeElapsed:Float, error:hex.error.Exception):Void {
 		var methodDescriptor = descriptor.currentMethodDescriptor();
 		var message = error.toString();
-		testResults.add(descriptor.className, methodDescriptor.methodName, timeElapsed, Failure, message, getLineNumber(error));
+		testResults.add(ClassName(descriptor.className), TestName(methodDescriptor.methodName), timeElapsed, Failure, message, getLineNumber(error));
 	}
 
 	public function onTimeout(descriptor:ClassDescriptor, timeElapsed:Float, error:hex.error.Exception):Void {
 		var methodDescriptor = descriptor.currentMethodDescriptor();
 		var message = error.toString();
-		testResults.add(descriptor.className, methodDescriptor.methodName, timeElapsed, Error, message, getLineNumber(error));
+		testResults.add(ClassName(descriptor.className), TestName(methodDescriptor.methodName), timeElapsed, Error, message, getLineNumber(error));
 	}
 
 	public function onIgnore(descriptor:ClassDescriptor):Void {
 		var methodDescriptor = descriptor.currentMethodDescriptor();
-		testResults.add(descriptor.className, methodDescriptor.methodName, 0, Ignore);
+		testResults.add(ClassName(descriptor.className), TestName(methodDescriptor.methodName), 0, Ignore);
 	}
 
 	function getLineNumber(error:hex.error.Exception):Null<Int> {

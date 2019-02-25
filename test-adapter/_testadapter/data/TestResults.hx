@@ -21,15 +21,37 @@ class TestResults {
 		suiteResults = load(baseFolder);
 	}
 
-	public function add(className:String, name:String, executionTime:Float = 0, state:TestState, ?message:String, ?errorLine:Int) {
-		var pos = positions.get(className, name);
+	public function add(suiteId:SuiteId, testId:TestIdentifier, executionTime:Float = 0, state:TestState, ?message:String, ?errorLine:Int) {
 		var line:Null<Int> = null;
-		if (pos != null) {
-			line = pos.line;
+		var className:String;
+		var suitePos:Pos;
+		switch (suiteId) {
+			case ClassName(name):
+				className = name;
+				suitePos = positions.get(className, null);
+			case SuiteNameAndPos(name, fileName, lineNumber):
+				className = name;
+				suitePos = {file: fileName, line: lineNumber};
+			case SuiteNameAndFile(name, fileName):
+				className = name;
+				suitePos = {file: fileName, line: null};
 		}
+		var testName:String;
+		switch (testId) {
+			case TestName(name):
+				testName = name;
+				var pos = positions.get(suiteId, name);
+				if (pos != null) {
+					line = pos.line;
+				}
+			case TestNameAndPos(name, _, lineNumber):
+				testName = name;
+				line = lineNumber;
+		}
+
 		function makeTest():TestMethodResults {
 			return {
-				name: name,
+				name: testName,
 				executionTime: executionTime,
 				state: state,
 				message: message,
@@ -39,16 +61,17 @@ class TestResults {
 			}
 		}
 		for (data in suiteResults.classes) {
-			if (data.name == className) {
-				data.methods = data.methods.filter(function(results) return results.name != name);
+			if (data.id == suiteId) {
+				data.methods = data.methods.filter(function(results) return results.name != testName);
 				data.methods.push(makeTest());
 				return;
 			}
 		}
 		suiteResults.classes.push({
+			id: suiteId,
 			name: className,
 			methods: [makeTest()],
-			pos: positions.get(className, null)
+			pos: suitePos
 		});
 	}
 

@@ -10,6 +10,7 @@ class Main {
 		emu.addListener(new TraceNotifier());
 		emu.addTest(TestCase);
 		emu.addTest(TestCase2);
+		tests.TestCase.addSelf(emu);
 		emu.addTest(TestCase3);
 		emu.run();
 	}

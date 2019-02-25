@@ -6,6 +6,7 @@ import haxe.macro.Expr;
 import _testadapter.data.TestFilter;
 
 using _testadapter.PatchTools;
+using _testadapter.data.Data;
 using StringTools;
 
 class Injector {
@@ -45,7 +46,7 @@ class Injector {
 							errorLine = r.posInfos.lineNumber - 1;
 						}
 					}
-					testResults.add(r.classname, r.method, 0, state, r.error, errorLine);
+					testResults.add(ClassName(r.classname), TestName(r.method), 0, state, r.error, errorLine);
 				}
 				testResults.save();
 			}
@@ -59,8 +60,8 @@ class Injector {
 			switch (field.kind) {
 				case FFun(_) if (field.name.startsWith("test")):
 					var clazz = Context.getLocalClass().get();
-					var dotPath = clazz.pack.concat([clazz.name]).join(".");
-					if (!TestFilter.shouldRunTest(Macro.filters, dotPath, field.name)) {
+					var suiteId:SuiteId = ClassName(clazz.pack.concat([clazz.name]).join("."));
+					if (!TestFilter.shouldRunTest(Macro.filters, suiteId, field.name)) {
 						field.name = "disabled_" + field.name;
 					}
 				case _:

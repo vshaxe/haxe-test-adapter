@@ -1,4 +1,4 @@
-import tests.TestCase3;
+import tests.TestSuite2;
 import massive.munit.client.RichPrintClient;
 import massive.munit.TestRunner;
 import massive.munit.Assert;
@@ -7,7 +7,7 @@ class Main {
 	static function main() {
 		var client = new RichPrintClient();
 		var runner = new TestRunner(client);
-		runner.run([TestSuite]);
+		runner.run([TestSuite, TestSuite2]);
 	}
 }
 
@@ -16,13 +16,14 @@ class TestSuite extends massive.munit.TestSuite {
 		super();
 		add(TestCase);
 		add(TestCase2);
-		add(TestCase3);
 	}
 }
 
 class TestCase {
 	@Test
-	function testSuccess() {}
+	function testSuccess() {
+		Assert.isTrue(true);
+	}
 
 	@Test
 	function testFailure() {
@@ -43,5 +44,7 @@ class TestCase {
 
 class TestCase2 {
 	@Test
-	function testSuccess() {}
+	function testSuccess() {
+		Assert.isTrue(true);
+	}
 }

@@ -7,8 +7,8 @@ using tink.CoreApi;
 
 class Reporter implements tink.testrunner.Reporter {
 	var reporter:tink.testrunner.Reporter;
-	var currentSuite:String;
-	var currentCase:String;
+	var currentSuiteId:SuiteId;
+	var currentCaseId:TestIdentifier;
 
 	public var testResults:TestResults;
 
@@ -26,33 +26,29 @@ class Reporter implements tink.testrunner.Reporter {
 			case BatchFinish(_):
 				testResults.save();
 			case SuiteStart(info, _):
-				currentSuite = info.name;
+				currentSuiteId = SuiteNameAndPos(info.name, info.pos.fileName, info.pos.lineNumber - 1);
 			case CaseStart(info, _):
-				currentCase = info.name;
-				var clazz:Null<String> = testResults.positions.resolveClassName(info.pos.fileName, info.pos.lineNumber - 1);
-				if (clazz != null) {
-					currentSuite = clazz;
-				}
+				currentCaseId = TestNameAndPos(info.name, info.pos.fileName, info.pos.lineNumber - 1);
 			case Assertion(assertion):
 				switch (assertion.holds) {
 					case Success(_):
-						testResults.add(currentSuite, currentCase, 0, TestState.Success);
+						testResults.add(currentSuiteId, currentCaseId, 0, TestState.Success);
 					case Failure(msg):
 						if (msg == null) {
 							msg = assertion.description;
 						}
-						testResults.add(currentSuite, currentCase, 0, TestState.Failure, msg, assertion.pos.lineNumber - 1);
+						testResults.add(currentSuiteId, currentCaseId, 0, TestState.Failure, msg, assertion.pos.lineNumber - 1);
 				}
 			case CaseFinish(result):
 				switch (result.result) {
 					case Failed(msg):
-						testResults.add(currentSuite, currentCase, 0, TestState.Error, msg.toString(), msg.pos.lineNumber - 1);
+						testResults.add(currentSuiteId, currentCaseId, 0, TestState.Error, msg.toString(), msg.pos.lineNumber - 1);
 					case Succeeded(asserts):
 						if ((asserts == null) || (asserts.length <= 0)) {
-							testResults.add(currentSuite, currentCase, 0, TestState.Success);
+							testResults.add(currentSuiteId, currentCaseId, 0, TestState.Success);
 						}
 					case Excluded:
-						testResults.add(currentSuite, currentCase, 0, TestState.Ignore);
+						testResults.add(currentSuiteId, currentCaseId, 0, TestState.Ignore);
 				}
 			case SuiteFinish(_):
 		}

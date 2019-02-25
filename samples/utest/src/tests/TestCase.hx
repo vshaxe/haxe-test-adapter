@@ -1,9 +1,8 @@
 package tests;
 
-import massive.munit.Assert;
+import utest.Assert;
 
-class TestCase3 {
-	@Test
+class TestCase extends utest.Test {
 	function testSuccess() {
 		Assert.isTrue(true);
 	}

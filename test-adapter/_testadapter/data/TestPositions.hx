@@ -11,7 +11,7 @@ import json2object.JsonParser;
 import _testadapter.data.Data;
 
 typedef ClassPosition = {
-	methods:Map<String, {line:Int}>,
+	methods:Map<String, {line:Null<Int>}>,
 	pos:Pos
 };
 

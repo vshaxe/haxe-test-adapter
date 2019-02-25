@@ -53,6 +53,7 @@ class Reporter implements buddy.reporting.Reporter {
 	}
 
 	function reportSpec(suiteName:String, spec:Spec) {
+		var suiteId:SuiteId = SuiteNameAndFile(suiteName, spec.fileName);
 		switch (spec.status) {
 			case Failed:
 				var message:String = "";
@@ -72,13 +73,13 @@ class Reporter implements buddy.reporting.Reporter {
 						}
 					}
 				}
-				testResults.add(suiteName, spec.description, spec.time, Failure, message, lineNumber);
+				testResults.add(suiteId, TestName(spec.description), spec.time, Failure, message, lineNumber);
 			case Passed:
-				testResults.add(suiteName, spec.description, spec.time, Success);
+				testResults.add(suiteId, TestName(spec.description), spec.time, Success);
 			case Pending:
-				testResults.add(suiteName, spec.description, spec.time, Success);
+				testResults.add(suiteId, TestName(spec.description), spec.time, Success);
 			case Unknown:
-				testResults.add(suiteName, spec.description, spec.time, Error);
+				testResults.add(suiteId, TestName(spec.description), spec.time, Error);
 		}
 	}
 }
