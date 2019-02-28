@@ -53,7 +53,7 @@ It's also possible to debug tests using a launch configuration from `launch.json
 "haxeTestExplorer.launchConfiguration": "Debug"
 ```
 
-Unlike for `testCommand`, `-lib test-adapter` can't be injected automatically for debugging. Add `-lib test-adapter` directly to your HXML file if you want results to be recorded / filtering to work while debugging.
+Unlike with `testCommand` for _running_ tests, `-lib test-adapter` can't be injected automatically for _debugging_. Add `-lib test-adapter` directly to your HXML file if you want results to be recorded / filtering to work while debugging.
 
 ### Detection of test positions
 

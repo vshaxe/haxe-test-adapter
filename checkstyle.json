@@ -121,7 +121,7 @@
 			"props": {
 				"minLength": 2,
 				"ignore": "^\\s+$",
-				"allowDuplicates": 2
+				"allowDuplicates": 3
 			},
 			"type": "MultipleStringLiterals"
 		},

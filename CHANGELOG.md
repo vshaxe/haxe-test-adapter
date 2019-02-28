@@ -1,3 +1,10 @@
+## 1.2.1 (February 28, 2019)
+
+- added `-D test-adapter-filter` for custom name matching
+- extended name matching for position recording to parent types ([#13](https://github.com/vshaxe/haxe-test-adapter/pull/12))
+- improved position recording to no longer rely on name matching for utest, buddy and haxe.unit
+- improved handling of test suites with identical names where possible ([#9](https://github.com/vshaxe/haxe-test-adapter/pull/9))
+
 ## 1.2.0 (February 23, 2019)
 
 - added support for the [hexUnit](https://github.com/DoclerLabs/hexUnit) test framework
