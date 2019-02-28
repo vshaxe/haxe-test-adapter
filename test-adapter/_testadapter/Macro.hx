@@ -92,7 +92,15 @@ class Macro {
 			return fields;
 		}
 		var dotPath = cls.pack.join(".");
-		var ignoredPackages = ["testadapter", "massive.munit", "utest", "haxe.unit"];
+		var ignoredPackages = [
+			"_testadapter",
+			"massive.munit",
+			"utest",
+			"buddy",
+			"hex.unittest",
+			"haxe.unit",
+			"tink.unit"
+		];
 		for (ignoredPackage in ignoredPackages) {
 			if (dotPath.startsWith(ignoredPackage)) {
 				return fields;
