@@ -56,5 +56,14 @@ cd ~/.vscode/extensions
 git clone https://github.com/vshaxe/haxe-test-adapter
 cd haxe-test-adapter
 npm install
+
+haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs
+haxelib install vscode
+haxelib install vshaxe
+haxelib install json2object
 haxe build.hxml
+
+haxelib dev test-adapter test-adapter
 ```
+
+If you open the project in VSCode, The default `display.hxml` assumes you have all supported test frameworks installed. If you just want code completion for the sources of the extension itself, or the non-framework-specific parts of `test-adapter`, you can select `build.hxml` as your active Haxe configuration instead.
