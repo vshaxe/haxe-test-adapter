@@ -12,6 +12,7 @@ import _testadapter.data.TestPositions;
 import _testadapter.data.TestFilter;
 
 using StringTools;
+using Lambda;
 
 class Macro {
 	#if macro
@@ -97,7 +98,17 @@ class Macro {
 				return fields;
 			}
 		}
-		if (!~/(Test|Tests|TestCase|TestCases)/.match(cls.name)) {
+		var hierarchyNames = [];
+		function loop(c:ClassType) {
+			hierarchyNames.push(c.name);
+			c.interfaces.iter(r -> loop(r.t.get()));
+			if (c.superClass != null) {
+				loop(c.superClass.t.get());
+			}
+		}
+		loop(cls);
+		var regex = ~/(Test|Tests|TestCase|TestCases)/;
+		if (!hierarchyNames.exists(name -> regex.match(name))) {
 			return fields;
 		}
 		var className = makeLocation(cls.name);
