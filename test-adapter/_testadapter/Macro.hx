@@ -101,14 +101,14 @@ class Macro {
 		var hierarchyNames = [];
 		function loop(c:ClassType) {
 			hierarchyNames.push(c.name);
-			c.interfaces.iter(r -> loop(r.t.get()));
+			c.interfaces.iter(function(r) loop(r.t.get()));
 			if (c.superClass != null) {
 				loop(c.superClass.t.get());
 			}
 		}
 		loop(cls);
 		var regex = ~/Test/;
-		if (!hierarchyNames.exists(name -> regex.match(name))) {
+		if (!hierarchyNames.exists(regex.match.bind())) {
 			return fields;
 		}
 		var className = makeLocation(cls.name);
