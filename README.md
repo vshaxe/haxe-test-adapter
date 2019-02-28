@@ -31,7 +31,7 @@ You can run your tests using the `Test Explorer: Run all tests` command or by cl
 
 As you can see, by default it assumes the presence of a `test.hxml` that compiles and runs the tests. Additionally, the `test-adapter` library is injected. It adds hooks to the different testing frameworks to record the test results in a `.unittest` folder in your workspace.
 
-While the `test-adapter` library itself ships with the extension and is set up automatically, it also has a dependency you need to install:
+While the `test-adapter` library itself ships with the extension and is set up automatically, you still need to install a dependency:
 
 ```hxml
 haxelib install json2object
@@ -45,15 +45,23 @@ haxelib install json2object
 }
 ```
 
+### Debugging
+
 It's also possible to debug tests using a launch configuration from `launch.json`. Which one should be used can be configured with this setting:
 
 ```json
 "haxeTestExplorer.launchConfiguration": "Debug"
 ```
 
+Unlike for `testCommand`, `-lib test-adapter` can't be injected automatically for debugging. Add `-lib test-adapter` directly to your HXML file if you want results to be recorded / filtering to work while debugging.
+
+### Detection of test positions
+
 Note that for `munit`, `hexUnit` and `tink_unittest`, the test-adapter library relies on a class name filter to detect the positions of tests. This simply defaults to `~/Test/` and is checked against the names of classes and implemented interfaces anywhere in the hierarchy of a class.
 
 You can customize the filter with `-D test-adapter-filter=<filter>`. Check `.unittest/positions.json` to see what positions were recorded.
+
+For `utest`, test detection only works when `utest.ITest` is implemented / `utest.TestCase` is extended. If this is not the case, utest will print a warning.
 
 ## Build from sources
 
