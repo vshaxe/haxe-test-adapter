@@ -41,34 +41,7 @@ class Macro {
 		require("hexunit", "0.35.0");
 		require("tink_unittest", "0.6.0");
 
-		// record positions / line numbers
-		#if (munit || hexunit || tink_testrunner)
-		Compiler.addGlobalMetadata("", "@:build(_testadapter.Macro.recordPositions(true))", true, true, false);
-		#end
-
-		// munit
-		Compiler.addMetadata("@:build(_testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
-		Compiler.addMetadata("@:build(_testadapter.munit.Injector.buildHelper())", "massive.munit.TestClassHelper");
-
-		// utest
-		Compiler.addMetadata("@:autoBuild(_testadapter.Macro.recordPositions(false))", "utest.ITest");
-		Compiler.addMetadata("@:build(_testadapter.utest.Injector.build())", "utest.Runner");
-
-		// buddy
-		Compiler.addMetadata("@:autoBuild(_testadapter.Macro.recordPositions(false))", "buddy.BuddySuite");
-		Compiler.addMetadata("@:build(_testadapter.buddy.Injector.buildSuite())", "buddy.BuddySuite");
-		Compiler.addMetadata("@:build(_testadapter.buddy.Injector.buildRunner())", "buddy.SuitesRunner");
-
-		// hexUnit
-		Compiler.addMetadata("@:build(_testadapter.hexunit.Injector.buildCore())", "hex.unittest.runner.ExMachinaUnitCore");
-
-		// tink_unittest
-		Compiler.addMetadata("@:build(_testadapter.tink_unittest.Injector.buildRunner())", "tink.testrunner.Runner");
-
-		// haxe.unit
-		Compiler.addMetadata("@:autoBuild(_testadapter.Macro.recordPositions(false))", "haxe.unit.TestCase");
-		Compiler.addMetadata("@:autoBuild(_testadapter.haxeunit.Injector.buildCase())", "haxe.unit.TestCase");
-		Compiler.addMetadata("@:build(_testadapter.haxeunit.Injector.buildRunner())", "haxe.unit.TestRunner");
+		setupHooks();
 
 		var testFilter = new TestFilter(Sys.getCwd());
 		filters = testFilter.get();
@@ -81,6 +54,44 @@ class Macro {
 				positions.save();
 			}
 		});
+	}
+
+	static function setupHooks() {
+		inline function build(func:String, target:String) {
+			Compiler.addMetadata('@:build(_testadapter.$func)', target);
+		}
+		inline function autoBuild(func:String, target:String) {
+			Compiler.addMetadata('@:autoBuild(_testadapter.$func)', target);
+		}
+
+		// record positions / line numbers
+		#if (munit || hexunit || tink_testrunner)
+		Compiler.addGlobalMetadata("", "@:build(_testadapter.Macro.recordPositions(true))", true, true, false);
+		#end
+
+		// munit
+		build("munit.Injector.buildRunner()", "massive.munit.TestRunner");
+		build("munit.Injector.buildHelper()", "massive.munit.TestClassHelper");
+
+		// utest
+		autoBuild("Macro.recordPositions(false)", "utest.ITest");
+		build("utest.Injector.build()", "utest.Runner");
+
+		// buddy
+		autoBuild("Macro.recordPositions(false)", "buddy.BuddySuite");
+		build("buddy.Injector.buildSuite()", "buddy.BuddySuite");
+		build("buddy.Injector.buildRunner()", "buddy.SuitesRunner");
+
+		// hexUnit
+		build("hexunit.Injector.buildCore()", "hex.unittest.runner.ExMachinaUnitCore");
+
+		// tink_unittest
+		build("tink_unittest.Injector.buildRunner()", "tink.testrunner.Runner");
+
+		// haxe.unit
+		autoBuild("Macro.recordPositions(false)", "haxe.unit.TestCase");
+		autoBuild("haxeunit.Injector.buildCase()", "haxe.unit.TestCase");
+		build("haxeunit.Injector.buildRunner()", "haxe.unit.TestRunner");
 	}
 
 	public static function recordPositions(applyClassNameFilter:Bool):Null<Array<Field>> {
