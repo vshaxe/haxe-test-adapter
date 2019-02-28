@@ -121,6 +121,9 @@ class Macro {
 		}
 
 		if (applyClassNameFilter) {
+			var filter = Context.definedValue("test-adapter-filter");
+			var regex = if (filter == null) ~/Test/ else new EReg(filter, "");
+
 			var hierarchyNames = [];
 			function loop(c:ClassType) {
 				hierarchyNames.push(c.name);
@@ -130,7 +133,6 @@ class Macro {
 				}
 			}
 			loop(cls);
-			var regex = ~/Test/;
 			if (!hierarchyNames.exists(regex.match)) {
 				return null;
 			}

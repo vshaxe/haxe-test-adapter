@@ -45,6 +45,10 @@ It's also possible to debug tests using a launch configuration from `launch.json
 "haxeTestExplorer.launchConfiguration": "Debug"
 ```
 
+Note that for `munit`, `hexUnit` and `tink_unittest`, the test-adapter library relies on a class name filter to detect the positions of tests. This simply defaults to `~/Test/` and is checked against the names of classes and implemented interfaces anywhere in the hierarchy of a class.
+
+You can customize the filter with `-D test-adapter-filter=<filter>`. Check `.unittest/positions.json` to see what positions were recorded.
+
 ## Build from sources
 
 ```bash
