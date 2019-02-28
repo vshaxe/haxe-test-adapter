@@ -108,7 +108,7 @@ class Macro {
 		}
 		loop(cls);
 		var regex = ~/Test/;
-		if (!hierarchyNames.exists(regex.match.bind())) {
+		if (!hierarchyNames.exists(regex.match)) {
 			return fields;
 		}
 		var className = makeLocation(cls.name);
