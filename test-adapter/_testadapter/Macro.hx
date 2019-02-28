@@ -42,7 +42,7 @@ class Macro {
 		require("tink_unittest", "0.6.0");
 
 		// record positions / line numbers
-		Compiler.addGlobalMetadata("", "@:build(_testadapter.Macro.build())", true, true, false);
+		Compiler.addGlobalMetadata("", "@:build(_testadapter.Macro.recordPositions(true))", true, true, false);
 
 		// munit
 		Compiler.addMetadata("@:build(_testadapter.munit.Injector.buildRunner())", "massive.munit.TestRunner");
@@ -78,19 +78,16 @@ class Macro {
 		});
 	}
 
-	public static function build():Array<Field> {
-		var fields:Array<Field> = Context.getBuildFields();
+	public static function recordPositions(applyClassNameFilter:Bool):Null<Array<Field>> {
 		var ref:Ref<ClassType> = Context.getLocalClass();
 		if (ref == null) {
-			return fields;
+			return null;
 		}
 		var cls:ClassType = ref.get();
-		if (cls.isInterface) {
-			return fields;
+		if (cls.isInterface || cls.name == null || cls.kind.match(KAbstractImpl(_))) {
+			return null;
 		}
-		if (cls.name == null) {
-			return fields;
-		}
+
 		var dotPath = cls.pack.join(".");
 		var ignoredPackages = [
 			"_testadapter",
@@ -103,34 +100,35 @@ class Macro {
 		];
 		for (ignoredPackage in ignoredPackages) {
 			if (dotPath.startsWith(ignoredPackage)) {
-				return fields;
+				return null;
 			}
 		}
-		var hierarchyNames = [];
-		function loop(c:ClassType) {
-			hierarchyNames.push(c.name);
-			c.interfaces.iter(function(r) loop(r.t.get()));
-			if (c.superClass != null) {
-				loop(c.superClass.t.get());
+
+		if (applyClassNameFilter) {
+			var hierarchyNames = [];
+			function loop(c:ClassType) {
+				hierarchyNames.push(c.name);
+				c.interfaces.iter(function(r) loop(r.t.get()));
+				if (c.superClass != null) {
+					loop(c.superClass.t.get());
+				}
+			}
+			loop(cls);
+			var regex = ~/Test/;
+			if (!hierarchyNames.exists(regex.match)) {
+				return null;
 			}
 		}
-		loop(cls);
-		var regex = ~/Test/;
-		if (!hierarchyNames.exists(regex.match)) {
-			return fields;
-		}
+
 		var className = makeLocation(cls.name);
-		if (cls.kind.match(KAbstractImpl(_))) {
-			return fields;
-		}
 		addTestPos(className, cls.pos);
-		for (field in fields) {
+		for (field in Context.getBuildFields()) {
 			if (field.name == "new" || field.name.startsWith("__")) {
 				continue;
 			}
 			addTestPos(className, field.name, field.pos);
 		}
-		return fields;
+		return null;
 	}
 
 	static function makeLocation(clazz:String):String {
