@@ -29,7 +29,13 @@ You can run your tests using the `Test Explorer: Run all tests` command or by cl
 ]
 ```
 
-As you can see, by default it assumes the presence of a `test.hxml` that compiles and runs the tests. Additionally, the `test-adapter` library is injected (which is automatically installed with this extension). It adds hooks to the different testing frameworks to record the test results in a `.unittest` folder in your workspace.
+As you can see, by default it assumes the presence of a `test.hxml` that compiles and runs the tests. Additionally, the `test-adapter` library is injected. It adds hooks to the different testing frameworks to record the test results in a `.unittest` folder in your workspace.
+
+While the `test-adapter` library itself ships with the extension and is set up automatically, it also has a dependency you need to install:
+
+```hxml
+haxelib install json2object
+```
 
 `.unittest` should be added to your `.gitignore`. You might also want to hide it from VSCode's file explorer by adding this to your global settings:
 
@@ -66,4 +72,4 @@ haxe build.hxml
 haxelib dev test-adapter test-adapter
 ```
 
-If you open the project in VSCode, The default `display.hxml` assumes you have all supported test frameworks installed. If you just want code completion for the sources of the extension itself, or the non-framework-specific parts of `test-adapter`, you can select `build.hxml` as your active Haxe configuration instead.
+If you open the project in VSCode, the default `display.hxml` assumes you have all supported test frameworks installed. If you just want code completion for the sources of the extension itself, or the non-framework-specific parts of `test-adapter`, you can select `build.hxml` as your active Haxe configuration instead.
