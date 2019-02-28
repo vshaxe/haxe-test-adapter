@@ -107,7 +107,7 @@ class Macro {
 			}
 		}
 		loop(cls);
-		var regex = ~/(Test|Tests|TestCase|TestCases)/;
+		var regex = ~/Test/;
 		if (!hierarchyNames.exists(name -> regex.match(name))) {
 			return fields;
 		}
