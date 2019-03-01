@@ -80,4 +80,6 @@ haxe build.hxml
 haxelib dev test-adapter test-adapter
 ```
 
+It's also necessary to have the [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) extension installed (when installing Haxe Test Explorer from the markteplace, this is done automatically).
+
 If you open the project in VSCode, the default `display.hxml` assumes you have all supported test frameworks installed. If you just want code completion for the sources of the extension itself, or the non-framework-specific parts of `test-adapter`, you can select `build.hxml` as your active Haxe configuration instead.
