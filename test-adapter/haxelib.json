@@ -7,7 +7,7 @@
 		"testing"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"releasenote": "Improved position recording and handling of test suites with identical names.",
 	"contributors": [
 		"AlexHaxe",

@@ -1,3 +1,7 @@
+## 1.2.2 (March 4, 2019)
+
+- fixed all tests being executed when debugging individual tests ([#13](https://github.com/vshaxe/haxe-test-adapter/pull/13))
+
 ## 1.2.1 (February 28, 2019)
 
 - added `-D test-adapter-filter` for custom name matching
