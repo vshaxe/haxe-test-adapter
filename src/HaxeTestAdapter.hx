@@ -240,6 +240,8 @@ class HaxeTestAdapter {
 	public function debug(tests:Array<String>):Thenable<Void> {
 		log.info("debug tests " + tests);
 		channel.appendLine('Debugging tests...');
+		filter.set(tests);
+
 		var launchConfig = Vscode.workspace.getConfiguration("haxeTestExplorer").get("launchConfiguration");
 		return cast Vscode.debug.startDebugging(workspaceFolder, launchConfig);
 	}
