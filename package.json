@@ -78,7 +78,7 @@
 						"-lib",
 						"test-adapter"
 					],
-					"description": "Command for building and running the tests. ${haxe} is replaced with \"haxe.executable\".",
+					"markdownDescription": "Command for building and running the tests. `${haxe}` is replaced with `\"haxe.executable\"`.",
 					"items": {
 						"type": "string"
 					}
@@ -86,7 +86,7 @@
 				"haxeTestExplorer.launchConfiguration": {
 					"type": "string",
 					"default": "Debug",
-					"description": "Name of the launch configuration to use for debugging."
+					"markdownDescription": "Name of the launch configuration to use for debugging."
 				}
 			}
 		}
