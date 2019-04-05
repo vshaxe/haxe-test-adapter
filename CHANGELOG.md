@@ -1,6 +1,6 @@
-# Changelog
+## 1.2.3 (April 5, 2019)
 
-- updated to latest test adapter api
+- fixed tests being grayed out with Test Explorer UI 2.9.0+
 
 ## 1.2.2 (March 4, 2019)
 

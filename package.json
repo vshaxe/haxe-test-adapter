@@ -5,7 +5,7 @@
 	"icon": "images/icon.png",
 	"author": "Alexander Blum <Alexander.Blum@gmail.com>",
 	"publisher": "vshaxe",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"license": "MIT",
 	"homepage": "https://github.com/vshaxe/haxe-test-adapter",
 	"repository": {
