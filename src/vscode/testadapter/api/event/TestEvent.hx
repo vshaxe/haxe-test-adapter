@@ -39,6 +39,18 @@ typedef TestEvent = {
 		They are usually used to show information about a test failure at the location of that failure.
 	**/
 	var ?decorations:Array<TestDecoration>;
+
+	/**
+		This property allows you to update the description of the test in the Test Explorer.
+		When the test states are reset, the description will change back to the one from `TestInfo`.
+	**/
+	var ?description:String;
+
+	/**
+		This property allows you to update the tooltip of the test in the Test Explorer.
+		When the test states are reset, the tooltip will change back to the one from `TestInfo`.
+	**/
+	var ?tooltip:String;
 }
 
 enum abstract TestEventType(String) {

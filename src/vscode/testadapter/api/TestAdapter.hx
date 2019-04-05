@@ -2,6 +2,7 @@ package vscode.testadapter.api;
 
 import js.Promise.Thenable;
 import vscode.testadapter.api.event.TestEvent;
+import vscode.testadapter.api.event.RetireEvent;
 import vscode.testadapter.api.event.TestLoadEvent;
 
 typedef TestAdapter = {
@@ -61,7 +62,20 @@ typedef TestAdapter = {
 	function testStates():Event<TestEvent>;
 
 	/**
-		This event can be used by the adapter to trigger a test run for all tests that have
+		This event can be used by the adapter to inform the Test Explorer about tests whose states
+		are outdated.
+		This is usually sent directly after a `TestLoadFinishedEvent` to specify which tests may
+		have changed. Furthermore, it should be sent when the source files for the application
+		under test have changed.
+		This will also trigger a test run for those tests that have been set to "autorun" by the
+		user and which are retired by this event.
+		If the adapter does not implement this event then the Test Explorer will automatically
+		retire (and possibly autorun) all tests after each `TestLoadFinishedEvent`.
+	**/
+	function retire():Event<RetireEvent>;
+
+	/**
+		@deprecated This event can be used by the adapter to trigger a test run for all tests that have
 		been set to "autorun" in the Test Explorer.
 	**/
 	function autorun():Event<Void>;

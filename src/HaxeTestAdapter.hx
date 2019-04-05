@@ -17,6 +17,7 @@ import vscode.WorkspaceFolder;
 import vscode.testadapter.api.data.TestInfo;
 import vscode.testadapter.api.data.TestState;
 import vscode.testadapter.api.data.TestSuiteInfo;
+import vscode.testadapter.api.event.RetireEvent;
 import vscode.testadapter.api.event.TestLoadEvent;
 import vscode.testadapter.api.event.TestEvent;
 import vscode.testadapter.util.Log;
@@ -29,6 +30,7 @@ class HaxeTestAdapter {
 	final testsEmitter:EventEmitter<TestLoadEvent>;
 	final testStatesEmitter:EventEmitter<TestEvent>;
 	final autorunEmitter:EventEmitter<Void>;
+	final retireEmitter:EventEmitter<RetireEvent>;
 	final channel:OutputChannel;
 	final log:Log;
 	final dataWatcher:FileSystemWatcher;
@@ -46,6 +48,7 @@ class HaxeTestAdapter {
 		testsEmitter = new EventEmitter<TestLoadEvent>();
 		testStatesEmitter = new EventEmitter<TestEvent>();
 		autorunEmitter = new EventEmitter<Void>();
+		retireEmitter = new EventEmitter<RetireEvent>();
 
 		// TODO is there a better way to make getters??
 		Object.defineProperty(this, "tests", {
@@ -56,6 +59,9 @@ class HaxeTestAdapter {
 		});
 		Object.defineProperty(this, "autorun", {
 			get: () -> autorunEmitter.event
+		});
+		Object.defineProperty(this, "retire", {
+			get: () -> retireEmitter.event
 		});
 
 		var pattern = new RelativePattern(workspaceFolder, "**/" + TestResults.getRelativeFileName());
@@ -68,7 +74,7 @@ class HaxeTestAdapter {
 		Vscode.tasks.onDidEndTask(event -> {
 			if (event.execution == currentTask) {
 				testStatesEmitter.fire({type: Finished});
-				channel.appendLine('Running tests finished');
+				channel.appendLine("Running tests finished");
 				currentTask = null;
 			}
 		});
@@ -239,7 +245,7 @@ class HaxeTestAdapter {
 	**/
 	public function debug(tests:Array<String>):Thenable<Void> {
 		log.info("debug tests " + tests);
-		channel.appendLine('Debugging tests...');
+		channel.appendLine("Debugging tests...");
 		filter.set(tests);
 
 		var launchConfig = Vscode.workspace.getConfiguration("haxeTestExplorer").get("launchConfiguration");

@@ -14,6 +14,11 @@ typedef TestSuiteInfo = {
 	**/
 	var label:String;
 
+	/** 
+		The description to be displayed next to the label.
+	**/
+	var ?description:String;
+
 	/**
 		The file containing this suite (if known).
 		This can either be an absolute path (if it is a local file) or a URI.

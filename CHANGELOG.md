@@ -1,3 +1,7 @@
+# Changelog
+
+- updated to latest test adapter api
+
 ## 1.2.2 (March 4, 2019)
 
 - fixed all tests being executed when debugging individual tests ([#13](https://github.com/vshaxe/haxe-test-adapter/pull/13))
