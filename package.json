@@ -35,11 +35,12 @@
 	},
 	"main": "bin/main.js",
 	"dependencies": {
-		"vscode-test-adapter-api": "^1.1.0",
-		"vscode-test-adapter-util": "^0.5.1"
+		"vscode-test-adapter-api": "^1.7.0",
+		"vscode-test-adapter-util": "^0.6.4"
 	},
 	"engines": {
 		"vscode": "^1.30.0",
+		"hbenl.vscode-test-explorer": "^2.9.0",
 		"nadako.vshaxe": "^2.5.0"
 	},
 	"extensionDependencies": [
