@@ -1,7 +1,7 @@
 import haxe.ds.ArraySort;
 import haxe.io.Path;
-import js.Object;
-import js.Promise;
+import js.lib.Object;
+import js.lib.Promise;
 import _testadapter.data.Data;
 import _testadapter.data.TestFilter;
 import _testadapter.data.TestResults;
