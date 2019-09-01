@@ -166,11 +166,12 @@ class Macro {
 	static function addTestPos(className:String, ?testName:String, pos:Position) {
 		#if (haxe_ver >= 4)
 		var location:Location = PositionTools.toLocation(pos);
-		if (location.file == "?") {
+		var fileName:String = cast location.file;
+		if (fileName == "?") {
 			return;
 		}
 		positions.add(className, testName, {
-			file: location.file,
+			file: fileName,
 			line: location.range.start.line - 1
 		});
 		#else
