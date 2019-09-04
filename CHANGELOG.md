@@ -1,3 +1,7 @@
+## 1.2.4 (September 4, 2019)
+
+- fixed compatibility with Haxe 4.0.0-rc.4
+
 ## 1.2.3 (April 5, 2019)
 
 - fixed tests being grayed out with Test Explorer UI 2.9.0+
