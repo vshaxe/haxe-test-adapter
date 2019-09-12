@@ -1,11 +1,13 @@
 {
 	"[haxe]": {
-		"editor.formatOnSave": true
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true
 	},
 	"[json]": {
-		"editor.formatOnSave": true
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true
 	},
-	"haxe.displayConfigurations": [
+	"haxe.configurations": [
 		["display.hxml"]
 	],
 	"haxecheckstyle.sourceFolders": [
