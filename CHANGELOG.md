@@ -1,3 +1,5 @@
+## 1.2.5 (September 24, 2019)
+
 - fixed version check and compatibility with utest 1.10.0
 
 ## 1.2.4 (September 4, 2019)

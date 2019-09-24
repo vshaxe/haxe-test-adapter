@@ -7,8 +7,8 @@
 		"testing"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "1.2.4",
-	"releasenote": "Fixed compatibility with Haxe 4.0.0-rc.4.",
+	"version": "1.2.5",
+	"releasenote": "Fixed version check and compatibility with utest 1.10.0.",
 	"contributors": [
 		"AlexHaxe",
 		"Gama11"
