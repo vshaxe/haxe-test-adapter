@@ -21,10 +21,10 @@ class Injector {
 						var fixtures = [];
 						var init:utest.TestData.InitializeUtest = (cast testCase : utest.TestData.Initializer).__initializeUtest__();
 						for (test in init.tests) {
-							if (!isTestFixtureName(test.name, ["test", "spec"], pattern, globalPattern)) {
+							var cls:_testadapter.data.Data.SuiteId = ClassName(Type.getClassName(Type.getClass(testCase)));
+							if (!isTestFixtureName(cls, test.name, ["test", "spec"], pattern, globalPattern)) {
 								continue;
 							}
-							var cls:_testadapter.data.Data.SuiteId = ClassName(Type.getClassName(Type.getClass(testCase)));
 							if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, cls, test.name)) {
 								continue;
 							}

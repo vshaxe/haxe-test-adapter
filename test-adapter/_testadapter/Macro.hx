@@ -21,13 +21,23 @@ class Macro {
 
 	static function require(lib:String, minVersion:String) {
 		var version = Context.definedValue(lib);
-		if (version != null) {
-			var a = version.split(".").map(Std.parseInt);
-			var b = minVersion.split(".").map(Std.parseInt);
-			if (a[0] < b[0] || a[1] < b[1] || a[2] < b[2]) {
-				Context.fatalError('test-adapter requires $lib $minVersion or newer, found $version', Context.currentPos());
+		if (version == null) {
+			return;
+		}
+		var a = version.split(".").map(Std.parseInt);
+		var b = minVersion.split(".").map(Std.parseInt);
+		if (a[0] > b[0]) {
+			return;
+		}
+		if (a[0] == b[0]) {
+			if (a[1] > b[1]) {
+				return;
+			}
+			if ((a[1] == b[1]) && (a[2] >= b[2])) {
+				return;
 			}
 		}
+		Context.fatalError('test-adapter requires $lib $minVersion or newer, found $version', Context.currentPos());
 	}
 
 	public static function init() {
@@ -36,7 +46,7 @@ class Macro {
 		}
 
 		require("munit", "2.3.2");
-		require("utest", "1.9.2");
+		require("utest", "1.10.0");
 		require("buddy", "2.10.0");
 		require("hexunit", "0.35.0");
 		require("tink_unittest", "0.6.0");

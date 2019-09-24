@@ -1,3 +1,5 @@
+- fixed version check and compatibility with utest 1.10.0
+
 ## 1.2.4 (September 4, 2019)
 
 - fixed compatibility with Haxe 4.0.0-rc.4
