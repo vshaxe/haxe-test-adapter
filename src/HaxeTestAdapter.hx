@@ -156,9 +156,48 @@ class HaxeTestAdapter {
 				}
 				classChilds.push(testInfo);
 			}
-			suiteChilds.push(classInfo);
+			insertTestSuite(suiteInfo, classInfo);
 		}
 		return suiteInfo;
+	}
+
+	function insertTestSuite(root:TestSuiteInfo, newSuiteInfo:TestSuiteInfo) {
+		var pack:Array<String> = newSuiteInfo.label.split(".");
+
+		var id:Null<String> = null;
+		var label:Null<String> = pack.pop();
+		if (label == null) {
+			root.children.push(newSuiteInfo);
+			return;
+		}
+		newSuiteInfo.label = label;
+		for (p in pack) {
+			var found:Bool = false;
+			var children:Array<TestSuiteInfo> = root.children;
+			for (child in children) {
+				if (child.label == p) {
+					root = child;
+					found = true;
+					break;
+				}
+			}
+			if (id == null) {
+				id = p;
+			} else {
+				id += '.$p';
+			}
+			if (!found) {
+				var suiteInfo:TestSuiteInfo = {
+					type: "suite",
+					label: p,
+					id: id,
+					children: []
+				};
+				root.children.push(suiteInfo);
+				root = suiteInfo;
+			}
+		}
+		root.children.push(newSuiteInfo);
 	}
 
 	function sortByLine(a:{line:Null<Int>}, b:{line:Null<Int>}) {
