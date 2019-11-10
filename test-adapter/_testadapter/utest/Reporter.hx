@@ -35,7 +35,7 @@ class Reporter implements IReport<Reporter> {
 				for (testName in cls.methodNames()) {
 					var fix:FixtureResult = cls.get(testName);
 					var message = null;
-					var state = TestState.Failure;
+					var state:TestState = Failure;
 					var errorLine:Null<Int> = null;
 					for (assertation in fix.iterator()) {
 						switch (assertation) {
@@ -45,15 +45,19 @@ class Reporter implements IReport<Reporter> {
 								state = Failure;
 								message = msg;
 								errorLine = pos.lineNumber - 1;
+								break;
 							case Assertation.Error(e, s), Assertation.SetupError(e, s), Assertation.TeardownError(e, s), Assertation.AsyncError(e, s):
 								state = Error;
 								message = Std.string(e) + dumpStack(s);
+								break;
 							case Assertation.TimeoutError(missedAsyncs, s):
 								state = Error;
 								message = "missed async calls: " + missedAsyncs + dumpStack(s);
+								break;
 							case Assertation.Warning(msg):
 								state = Failure; // ?
 								message = msg;
+								break;
 							case Assertation.Ignore(reason):
 								state = Ignore;
 								message = reason;

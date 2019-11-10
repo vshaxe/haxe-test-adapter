@@ -14,6 +14,7 @@ class TestCase extends utest.Test {
 
 	function testFailure() {
 		Assert.equals("A", "B");
+		Assert.isTrue(true);
 	}
 
 	function testError() {
