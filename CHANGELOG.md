@@ -1,3 +1,8 @@
+## 1.2.6 (November 13, 2019)
+
+- added support for hierarchical display of tests based on their package
+- fixed utest reporting with multiple asserts ([#17](https://github.com/vshaxe/haxe-test-adapter/issues/17))
+
 ## 1.2.5 (September 24, 2019)
 
 - fixed version check and compatibility with utest 1.10.0
