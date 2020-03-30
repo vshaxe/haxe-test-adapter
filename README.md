@@ -70,12 +70,7 @@ cd ~/.vscode/extensions
 git clone https://github.com/vshaxe/haxe-test-adapter
 cd haxe-test-adapter
 npm install
-
-haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs
-haxelib install vscode
-haxelib install vshaxe
-haxelib install json2object
-haxe build.hxml
+npx haxe build.hxml
 
 haxelib dev test-adapter test-adapter
 ```
