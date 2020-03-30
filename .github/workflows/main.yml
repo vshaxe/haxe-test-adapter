@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 4 * * *'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        haxe-version: [3.4.7, 4.0.5, nightly]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm install
+    - run: npx lix install haxe ${{matrix.haxe-version}}
+    - run: npx lix +lib munit
+    - run: npx lix +lib hamcrest
+    - run: npx lix +lib utest
+    - run: npx lix +lib hx3compat
+    - run: npx lix +lib buddy
+    - run: npx lix +lib hexunit
+    - run: npx lix +lib tink_unittest
+    - run: npx lix dev test-adapter ../../test-adapter
+      working-directory: samples/buddy # this is kind of a hack (lix bug even?)
+    - run: npx haxe -cp .github/workflows --run RunCI

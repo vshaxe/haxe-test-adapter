@@ -13,7 +13,7 @@ class RunCI {
 		}
 
 		#if haxe4
-		runCommand("haxe", ["build.hxml"]);
+		runCommand("npx", ["haxe", "build.hxml"]);
 		#end
 
 		function buildSample(directory:String) {
@@ -21,7 +21,7 @@ class RunCI {
 			var oldCwd = Sys.getCwd();
 			Sys.setCwd(directory);
 			File.saveContent("test.hxml", File.getContent("test.hxml").replace("-x Main", "-lib test-adapter"));
-			runCommand("haxe", ["test.hxml"]);
+			runCommand("npx", ["haxe", "test.hxml"]);
 			Sys.setCwd(oldCwd);
 		}
 

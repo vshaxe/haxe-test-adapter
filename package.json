@@ -31,12 +31,16 @@
 		"haxe"
 	],
 	"scripts": {
-		"vscode:prepublish": "haxe build.hxml"
+		"vscode:prepublish": "haxe build.hxml",
+		"postinstall": "lix download"
 	},
 	"main": "bin/main.js",
 	"dependencies": {
 		"vscode-test-adapter-api": "^1.7.0",
 		"vscode-test-adapter-util": "^0.6.4"
+	},
+	"devDependencies": {
+		"lix": "^15.8.9"
 	},
 	"engines": {
 		"vscode": "^1.30.0",
