@@ -4,14 +4,16 @@
 	"license": "MIT",
 	"tags": [
 		"test",
-		"testing"
+		"testing",
+		"vscode"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
 	"version": "1.2.6",
 	"releasenote": "Fixed utest reporting with multiple asserts.",
 	"contributors": [
 		"AlexHaxe",
-		"Gama11"
+		"Gama11",
+		"vshaxe"
 	],
 	"dependencies": {
 		"json2object": ""

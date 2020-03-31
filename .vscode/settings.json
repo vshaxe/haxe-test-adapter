@@ -7,9 +7,6 @@
 		"editor.formatOnSave": true,
 		"editor.formatOnPaste": true
 	},
-	"haxe.configurations": [
-		["display.hxml"]
-	],
 	"haxecheckstyle.sourceFolders": [
 		"src",
 		"samples",

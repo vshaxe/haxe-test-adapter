@@ -1,7 +1,0 @@
-build.hxml
--lib munit
--lib utest
--lib buddy
--lib hexunit
--lib tink_unittest
--lib hx3compat
