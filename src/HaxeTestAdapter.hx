@@ -1,3 +1,4 @@
+import haxe.Json;
 import haxe.ds.ArraySort;
 import haxe.io.Path;
 import js.lib.Object;
@@ -5,21 +6,21 @@ import js.lib.Promise;
 import _testadapter.data.Data;
 import _testadapter.data.TestFilter;
 import _testadapter.data.TestResults;
-import vscode.Uri;
-import vscode.RelativePattern;
 import vscode.EventEmitter;
 import vscode.FileSystemWatcher;
 import vscode.OutputChannel;
 import vscode.ProcessExecution;
+import vscode.RelativePattern;
 import vscode.Task;
 import vscode.TaskExecution;
+import vscode.Uri;
 import vscode.WorkspaceFolder;
 import vscode.testadapter.api.data.TestInfo;
 import vscode.testadapter.api.data.TestState;
 import vscode.testadapter.api.data.TestSuiteInfo;
 import vscode.testadapter.api.event.RetireEvent;
-import vscode.testadapter.api.event.TestLoadEvent;
 import vscode.testadapter.api.event.TestEvent;
+import vscode.testadapter.api.event.TestLoadEvent;
 import vscode.testadapter.util.Log;
 
 using StringTools;
@@ -72,7 +73,7 @@ class HaxeTestAdapter {
 		filter = new TestFilter(workspaceFolder.uri.fsPath);
 
 		Vscode.tasks.onDidEndTask(event -> {
-			if (event.execution == currentTask) {
+			if (Json.stringify(event.execution.task.definition) == Json.stringify(currentTask.task.definition)) {
 				testStatesEmitter.fire({type: Finished});
 				channel.appendLine("Running tests finished");
 				currentTask = null;

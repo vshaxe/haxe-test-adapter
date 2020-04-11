@@ -1,3 +1,5 @@
+- fixed test runs not restoring state of "Run all tests" button
+
 ## 1.2.6 (November 13, 2019)
 
 - added support for hierarchical display of tests based on their package
