@@ -1,4 +1,6 @@
-- fixed test runs not restoring state of "Run all tests" button
+## 1.2.7 (April 11, 2020)
+
+- fixed state of "Run all tests" button not being restored anymore since VSCode 1.44
 
 ## 1.2.6 (November 13, 2019)
 
