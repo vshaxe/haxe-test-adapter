@@ -5,14 +5,15 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.PositionTools;
 import haxe.macro.Type;
+import _testadapter.data.TestFilter;
+import _testadapter.data.TestPositions;
+
+using Lambda;
+using StringTools;
+
 #if (haxe_ver >= 4)
 import haxe.display.Position.Location;
 #end
-import _testadapter.data.TestPositions;
-import _testadapter.data.TestFilter;
-
-using StringTools;
-using Lambda;
 
 class Macro {
 	#if macro
@@ -49,7 +50,7 @@ class Macro {
 		require("utest", "1.10.0");
 		require("buddy", "2.10.0");
 		require("hexunit", "0.35.0");
-		require("tink_unittest", "0.6.0");
+		require("tink_testrunner", "0.8.0");
 
 		setupHooks();
 
