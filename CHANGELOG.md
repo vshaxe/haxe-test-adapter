@@ -1,3 +1,5 @@
+## 1.2.8 (May 1, 2020)
+
 - fixed tink_testrunner injection to restore compatibility with version 0.8.0
 
 ## 1.2.7 (April 11, 2020)

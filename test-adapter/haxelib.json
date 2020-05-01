@@ -8,8 +8,8 @@
 		"vscode"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "1.2.6",
-	"releasenote": "Fixed utest reporting with multiple asserts.",
+	"version": "1.2.8",
+	"releasenote": "Fixed compatibility with tink_testrunner 0.8.0.",
 	"contributors": [
 		"AlexHaxe",
 		"Gama11",
