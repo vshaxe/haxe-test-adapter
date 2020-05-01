@@ -1,3 +1,5 @@
+- fixed tink_testrunner injection to restore compatibility with version 0.8.0
+
 ## 1.2.7 (April 11, 2020)
 
 - fixed state of "Run all tests" button not being restored anymore since VSCode 1.44
