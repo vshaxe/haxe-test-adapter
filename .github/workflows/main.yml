@@ -24,6 +24,7 @@ jobs:
     - run: npx lix +lib buddy
     - run: npx lix +lib hexunit
     - run: npx lix +lib tink_unittest
+    - run: npx lix install gh:haxetink/tink_streams
     - run: npx lix dev test-adapter ../../test-adapter
       working-directory: samples/buddy # this is kind of a hack (lix bug even?)
     - run: npx haxe -cp .github/workflows --run RunCI
