@@ -39,8 +39,11 @@ class Reporter implements buddy.reporting.Reporter {
 					case TSpec(spec):
 						reportSpec(suiteName, spec);
 					case TSuite(s):
-						suiteName = s.description;
-						iterateSteps(suiteName, s.steps);
+						if (suiteName == "") {
+							iterateSteps(s.description, s.steps);
+						} else {
+							iterateSteps(suiteName + "." + s.description, s.steps);
+						}
 				}
 			}
 		}
