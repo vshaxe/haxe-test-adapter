@@ -31,5 +31,16 @@ class Main extends BuddySuite {
 				"A".should.be("A");
 			});
 		});
+
+		describe("TestCase4", {
+			describe("TestCase4Inner", {
+				it("testNested", {
+					"A".should.be("A");
+				});
+			});
+			it("testOuter", {
+				"A".should.be("A");
+			});
+		});
 	}
 }
