@@ -47,7 +47,7 @@ class Macro {
 		}
 
 		require("munit", "2.3.2");
-		require("utest", "1.10.0");
+		require("utest", "1.13.0");
 		require("buddy", "2.10.0");
 		require("hexunit", "0.35.0");
 		require("tink_testrunner", "0.8.0");

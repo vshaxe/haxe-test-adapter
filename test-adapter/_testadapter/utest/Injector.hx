@@ -15,13 +15,14 @@ class Injector {
 					field.addInit(macro new _testadapter.utest.Reporter(this, $v{Sys.getCwd()}));
 				case "addITest":
 					field.patch(Replace, macro {
-						if (iTestFixtures.exists(testCase)) {
+						var className = Type.getClassName(Type.getClass(testCase));
+						if (iTestFixtures.exists(className)) {
 							throw "Cannot add the same test twice.";
 						}
 						var fixtures = [];
 						var init:utest.TestData.InitializeUtest = (cast testCase : utest.TestData.Initializer).__initializeUtest__();
+						var cls:_testadapter.data.Data.SuiteId = ClassName(className);
 						for (test in init.tests) {
-							var cls:_testadapter.data.Data.SuiteId = ClassName(Type.getClassName(Type.getClass(testCase)));
 							if (!isTestFixtureName(cls, test.name, ["test", "spec"], pattern, globalPattern)) {
 								continue;
 							}
@@ -35,8 +36,10 @@ class Injector {
 						if (fixtures.length <= 0) {
 							return;
 						}
-						iTestFixtures.set(testCase, {
+						iTestFixtures.set(className, {
+							caseInstance: testCase,
 							setupClass: init.accessories.getSetupClass(),
+							dependencies: init.dependencies,
 							fixtures: fixtures,
 							teardownClass: init.accessories.getTeardownClass()
 						});

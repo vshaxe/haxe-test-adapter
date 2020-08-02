@@ -1,3 +1,6 @@
+- fixed utest injection after implementation detail changed in version 1.13.0
+- changed required version for utest to 1.13.0
+
 ## 1.2.8 (May 1, 2020)
 
 - fixed tink_testrunner injection to restore compatibility with version 0.8.0
