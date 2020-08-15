@@ -1,3 +1,5 @@
+## 1.2.9 (August 15, 2020)
+
 - fixed utest injection after implementation detail changed in version 1.13.0
 - changed required version for utest to 1.13.0
 
