@@ -26,9 +26,7 @@ class RunCI {
 		}
 
 		buildSample("samples/munit");
-		#if (haxe_ver >= 4.1)
 		buildSample("samples/utest");
-		#end
 		buildSample("samples/buddy");
 		buildSample("samples/hexunit");
 		buildSample("samples/tink_unittest");
