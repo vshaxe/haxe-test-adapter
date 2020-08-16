@@ -164,14 +164,7 @@ class HaxeTestAdapter {
 
 	function insertTestSuite(root:TestSuiteInfo, newSuiteInfo:TestSuiteInfo) {
 		var pack:Array<String> = newSuiteInfo.label.split(".");
-
 		var id:Null<String> = null;
-		var label:Null<String> = pack.pop();
-		if (label == null) {
-			root.children.push(newSuiteInfo);
-			return;
-		}
-		newSuiteInfo.label = label;
 		for (p in pack) {
 			var found:Bool = false;
 			var children:Array<TestSuiteInfo> = root.children;
@@ -198,7 +191,7 @@ class HaxeTestAdapter {
 				root = suiteInfo;
 			}
 		}
-		root.children.push(newSuiteInfo);
+		root.children = root.children.concat(newSuiteInfo.children);
 	}
 
 	function sortByLine(a:{line:Null<Int>}, b:{line:Null<Int>}) {
