@@ -138,7 +138,9 @@ class HaxeTestAdapter {
 				type: "suite",
 				label: clazz.name,
 				id: clazz.id,
-				children: classChilds
+				children: classChilds,
+				file: Path.join([baseFolder, clazz.pos.file]),
+				line: clazz.pos.line,
 			};
 			ArraySort.sort(clazz.methods, sortByLine);
 			for (test in clazz.methods) {
@@ -169,7 +171,7 @@ class HaxeTestAdapter {
 			var found:Bool = false;
 			var children:Array<TestSuiteInfo> = root.children;
 			for (child in children) {
-				if (child.label == p) {
+				if (child.label == p && child.file == newSuiteInfo.file && child.line == newSuiteInfo.line) {
 					root = child;
 					found = true;
 					break;
@@ -185,7 +187,9 @@ class HaxeTestAdapter {
 					type: "suite",
 					label: p,
 					id: id,
-					children: []
+					children: [],
+					file: newSuiteInfo.file,
+					line: newSuiteInfo.line,
 				};
 				root.children.push(suiteInfo);
 				root = suiteInfo;
