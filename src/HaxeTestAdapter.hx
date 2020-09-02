@@ -132,15 +132,13 @@ class HaxeTestAdapter {
 			}
 			return sortByLine(a.pos, b.pos);
 		});
-		var suitePositions:Array<{id:String, filename:String, testSuite:TestSuiteInfo}> = [];
 		for (clazz in classes) {
 			var classChilds:Array<TestInfo> = [];
 			var classInfo:TestSuiteInfo = {
 				type: "suite",
 				label: clazz.name,
 				id: clazz.id,
-				children: classChilds,
-				file: Path.join([baseFolder, clazz.pos.file]),
+				children: classChilds
 			};
 			ArraySort.sort(clazz.methods, sortByLine);
 			for (test in clazz.methods) {
@@ -159,31 +157,27 @@ class HaxeTestAdapter {
 				}
 				classChilds.push(testInfo);
 			}
-			insertTestSuite(suiteInfo, classInfo, suitePositions);
+			insertTestSuite(suiteInfo, classInfo);
 		}
 		return suiteInfo;
 	}
 
-	static function suiteFromPositions(suitePositions:Array<{id:String, filename:String, testSuite:TestSuiteInfo}>, id:String,
-			filename:String):Null<TestSuiteInfo> {
-		for (suitePosition in suitePositions) {
-			if (suitePosition.id == id && suitePosition.filename == filename) {
-				return suitePosition.testSuite;
-			}
-		}
-		return null;
-	}
-
-	function insertTestSuite(root:TestSuiteInfo, newSuiteInfo:TestSuiteInfo, suitePositions:Array<{id:String, filename:String, testSuite:TestSuiteInfo}>) {
+	function insertTestSuite(root:TestSuiteInfo, newSuiteInfo:TestSuiteInfo) {
 		var pack:Array<String> = newSuiteInfo.label.split(".");
+
 		var id:Null<String> = null;
+		var label:Null<String> = pack.pop();
+		if (label == null) {
+			root.children.push(newSuiteInfo);
+			return;
+		}
+		newSuiteInfo.label = label;
 		for (p in pack) {
 			var found:Bool = false;
 			var children:Array<TestSuiteInfo> = root.children;
 			for (child in children) {
-				var suite = suiteFromPositions(suitePositions, child.id, newSuiteInfo.file);
-				if (child.label == p && suite != null) {
-					root = suite;
+				if (child.label == p) {
+					root = child;
 					found = true;
 					break;
 				}
@@ -198,34 +192,13 @@ class HaxeTestAdapter {
 					type: "suite",
 					label: p,
 					id: id,
-					children: [],
+					children: []
 				};
-				var filename = newSuiteInfo.file;
-				while (filename.contains('/${p}/')) {
-					filename = Path.directory(filename);
-				}
-				var suitePosition = {
-					id: id,
-					filename: filename,
-					testSuite: suiteInfo
-				};
-
-				var existingSuite = null;
-				for (suite in suitePositions) {
-					if (suite.id == suitePosition.id && suite.filename == suitePosition.filename) {
-						existingSuite = suite;
-					}
-				}
-				if (existingSuite == null) {
-					suitePositions.push(suitePosition);
-					root.children.push(suiteInfo);
-					root = suiteInfo;
-				} else {
-					root = existingSuite.testSuite;
-				}
+				root.children.push(suiteInfo);
+				root = suiteInfo;
 			}
 		}
-		root.children = root.children.concat(newSuiteInfo.children);
+		root.children.push(newSuiteInfo);
 	}
 
 	function sortByLine(a:{line:Null<Int>}, b:{line:Null<Int>}) {
