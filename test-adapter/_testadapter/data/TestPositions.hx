@@ -38,14 +38,6 @@ class TestPositions {
 	}
 
 	public function get(className:String, testName:String):Pos {
-		// make `hoge.fuga [Piyo.hx]` to `fuga [Piyo.hx]`
-		if (~/.* \[.*\]/.match(className)) { // when not just `ClassName`
-			var tmp = className.split(".");
-			className = tmp.slice(tmp.length - 2).join(".");
-		} else {
-			className = className.split(".").pop();
-		}
-
 		var clazz = positions[className];
 		if ((clazz == null) || (clazz.pos == null) || (clazz.methods == null)) {
 			return null;

@@ -138,7 +138,8 @@ class HaxeTestAdapter {
 				type: "suite",
 				label: clazz.name,
 				id: clazz.id,
-				children: classChilds
+				children: classChilds,
+				file: clazz.pos.file
 			};
 			ArraySort.sort(clazz.methods, sortByLine);
 			for (test in clazz.methods) {
@@ -166,17 +167,12 @@ class HaxeTestAdapter {
 		var pack:Array<String> = newSuiteInfo.label.split(".");
 
 		var id:Null<String> = null;
-		var label:Null<String> = pack.pop();
-		if (label == null) {
-			root.children.push(newSuiteInfo);
-			return;
-		}
-		newSuiteInfo.label = label;
 		for (p in pack) {
 			var found:Bool = false;
 			var children:Array<TestSuiteInfo> = root.children;
 			for (child in children) {
-				if (child.label == p) {
+				var additionalCond = #if buddy child.id == = '${if (id == = null) p else '$id.$p'} [${newSuiteInfo.file}]'; #else true; #end
+				if (child.label == p && additionalCond) {
 					root = child;
 					found = true;
 					break;
@@ -191,14 +187,14 @@ class HaxeTestAdapter {
 				var suiteInfo:TestSuiteInfo = {
 					type: "suite",
 					label: p,
-					id: id,
+					id: #if buddy '$id [${newSuiteInfo.file}]' #else id #end,
 					children: []
 				};
 				root.children.push(suiteInfo);
 				root = suiteInfo;
 			}
 		}
-		root.children.push(newSuiteInfo);
+		root.children = root.children.concat(newSuiteInfo.children);
 	}
 
 	function sortByLine(a:{line:Null<Int>}, b:{line:Null<Int>}) {
