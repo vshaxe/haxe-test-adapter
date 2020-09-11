@@ -1,11 +1,11 @@
 package _testadapter.buddy;
 
-import _testadapter.data.Data;
-import _testadapter.data.TestResults;
-import buddy.reporting.ConsoleReporter;
 import buddy.BuddySuite.Spec;
 import buddy.BuddySuite.Step;
 import buddy.BuddySuite.Suite;
+import buddy.reporting.ConsoleReporter;
+import _testadapter.data.Data;
+import _testadapter.data.TestResults;
 
 class Reporter implements buddy.reporting.Reporter {
 	var testResults:TestResults;
@@ -33,14 +33,30 @@ class Reporter implements buddy.reporting.Reporter {
 	}
 
 	public function done(suites:Iterable<Suite>, status:Bool) {
+		var duplicateNames:Map<String, Int> = new Map<String, Int>();
+		function uniqueSuiteName(suiteName:String):String {
+			if (duplicateNames.exists(suiteName)) {
+				var count:Int = duplicateNames.get(suiteName);
+				count++;
+				duplicateNames.set(suiteName, count);
+				suiteName = '$suiteName <$count>';
+			} else {
+				duplicateNames.set(suiteName, 1);
+			}
+			return suiteName;
+		}
+
 		function iterateSteps(suiteName:String, steps:Array<Step>) {
 			for (step in steps) {
 				switch step {
 					case TSpec(spec):
 						reportSpec(suiteName, spec);
 					case TSuite(s):
-						suiteName = s.description;
-						iterateSteps(suiteName, s.steps);
+						if (suiteName == "") {
+							iterateSteps(uniqueSuiteName(s.description), s.steps);
+						} else {
+							iterateSteps(uniqueSuiteName(suiteName + "." + s.description), s.steps);
+						}
 				}
 			}
 		}
@@ -53,7 +69,9 @@ class Reporter implements buddy.reporting.Reporter {
 	}
 
 	function reportSpec(suiteName:String, spec:Spec) {
+		var testSpec:_testadapter.buddy.Spec = cast spec;
 		var suiteId:SuiteId = SuiteNameAndFile(suiteName, spec.fileName);
+		var testId:TestIdentifier = TestNameAndPos(spec.description, spec.fileName, testSpec.pos.lineNumber - 1);
 		switch (spec.status) {
 			case Failed:
 				var message:String = "";
@@ -73,13 +91,13 @@ class Reporter implements buddy.reporting.Reporter {
 						}
 					}
 				}
-				testResults.add(suiteId, TestName(spec.description), spec.time, Failure, message, lineNumber);
+				testResults.add(suiteId, testId, spec.time, Failure, message, lineNumber);
 			case Passed:
-				testResults.add(suiteId, TestName(spec.description), spec.time, Success);
+				testResults.add(suiteId, testId, spec.time, Success);
 			case Pending:
-				testResults.add(suiteId, TestName(spec.description), spec.time, Success);
+				testResults.add(suiteId, testId, spec.time, Success);
 			case Unknown:
-				testResults.add(suiteId, TestName(spec.description), spec.time, Error);
+				testResults.add(suiteId, testId, spec.time, Error);
 		}
 	}
 }

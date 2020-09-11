@@ -132,6 +132,16 @@ class HaxeTestAdapter {
 			}
 			return sortByLine(a.pos, b.pos);
 		});
+
+		function makeFileName(file:String):String {
+			var fileName:String = Path.join([baseFolder, file]);
+			// it seems Test Explorer UI wants backslashes on Windows
+			if (Sys.systemName() == "Windows") {
+				fileName = fileName.replace("/", "\\");
+			}
+			return fileName;
+		}
+
 		for (clazz in classes) {
 			var classChilds:Array<TestInfo> = [];
 			var classInfo:TestSuiteInfo = {
@@ -140,6 +150,10 @@ class HaxeTestAdapter {
 				id: clazz.id,
 				children: classChilds
 			};
+			if (clazz.pos != null && clazz.pos.file != null && clazz.pos.line != 0) {
+				classInfo.file = makeFileName(clazz.pos.file);
+				classInfo.line = clazz.pos.line;
+			}
 			ArraySort.sort(clazz.methods, sortByLine);
 			for (test in clazz.methods) {
 				var testInfo:TestInfo = {
@@ -148,11 +162,7 @@ class HaxeTestAdapter {
 					label: test.name,
 				};
 				if (clazz.pos != null && clazz.pos.file != null) {
-					testInfo.file = Path.join([baseFolder, clazz.pos.file]);
-					// it seems Test Explorer UI wants backslashes on Windows
-					if (Sys.systemName() == "Windows") {
-						testInfo.file = testInfo.file.replace("/", "\\");
-					}
+					testInfo.file = makeFileName(clazz.pos.file);
 					testInfo.line = test.line;
 				}
 				classChilds.push(testInfo);

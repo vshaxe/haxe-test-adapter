@@ -4,6 +4,7 @@ package _testadapter.buddy;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 
+using haxe.macro.ExprTools;
 using _testadapter.PatchTools;
 
 class Injector {
@@ -19,10 +20,15 @@ class Injector {
 				case "mapTestSpec":
 					field.patch(Start, macro switch (testSpec) {
 						case It(description, _, _, pos, _):
-							var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndFile(testSuite.description, pos.fileName);
+							var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndPos(testSuite.description, pos.fileName, pos.lineNumber);
 							adapterReporter.addPosition(suiteId, description, pos.fileName, pos.lineNumber - 1);
 						case _:
 					});
+					switch (field.kind) {
+						case FFun(f):
+							replaceSpec(f.expr);
+						case _:
+					}
 				case _:
 			}
 		}
@@ -38,14 +44,64 @@ class Injector {
 		for (field in fields) {
 			if (field.name == "it" || field.name == "xit") {
 				field.patch(Start, macro {
-					var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndFile(currentSuite.description, pos.fileName);
-					if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, suiteId, desc)) {
+					var prefix:String = fullDescribePath(suite, currentSuite);
+					if (prefix == null) {
+						prefix = "";
+					}
+					var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndFile(prefix + currentSuite.description, pos.fileName);
+					if (!_testadapter.data.TestFilter.shouldRunTestBuddy($v{Macro.filters}, suiteId, desc)) {
 						return;
 					}
 				});
 			}
 		}
-		return fields;
+
+		var extraFields = (macro class {
+			function fullDescribePath(root:TestSuite, search:TestSuite):Null<String> {
+				for (childSpec in root.specs) {
+					switch (childSpec) {
+						case Describe(child, _):
+							if (child == search) {
+								if (root.description.length <= 0) {
+									return root.description;
+								} else {
+									return root.description + ".";
+								}
+							}
+							var path:Null<String> = fullDescribePath(child, search);
+							if (path != null) {
+								var prefix:String = root.description;
+								if (prefix.length > 0) {
+									prefix += ".";
+								}
+								return prefix + path;
+							}
+						case _:
+					}
+				}
+				return null;
+			}
+		}).fields;
+
+		return fields.concat(extraFields);
+	}
+
+	static function replaceSpec(func:Expr):Expr {
+		switch (func.expr) {
+			case EBinop(OpAssign, e1, e2):
+				switch (e2.expr) {
+					case ENew(t, params):
+						if (t.name == "Spec") {
+							e2.expr = (macro new _testadapter.buddy.Spec(desc, pos)).expr;
+						}
+					case _:
+						func.map(replaceSpec);
+				}
+				return null;
+			case _:
+				func.map(replaceSpec);
+		}
+		return null;
 	}
 }
 #end

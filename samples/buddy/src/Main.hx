@@ -1,6 +1,6 @@
-import tests.TestCase3;
 import buddy.BuddySuite;
 import buddy.SuitesRunner;
+import tests.TestCase3;
 
 using buddy.Should;
 
