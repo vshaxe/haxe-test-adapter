@@ -1,13 +1,14 @@
 package _testadapter.data;
 
 import haxe.io.Path;
+
+using StringTools;
+
 #if (sys || nodejs)
 import haxe.Json;
 import sys.FileSystem;
 import sys.io.File;
 #end
-
-using StringTools;
 
 typedef TestFilterList = Array<String>;
 
@@ -91,6 +92,44 @@ class TestFilter {
 				return true;
 			}
 			if (location.startsWith(filter + ".")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static function shouldRunTestBuddy(testFilters:TestFilterList, className:String, testName:String):Bool {
+		if (!hasFilters(testFilters)) {
+			return true;
+		}
+		var location:String = '$className.$testName';
+		var parts:Array<String> = location.split(" ");
+		if (parts.length < 2) {
+			return true;
+		}
+		for (filter in testFilters) {
+			var reg:EReg = ~/<[0-9]+> /;
+			filter = reg.replace(filter, "");
+			if (location == filter) {
+				return true;
+			}
+			var filterParts:Array<String> = filter.split(" ");
+			if (filterParts.length < 2) {
+				return true;
+			}
+			if (filterParts[1].contains("].")) {
+				if (parts[1] != filterParts[1]) {
+					continue;
+				}
+			} else {
+				if (!parts[1].startsWith(filterParts[1])) {
+					continue;
+				}
+			}
+			if (parts[0] == filterParts[0]) {
+				return true;
+			}
+			if (parts[0].startsWith(filterParts[0] + ".")) {
 				return true;
 			}
 		}
