@@ -117,7 +117,7 @@ class TestFilter {
 			if (filterParts.length < 2) {
 				return true;
 			}
-			if (filterParts[1].contains("].")) {
+			if (filterParts[1].indexOf("].") >= 0) {
 				if (parts[1] != filterParts[1]) {
 					continue;
 				}
