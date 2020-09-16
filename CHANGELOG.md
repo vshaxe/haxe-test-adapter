@@ -1,3 +1,5 @@
+- added support for nested describe calls in buddy tests
+
 ## 1.2.9 (August 15, 2020)
 
 - fixed utest injection after implementation detail changed in version 1.13.0

@@ -49,7 +49,7 @@ class Injector {
 						prefix = "";
 					}
 					var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndFile(prefix + currentSuite.description, pos.fileName);
-					if (!_testadapter.data.TestFilter.shouldRunTestBuddy($v{Macro.filters}, suiteId, desc)) {
+					if (!_testadapter.data.TestFilter.shouldRunTest($v{Macro.filters}, suiteId, desc)) {
 						return;
 					}
 				});

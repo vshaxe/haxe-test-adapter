@@ -10,13 +10,13 @@ class TestCase3 extends buddy.SingleSuite {
 			});
 		});
 		describe("TestCase3", {
-			it("testSuccess", {
-				"A".should.be("A");
-			});
 			describe("TestCase", {
 				it("testSuccess", {
 					"A".should.be("A");
 				});
+			});
+			it("testSuccess", {
+				"A".should.be("A");
 			});
 			describe("innerTestCase3", {
 				it("testSuccess", {

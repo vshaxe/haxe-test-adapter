@@ -2,12 +2,12 @@ package _testadapter.data;
 
 import haxe.Timer;
 import haxe.io.Path;
+import _testadapter.data.Data;
 #if (sys || nodejs)
-import json2object.JsonParser;
 import sys.FileSystem;
 import sys.io.File;
+import json2object.JsonParser;
 #end
-import _testadapter.data.Data;
 
 class TestResults {
 	var baseFolder:String;
@@ -77,8 +77,19 @@ class TestResults {
 
 	public function save() {
 		#if (sys || nodejs)
+		suiteResults.classes.sort(sortClasses);
 		Data.save(getFileName(baseFolder), suiteResults);
 		#end
+	}
+
+	function sortClasses(a:TestClassResults, b:TestClassResults):Int {
+		if (a.id < b.id) {
+			return -1;
+		}
+		if (a.id > b.id) {
+			return 1;
+		}
+		return 0;
 	}
 
 	public static function clear(baseFolder:String) {
