@@ -78,6 +78,8 @@ abstract SuiteId(SuiteIdentifier) from SuiteIdentifier to SuiteIdentifier {
 	@:to
 	public function toString():String {
 		#if buddy
+		// buddy test hierarchies do not span multiple files, so they shouldn't be merged
+		// putting file first makes sure filtering of buddy tests work for nested describe calls
 		return switch (this) {
 			case ClassName(className):
 				className;
