@@ -1,7 +1,7 @@
 package _testadapter.data;
 
-import haxe.io.Path;
 import haxe.Json;
+import haxe.io.Path;
 #if (sys || hxnodejs)
 import sys.FileSystem;
 import sys.io.File;
@@ -77,13 +77,24 @@ enum TestIdentifier {
 abstract SuiteId(SuiteIdentifier) from SuiteIdentifier to SuiteIdentifier {
 	@:to
 	public function toString():String {
-		switch (this) {
+		#if buddy
+		return switch (this) {
 			case ClassName(className):
-				return className;
+				className;
 			case SuiteNameAndPos(name, fileName, lineNumber):
-				return '$name [$fileName:$lineNumber]';
+				'[$fileName:$lineNumber] $name';
 			case SuiteNameAndFile(name, fileName):
-				return '$name [$fileName]';
+				'[$fileName] $name';
 		}
+		#else
+		return switch (this) {
+			case ClassName(className):
+				className;
+			case SuiteNameAndPos(name, fileName, lineNumber):
+				'$name [$fileName:$lineNumber]';
+			case SuiteNameAndFile(name, fileName):
+				'$name [$fileName]';
+		}
+		#end
 	}
 }
