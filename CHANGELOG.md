@@ -1,3 +1,5 @@
+## 1.2.10 (October 11, 2020)
+
 - added support for nested describe calls in buddy tests
 
 ## 1.2.9 (August 15, 2020)
