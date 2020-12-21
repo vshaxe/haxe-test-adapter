@@ -19,7 +19,7 @@ jobs:
     - run: npx lix install haxe ${{matrix.haxe-version}}
     - run: npx lix +lib munit
     - run: npx lix +lib hamcrest
-    - run: npx lix +lib utest
+    - run: npx lix install gh:haxe-utest/utest
     - run: npx lix +lib hx3compat
     - run: npx lix +lib buddy
     - run: npx lix +lib hexunit
