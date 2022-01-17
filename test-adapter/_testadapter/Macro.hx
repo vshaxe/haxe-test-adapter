@@ -18,7 +18,7 @@ import haxe.display.Position.Location;
 class Macro {
 	#if macro
 	static var positions = new TestPositions(Sys.getCwd(), new Positions());
-	public static var filters(default, null):Array<String>;
+	public static var filters(default, null):TestFilterList;
 
 	static function require(lib:String, minVersion:String) {
 		var version = Context.definedValue(lib);
@@ -55,7 +55,10 @@ class Macro {
 		setupHooks();
 
 		var testFilter = new TestFilter(Sys.getCwd());
-		filters = testFilter.get();
+		filters = {
+			include: testFilter.get().include,
+			exclude: testFilter.get().exclude
+		};
 		testFilter.clear();
 
 		Context.onGenerate(function(_) {

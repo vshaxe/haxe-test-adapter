@@ -1,0 +1,5 @@
+# @install: lix --silent download "haxelib:/hexcore#0.35.0" into hexcore/0.35.0/haxelib
+-lib hexlog
+-lib tink_macro
+-cp ${HAXE_LIBCACHE}/hexcore/0.35.0/haxelib/src
+-D hexcore=0.35.0

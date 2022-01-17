@@ -1,7 +1,7 @@
-import tests.TestSuite2;
-import massive.munit.client.RichPrintClient;
-import massive.munit.TestRunner;
 import massive.munit.Assert;
+import massive.munit.TestRunner;
+import massive.munit.client.RichPrintClient;
+import tests.TestSuite2;
 
 class Main {
 	static function main() {

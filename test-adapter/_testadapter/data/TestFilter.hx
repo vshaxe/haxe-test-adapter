@@ -10,7 +10,10 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-typedef TestFilterList = Array<String>;
+typedef TestFilterList = {
+	include:Array<String>,
+	exclude:Array<String>
+};
 
 class TestFilter {
 	var testFilters:TestFilterList;
@@ -19,23 +22,30 @@ class TestFilter {
 
 	public function new(baseFolder:String) {
 		this.baseFolder = baseFolder;
-		testFilters = [];
+		testFilters = {
+			include: [],
+			exclude: []
+		};
 		loaded = false;
 	}
 
-	public function set(filter:Array<String>) {
-		testFilters = [];
-		for (f in filter) {
-			if (f == "root") {
-				testFilters = [];
+	public function set(include:Array<String>, exclude:Array<String>) {
+		testFilters.include = [];
+		testFilters.exclude = [];
+		for (f in include) {
+			if (f.startsWith("root:")) {
+				testFilters.include = [];
 				break;
 			}
-			testFilters.push(f);
+			testFilters.include.push(f);
+		}
+		for (f in exclude) {
+			testFilters.exclude.push(f);
 		}
 		save(baseFolder);
 	}
 
-	public function get():Array<String> {
+	public function get():TestFilterList {
 		if (!loaded) {
 			load();
 		}
@@ -43,7 +53,8 @@ class TestFilter {
 	}
 
 	public function clear() {
-		testFilters = [];
+		testFilters.include = [];
+		testFilters.exclude = [];
 		save();
 	}
 
@@ -59,7 +70,8 @@ class TestFilter {
 	}
 
 	function load() {
-		testFilters = [];
+		testFilters.include = [];
+		testFilters.exclude = [];
 		#if (sys || nodejs)
 		var fileName:String = getFileName();
 		if (!FileSystem.exists(fileName)) {
@@ -67,10 +79,15 @@ class TestFilter {
 		}
 		var content:String = File.getContent(fileName);
 		var filters:TestFilterList = Json.parse(content);
-		for (filter in filters) {
+		for (filter in filters.include) {
 			var reg:EReg = ~/ <[0-9]+>/;
 			filter = reg.replace(filter, "");
-			testFilters.push(filter);
+			testFilters.include.push(filter);
+		}
+		for (filter in filters.exclude) {
+			var reg:EReg = ~/ <[0-9]+>/;
+			filter = reg.replace(filter, "");
+			testFilters.exclude.push(filter);
 		}
 		#end
 		loaded = true;
@@ -81,7 +98,7 @@ class TestFilter {
 	}
 
 	public static function hasFilters(testFilters:TestFilterList):Bool {
-		return (testFilters != null) && (testFilters.length > 0);
+		return (testFilters != null) && ((testFilters.include.length + testFilters.exclude.length > 0));
 	}
 
 	public static function shouldRunTest(testFilters:TestFilterList, className:String, testName:String):Bool {
@@ -89,7 +106,15 @@ class TestFilter {
 			return true;
 		}
 		var location:String = '$className.$testName';
-		for (filter in testFilters) {
+		for (filter in testFilters.exclude) {
+			if (location == filter) {
+				return false;
+			}
+			if (location.startsWith(filter + ".")) {
+				return false;
+			}
+		}
+		for (filter in testFilters.include) {
 			if (location == filter) {
 				return true;
 			}

@@ -2,23 +2,24 @@
 
 [![CI](https://img.shields.io/github/workflow/status/vshaxe/haxe-test-adapter/CI.svg?logo=github)](https://github.com/vshaxe/haxe-test-adapter/actions?query=workflow%3ACI) [![Version](https://vsmarketplacebadge.apphb.com/version-short/vshaxe.haxe-test-adapter.svg)](https://marketplace.visualstudio.com/items?itemName=vshaxe.haxe-test-adapter) [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/vshaxe.haxe-test-adapter.svg)](https://marketplace.visualstudio.com/items?itemName=vshaxe.haxe-test-adapter)
 
-A test adapter for VSCode using the [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) extension.
+A VSCode test controller for Haxe.
 
-![VSCode Test Adapter for Haxe](images/demo.gif)
+![VSCode test controller for Haxe](images/demo.gif)
 
 ## Features
 
 * Records [munit](https://github.com/massiveinteractive/MassiveUnit), [utest](https://github.com/haxe-utest/utest), [buddy](https://github.com/ciscoheat/buddy), [hexUnit](https://github.com/DoclerLabs/hexUnit), [tink_unittest](https://github.com/haxetink/tink_unittest) and [haxe.unit](https://api.haxe.org/haxe/unit/TestRunner.html) test results as JSON files
-* Shows latest test results in VSCode using the Test Explorer UI extension
+* Shows latest test results in VSCode
 * Supports filtering / running individual tests directly from VSCode
 * Supports Haxe 3.4.7 and 4+ (detection of test function line numbers only works with Haxe 4)
+* Supports multi-root workspaces
 * Currently only works for Node.js and sys targets
 
 ## Usage
 
 A small sample project for each supported framework can be found in the [samples](https://github.com/vshaxe/haxe-test-adapter/tree/master/samples) directory.
 
-You can run your tests using the `Test Explorer: Run all tests` command or by clicking the button in the "Test" tab of the activity bar. The command that it runs can be configured with this setting:
+You can run your tests by clicking the button in the "Test" tab of the activity bar. The command that it runs can be configured via `settings.json`:
 
 ```json
 "haxeTestExplorer.testCommand": [
@@ -74,7 +75,5 @@ npx haxe build.hxml
 
 haxelib dev test-adapter test-adapter
 ```
-
-It's also necessary to have the [Test Explorer UI](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-test-explorer) extension installed (when installing Haxe Test Explorer from the markteplace, this is done automatically).
 
 If you open the project in VSCode, the default `display.hxml` assumes you have all supported test frameworks installed. If you just want code completion for the sources of the extension itself, or the non-framework-specific parts of `test-adapter`, you can select `build.hxml` as your active Haxe configuration instead.

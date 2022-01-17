@@ -1,3 +1,8 @@
+## 1.3.0 (soonish)
+
+- added support for VSCode testing API
+- dropped test explorer ui extension dependency
+
 ## 1.2.10 (October 11, 2020)
 
 - added support for nested describe calls in buddy tests

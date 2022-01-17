@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "buddy"
+		},
+		{
+			"path": "haxeunit"
+		},
+		{
+			"path": "hexunit"
+		},
+		{
+			"path": "munit"
+		},
+		{
+			"path": "tink_unittest"
+		},
+		{
+			"path": "utest"
+		}
+	],
+	"settings": {}
+}

@@ -4,7 +4,8 @@
 		{
 			"name": "Debug",
 			"type": "haxe-eval",
-			"request": "launch"
+			"request": "launch",
+			"args": ["test.hxml", "--lib", "test-adapter"]
 		}
 	]
 }

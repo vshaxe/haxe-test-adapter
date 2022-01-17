@@ -1,0 +1,4 @@
+# @install: lix --silent download "haxelib:/hexunit#0.35.0" into hexunit/0.35.0/haxelib
+-lib hexcore
+-cp ${HAXE_LIBCACHE}/hexunit/0.35.0/haxelib/src
+-D hexunit=0.35.0

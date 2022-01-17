@@ -6,4 +6,4 @@
 -cp test-adapter
 -js bin/main.js
 -debug
-Main
+HaxeTestController

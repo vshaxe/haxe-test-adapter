@@ -1,9 +1,16 @@
 import tests.TestCase3;
+import tests.pack.TestCase4;
 import utest.Assert;
 
 class Main {
 	static function main() {
-		utest.UTest.run([new TestCase(), new TestCase2(), new tests.TestCase(), new TestCase3()]);
+		utest.UTest.run([
+			new TestCase(),
+			new TestCase2(),
+			new tests.TestCase(),
+			new TestCase3(),
+			new TestCase4()
+		]);
 	}
 }
 
