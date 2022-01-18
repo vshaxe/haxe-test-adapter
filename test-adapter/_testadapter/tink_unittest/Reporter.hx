@@ -32,23 +32,23 @@ class Reporter implements tink.testrunner.Reporter {
 			case Assertion(assertion):
 				switch (assertion.holds) {
 					case Success(_):
-						testResults.add(currentSuiteId, currentCaseId, 0, TestState.Success);
+						testResults.add(currentSuiteId, currentCaseId, null, TestState.Success);
 					case Failure(msg):
 						if (msg == null) {
 							msg = assertion.description;
 						}
-						testResults.add(currentSuiteId, currentCaseId, 0, TestState.Failure, msg, assertion.pos.lineNumber - 1);
+						testResults.add(currentSuiteId, currentCaseId, null, TestState.Failure, msg, assertion.pos.lineNumber - 1);
 				}
 			case CaseFinish(result):
 				switch (result.result) {
 					case Failed(msg):
-						testResults.add(currentSuiteId, currentCaseId, 0, TestState.Error, msg.toString(), msg.pos.lineNumber - 1);
+						testResults.add(currentSuiteId, currentCaseId, null, TestState.Error, msg.toString(), msg.pos.lineNumber - 1);
 					case Succeeded(asserts):
 						if ((asserts == null) || (asserts.length <= 0)) {
-							testResults.add(currentSuiteId, currentCaseId, 0, TestState.Success);
+							testResults.add(currentSuiteId, currentCaseId, null, TestState.Success);
 						}
 					case Excluded:
-						testResults.add(currentSuiteId, currentCaseId, 0, TestState.Ignore);
+						testResults.add(currentSuiteId, currentCaseId, null, TestState.Ignore);
 				}
 			case SuiteFinish(_):
 		}

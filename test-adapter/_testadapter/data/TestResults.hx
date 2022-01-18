@@ -21,7 +21,7 @@ class TestResults {
 		suiteResults = load(baseFolder);
 	}
 
-	public function add(suiteId:SuiteId, testId:TestIdentifier, executionTime:Float = 0, state:TestState, ?message:String, ?errorLine:Int) {
+	public function add(suiteId:SuiteId, testId:TestIdentifier, ?executionTime:Float, state:TestState, ?message:String, ?errorLine:Int) {
 		var line:Null<Int> = null;
 		var className:String;
 		var suitePos:Pos;
@@ -48,7 +48,6 @@ class TestResults {
 				testName = name;
 				line = lineNumber;
 		}
-
 		function makeTest():TestMethodResults {
 			return {
 				name: testName,

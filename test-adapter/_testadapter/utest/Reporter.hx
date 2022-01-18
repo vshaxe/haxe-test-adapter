@@ -1,8 +1,6 @@
 package _testadapter.utest;
 
-import _testadapter.data.Data.TestState;
 import haxe.CallStack;
-import _testadapter.data.TestResults;
 import utest.Assertation;
 import utest.Runner;
 import utest.ui.common.ClassResult;
@@ -11,6 +9,8 @@ import utest.ui.common.HeaderDisplayMode;
 import utest.ui.common.IReport;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultAggregator;
+import _testadapter.data.Data.TestState;
+import _testadapter.data.TestResults;
 
 class Reporter implements IReport<Reporter> {
 	public var displaySuccessResults:SuccessResultsDisplayMode;
@@ -64,7 +64,11 @@ class Reporter implements IReport<Reporter> {
 						}
 					}
 					var dotPath = if (packageName == "") className else '$packageName.$className';
-					testResults.add(ClassName(dotPath), TestName(testName), 0, state, message, errorLine);
+					var executionTime:Null<Float> = null;
+					if (Reflect.hasField(fix, "executionTime")) {
+						executionTime = Reflect.field(fix, "executionTime");
+					}
+					testResults.add(ClassName(dotPath), TestName(testName), executionTime, state, message, errorLine);
 				}
 			}
 		}

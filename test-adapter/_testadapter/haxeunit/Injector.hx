@@ -46,7 +46,7 @@ class Injector {
 							errorLine = r.posInfos.lineNumber - 1;
 						}
 					}
-					testResults.add(ClassName(r.classname), TestName(r.method), 0, state, r.error, errorLine);
+					testResults.add(ClassName(r.classname), TestName(r.method), null, state, r.error, errorLine);
 				}
 				testResults.save();
 			}

@@ -1,6 +1,7 @@
 ## 1.3.0 (soonish)
 
 - added support for VSCode testing API
+- added test execution time (in ms) for buddy, munit, hexunit and (potentially) utest
 - dropped test explorer ui extension dependency
 
 ## 1.2.10 (October 11, 2020)

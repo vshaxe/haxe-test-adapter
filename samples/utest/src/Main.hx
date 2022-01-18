@@ -16,19 +16,24 @@ class Main {
 
 class TestCase extends utest.Test {
 	function testSuccess() {
+		Sys.sleep(Math.random());
 		Assert.isTrue(true);
 	}
 
 	function testFailure() {
+		Sys.sleep(Math.random());
 		Assert.equals("A", "B");
 		Assert.isTrue(true);
 	}
 
 	function testError() {
+		Sys.sleep(Math.random());
 		throw "failure";
 	}
 
-	function testEmpty() {}
+	function testEmpty() {
+		Sys.sleep(Math.random());
+	}
 
 	@Ignored("Description")
 	function testIgnore() {}

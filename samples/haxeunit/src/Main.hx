@@ -13,18 +13,23 @@ class Main {
 
 class TestCase extends haxe.unit.TestCase {
 	function testSuccess() {
+		Sys.sleep(Math.random());
 		assertTrue(true);
 	}
 
 	function testFailure() {
+		Sys.sleep(Math.random());
 		assertEquals("A", "B");
 	}
 
 	function testError() {
+		Sys.sleep(Math.random());
 		throw "error";
 	}
 
-	function testEmpty() {}
+	function testEmpty() {
+		Sys.sleep(Math.random());
+	}
 }
 
 class TestCase2 extends haxe.unit.TestCase {

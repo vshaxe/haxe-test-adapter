@@ -22,21 +22,26 @@ class TestSuite extends massive.munit.TestSuite {
 class TestCase {
 	@Test
 	function testSuccess() {
+		Sys.sleep(Math.random());
 		Assert.isTrue(true);
 	}
 
 	@Test
 	function testFailure() {
+		Sys.sleep(Math.random());
 		Assert.areEqual("A", "B");
 	}
 
 	@Test
 	function testError() {
+		Sys.sleep(Math.random());
 		throw "error";
 	}
 
 	@Test
-	function testEmpty() {}
+	function testEmpty() {
+		Sys.sleep(Math.random());
+	}
 
 	@Test @Ignore("Description")
 	function testIgnore() {}

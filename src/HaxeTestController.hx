@@ -299,7 +299,11 @@ class HaxeTestController {
 	function updateTestState(test:TestMethodResults, testItem:TestItem, clazzUri:Uri) {
 		switch (test.state) {
 			case Success:
-				currentRun.passed(testItem);
+				if (test.executionTime == null) {
+					currentRun.passed(testItem);
+				} else {
+					currentRun.passed(testItem, test.executionTime);
+				}
 			case Failure:
 				var msg:TestMessage = new TestMessage(test.message);
 				// utest diff format
@@ -327,11 +331,19 @@ class HaxeTestController {
 					msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
 				}
 				msg.location = new Location(clazzUri, new Range(test.line + 1, 0, test.line + 1, 0));
-				currentRun.failed(testItem, msg);
+				if (test.executionTime == null) {
+					currentRun.failed(testItem, msg);
+				} else {
+					currentRun.failed(testItem, msg, test.executionTime);
+				}
 			case Error:
 				var msg:TestMessage = new TestMessage(test.message);
 				msg.location = new Location(clazzUri, new Range(test.line + 1, 0, test.line + 1, 0));
-				currentRun.errored(testItem, msg);
+				if (test.executionTime == null) {
+					currentRun.errored(testItem, msg);
+				} else {
+					currentRun.errored(testItem, msg, test.executionTime);
+				}
 			case Ignore:
 				currentRun.skipped(testItem);
 		}

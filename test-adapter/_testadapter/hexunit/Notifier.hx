@@ -47,7 +47,7 @@ class Notifier implements ITestClassResultListener {
 
 	public function onIgnore(descriptor:ClassDescriptor):Void {
 		var methodDescriptor = descriptor.currentMethodDescriptor();
-		testResults.add(ClassName(descriptor.className), TestName(methodDescriptor.methodName), 0, Ignore);
+		testResults.add(ClassName(descriptor.className), TestName(methodDescriptor.methodName), null, Ignore);
 	}
 
 	function getLineNumber(error:hex.error.Exception):Null<Int> {

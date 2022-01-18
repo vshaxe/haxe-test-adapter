@@ -91,13 +91,13 @@ class Reporter implements buddy.reporting.Reporter {
 						}
 					}
 				}
-				testResults.add(suiteId, testId, spec.time, Failure, message, lineNumber);
+				testResults.add(suiteId, testId, spec.time * 1000, Failure, message, lineNumber);
 			case Passed:
-				testResults.add(suiteId, testId, spec.time, Success);
+				testResults.add(suiteId, testId, spec.time * 1000, Success);
 			case Pending:
-				testResults.add(suiteId, testId, spec.time, Success);
+				testResults.add(suiteId, testId, spec.time * 1000, Success);
 			case Unknown:
-				testResults.add(suiteId, testId, spec.time, Error);
+				testResults.add(suiteId, testId, spec.time * 1000, Error);
 		}
 	}
 }
