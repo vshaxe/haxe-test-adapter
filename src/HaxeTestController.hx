@@ -330,7 +330,11 @@ class HaxeTestController {
 				if (reg.match(test.message)) {
 					msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
 				}
-				msg.location = new Location(clazzUri, new Range(test.line + 1, 0, test.line + 1, 0));
+				var line = test.errorLine;
+				if (line == null) {
+					line = test.line;
+				}
+				msg.location = new Location(clazzUri, new Range(line, 0, line + 1, 0));
 				if (test.executionTime == null) {
 					currentRun.failed(testItem, msg);
 				} else {
@@ -338,7 +342,7 @@ class HaxeTestController {
 				}
 			case Error:
 				var msg:TestMessage = new TestMessage(test.message);
-				msg.location = new Location(clazzUri, new Range(test.line + 1, 0, test.line + 1, 0));
+				msg.location = new Location(clazzUri, new Range(test.line, 0, test.line, 0));
 				if (test.executionTime == null) {
 					currentRun.errored(testItem, msg);
 				} else {
