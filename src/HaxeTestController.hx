@@ -28,12 +28,6 @@ import vscode.WorkspaceFolder;
 
 using StringTools;
 
-typedef TestItemData = {
-	test:TestMethodResults,
-	testItem:TestItem,
-	clazzUri:Uri
-}
-
 class HaxeTestController {
 	static inline final HAXE_TESTS = "Haxe Tests";
 
@@ -166,10 +160,15 @@ class HaxeTestController {
 	}
 
 	function cancel() {
-		currentRun.end();
+		if (currentRun != null) {
+			currentRun.end();
+		}
 		currentRun = null;
+		channel.appendLine('Test run for ${workspaceFolder.name} cancelled');
 		Vscode.debug.stopDebugging();
-		currentTask.terminate();
+		if (currentTask != null) {
+			currentTask.terminate();
+		}
 		currentTask = null;
 	}
 
@@ -206,6 +205,22 @@ class HaxeTestController {
 		var root:TestItem = controller.createTestItem(testSuiteResults.name + ":" + workspaceFolder.name, workspaceFolder.name);
 		controller.items.add(root);
 
+		function sortByLine(a:{line:Null<Int>}, b:{line:Null<Int>}) {
+			if (a.line == null || b.line == null) {
+				return 0;
+			}
+			return a.line - b.line;
+		}
+
+		function makeFileName(file:String):String {
+			var fileName:String = Path.join([baseFolder, file]);
+			// it seems Test Explorer UI wants backslashes on Windows
+			if (Sys.systemName() == "Windows") {
+				fileName = fileName.replace("/", "\\");
+			}
+			return fileName;
+		}
+
 		var classes = testSuiteResults.classes;
 		ArraySort.sort(classes, (a, b) -> {
 			if (a.pos == null || b.pos == null) {
@@ -217,16 +232,6 @@ class HaxeTestController {
 			return sortByLine(a.pos, b.pos);
 		});
 
-		function makeFileName(file:String):String {
-			var fileName:String = Path.join([baseFolder, file]);
-			// it seems Test Explorer UI wants backslashes on Windows
-			if (Sys.systemName() == "Windows") {
-				fileName = fileName.replace("/", "\\");
-			}
-			return fileName;
-		}
-
-		var testItems:Array<TestItemData> = [];
 		for (clazz in classes) {
 			var clazzUri:Uri = Uri.file(makeFileName(clazz.pos.file));
 			var classItem:TestItem = controller.createTestItem(clazz.id, clazz.name, clazzUri);
@@ -241,16 +246,9 @@ class HaxeTestController {
 					testItem.range = new Range(test.line, 0, test.line, 0);
 				}
 				classItem.children.add(testItem);
-				testItems.push({
-					test: test,
-					testItem: testItem,
-					clazzUri: clazzUri
-				});
+				updateTestState(test, testItem, clazzUri);
 			}
 			insertTestSuite(root, classItem);
-		}
-		for (item in testItems) {
-			updateTestState(item.test, item.testItem, item.clazzUri);
 		}
 	}
 
@@ -289,13 +287,6 @@ class HaxeTestController {
 		root.children.add(newItem);
 	}
 
-	function sortByLine(a:{line:Null<Int>}, b:{line:Null<Int>}) {
-		if (a.line == null || b.line == null) {
-			return 0;
-		}
-		return a.line - b.line;
-	}
-
 	function updateTestState(test:TestMethodResults, testItem:TestItem, clazzUri:Uri) {
 		switch (test.state) {
 			case Success:
@@ -305,31 +296,7 @@ class HaxeTestController {
 					currentRun.passed(testItem, test.executionTime);
 				}
 			case Failure:
-				var msg:TestMessage = new TestMessage(test.message);
-				// utest diff format
-				var reg:EReg = ~/^expected "(.*)" but it is "(.*)"$/;
-				if (reg.match(test.message)) {
-					msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
-				}
-				reg = ~/^expected (.*) but it is (.*)$/;
-				if (reg.match(test.message)) {
-					msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
-				}
-				// munit diff format
-				reg = ~/^Value \[(.*)\] was not equal to expected value \[(.*)\]$/;
-				if (reg.match(test.message)) {
-					msg = TestMessage.diff(test.message, reg.matched(2), reg.matched(1));
-				}
-				// buddy diff format
-				reg = ~/^Expected "(.*)", was "(.*)"$/;
-				if (reg.match(test.message)) {
-					msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
-				}
-				// haxeunit + hexunit diff format
-				reg = ~/[eE]xpected '(.*)' but was '(.*)'$/;
-				if (reg.match(test.message)) {
-					msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
-				}
+				var msg = buildFailureMessage(test);
 				var line = test.errorLine;
 				if (line == null) {
 					line = test.line;
@@ -342,7 +309,7 @@ class HaxeTestController {
 				}
 			case Error:
 				var msg:TestMessage = new TestMessage(test.message);
-				msg.location = new Location(clazzUri, new Range(test.line, 0, test.line, 0));
+				msg.location = new Location(clazzUri, new Range(test.line, 0, test.line + 1, 0));
 				if (test.executionTime == null) {
 					currentRun.errored(testItem, msg);
 				} else {
@@ -351,6 +318,35 @@ class HaxeTestController {
 			case Ignore:
 				currentRun.skipped(testItem);
 		}
+	}
+
+	function buildFailureMessage(test:TestMethodResults):TestMessage {
+		var msg:TestMessage = new TestMessage(test.message);
+		// utest diff format
+		var reg:EReg = ~/^expected "(.*)" but it is "(.*)"$/;
+		if (reg.match(test.message)) {
+			msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
+		}
+		reg = ~/^expected (.*) but it is (.*)$/;
+		if (reg.match(test.message)) {
+			msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
+		}
+		// munit diff format
+		reg = ~/^Value \[(.*)\] was not equal to expected value \[(.*)\]$/;
+		if (reg.match(test.message)) {
+			msg = TestMessage.diff(test.message, reg.matched(2), reg.matched(1));
+		}
+		// buddy diff format
+		reg = ~/^Expected "(.*)", was "(.*)"$/;
+		if (reg.match(test.message)) {
+			msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
+		}
+		// haxeunit + hexunit diff format
+		reg = ~/[eE]xpected '(.*)' but was '(.*)'$/;
+		if (reg.match(test.message)) {
+			msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
+		}
+		return msg;
 	}
 
 	static function updateHaxelib(context:ExtensionContext) {
