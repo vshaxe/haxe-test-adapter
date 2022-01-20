@@ -1,7 +1,7 @@
 import tests.TestCase3;
+import tink.testrunner.Runner;
 import tink.unit.*;
 import tink.unit.Assert;
-import tink.testrunner.Runner;
 
 class Main {
 	static function main() {
@@ -14,18 +14,22 @@ class TestCase {
 	public function new() {}
 
 	public function testSuccess() {
+		Sys.sleep(Math.random());
 		return Assert.assert(true);
 	}
 
 	public function testFailure() {
+		Sys.sleep(Math.random());
 		return Assert.assert("A" == "B");
 	}
 
 	public function testError() {
+		Sys.sleep(Math.random());
 		return new tink.core.Error("failure");
 	}
 
 	public function testEmpty() {
+		Sys.sleep(Math.random());
 		return asserts.done();
 	}
 

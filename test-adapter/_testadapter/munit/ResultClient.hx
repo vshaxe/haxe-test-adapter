@@ -23,7 +23,7 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 	}
 
 	public function addPass(result:TestResult) {
-		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime, Success);
+		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime * 1000, Success);
 	}
 
 	public function addFail(result:TestResult) {
@@ -33,15 +33,15 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 			message = result.failure.message;
 			lineNumber = result.failure.info.lineNumber - 1;
 		}
-		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime, Failure, message, lineNumber);
+		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime * 1000, Failure, message, lineNumber);
 	}
 
 	public function addError(result:TestResult) {
-		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime, Error, Std.string(result.error));
+		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime * 1000, Error, Std.string(result.error));
 	}
 
 	public function addIgnore(result:TestResult) {
-		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime, Ignore, result.description);
+		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime * 1000, Ignore, result.description);
 	}
 
 	public function reportFinalStatistics(testCount:Int, passCount:Int, failCount:Int, errorCount:Int, ignoreCount:Int, time:Float):Dynamic {

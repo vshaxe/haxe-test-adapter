@@ -15,18 +15,26 @@ class Injector {
 					field.addInit(macro addListener(new _testadapter.hexunit.Notifier($v{Sys.getCwd()})));
 				case "run":
 					field.patch(Start, macro {
-						var filters = $v{Macro.filters};
-						if (filters.length > 0) {
+						var filterInclude = $v{Macro.filters.include};
+						var filterExclude = $v{Macro.filters.exclude};
+						if (filterInclude.length + filterExclude.length > 0) {
 							var filteredClassDescriptors:Array<hex.unittest.description.ClassDescriptor> = [];
 
 							for (desc in _classDescriptors) {
-								if (filters.indexOf(desc.className) >= 0) {
+								if (filterExclude.indexOf(desc.className) >= 0) {
+									continue;
+								}
+								if (filterInclude.indexOf(desc.className) >= 0) {
 									filteredClassDescriptors.push(desc);
 									continue;
 								}
 								var filteredMethodDescriptors:Array<hex.unittest.description.MethodDescriptor> = [];
 								for (method in desc.methodDescriptors) {
-									if (filters.indexOf(desc.className + "." + method.methodName) >= 0) {
+									var name = desc.className + "." + method.methodName;
+									if (filterExclude.indexOf(name) >= 0) {
+										continue;
+									}
+									if (filterInclude.indexOf(name) >= 0) {
 										filteredMethodDescriptors.push(method);
 									}
 								}

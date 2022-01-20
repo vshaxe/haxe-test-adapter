@@ -1,4 +1,4 @@
-# @install: lix --silent download "haxelib:/vshaxe#2.13.0" into vshaxe/2.13.0/haxelib
+# @install: lix --silent download "haxelib:/vshaxe#2.23.0" into vshaxe/2.23.0/haxelib
 -lib vscode
--cp ${HAXE_LIBCACHE}/vshaxe/2.13.0/haxelib/src
--D vshaxe=2.13.0
+-cp ${HAXE_LIBCACHE}/vshaxe/2.23.0/haxelib/src
+-D vshaxe=2.23.0

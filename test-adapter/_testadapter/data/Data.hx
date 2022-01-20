@@ -45,8 +45,8 @@ typedef TestMethodResults = {
 	var name:String;
 	var state:TestState;
 	var message:String;
-	var executionTime:Float;
 	var timestamp:Float;
+	@:optional var executionTime:Null<Float>;
 	@:optional var line:Int;
 	@:optional var errorLine:Int;
 }

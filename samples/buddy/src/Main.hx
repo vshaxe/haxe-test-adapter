@@ -12,18 +12,23 @@ class Main extends BuddySuite {
 	public function new() {
 		describe("TestCase", {
 			it("testSuccess", {
+				Sys.sleep(Math.random());
 				"A".should.be("A");
 			});
 
 			it("testFailure", {
+				Sys.sleep(Math.random());
 				"A".should.be("B");
 			});
 
 			it("testError", {
+				Sys.sleep(Math.random());
 				throw "error";
 			});
 
-			it("testEmpty", {});
+			it("testEmpty", {
+				Sys.sleep(Math.random());
+			});
 		});
 
 		describe("TestCase2", {
