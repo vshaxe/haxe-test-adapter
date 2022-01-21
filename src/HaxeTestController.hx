@@ -28,6 +28,12 @@ import vscode.WorkspaceFolder;
 
 using StringTools;
 
+typedef TestItemData = {
+	test:TestMethodResults,
+	testItem:TestItem,
+	clazzUri:Uri
+}
+
 class HaxeTestController {
 	static inline final HAXE_TESTS = "Haxe Tests";
 
@@ -232,6 +238,7 @@ class HaxeTestController {
 			return sortByLine(a.pos, b.pos);
 		});
 
+		var testItems:Array<TestItemData> = [];
 		for (clazz in classes) {
 			var clazzUri:Uri = Uri.file(makeFileName(clazz.pos.file));
 			var classItem:TestItem = controller.createTestItem(clazz.id, clazz.name, clazzUri);
@@ -246,9 +253,16 @@ class HaxeTestController {
 					testItem.range = new Range(test.line, 0, test.line, 0);
 				}
 				classItem.children.add(testItem);
-				updateTestState(test, testItem, clazzUri);
+				testItems.push({
+					test: test,
+					testItem: testItem,
+					clazzUri: clazzUri
+				});
 			}
 			insertTestSuite(root, classItem);
+		}
+		for (item in testItems) {
+			updateTestState(item.test, item.testItem, item.clazzUri);
 		}
 	}
 
