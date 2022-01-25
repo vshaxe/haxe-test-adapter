@@ -1,4 +1,4 @@
-## 1.3.0 (soonish)
+## 2.0.0 (soonish)
 
 - added support for VSCode testing API
 - added test execution time (in ms) for buddy, munit, hexunit and utest

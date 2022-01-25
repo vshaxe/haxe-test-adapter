@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        haxe-version: [3.4.7, 4.0.5, 4.1.4, nightly]
+        haxe-version: [3.4.7, 4.0.5, 4.1.5, 4.2.4, nightly]
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
