@@ -11,3 +11,7 @@ src/**
 .vscode/**
 dump/**
 samples/**
+.unittest
+.github
+.haxerc
+haxe_libraries

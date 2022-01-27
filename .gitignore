@@ -3,3 +3,5 @@ bin/
 dump/
 .unittest/
 *.n
+*.vsix
+*.zip
