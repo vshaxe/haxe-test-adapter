@@ -337,26 +337,26 @@ class HaxeTestController {
 	function buildFailureMessage(test:TestMethodResults):TestMessage {
 		var msg:TestMessage = new TestMessage(test.message);
 		// utest diff format
-		var reg:EReg = ~/^expected "(.*)" but it is "(.*)"$/;
+		var reg:EReg = ~/^expected "(.*)" but it is "(.*)"$/s;
 		if (reg.match(test.message)) {
 			msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
 		}
-		reg = ~/^expected (.*) but it is (.*)$/;
+		reg = ~/^expected (.*) but it is (.*)$/s;
 		if (reg.match(test.message)) {
 			msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
 		}
 		// munit diff format
-		reg = ~/^Value \[(.*)\] was not equal to expected value \[(.*)\]$/;
+		reg = ~/^Value \[(.*)\] was not equal to expected value \[(.*)\]$/s;
 		if (reg.match(test.message)) {
 			msg = TestMessage.diff(test.message, reg.matched(2), reg.matched(1));
 		}
 		// buddy diff format
-		reg = ~/^Expected "(.*)", was "(.*)"$/;
+		reg = ~/^Expected "(.*)", was "(.*)"$/s;
 		if (reg.match(test.message)) {
 			msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
 		}
 		// haxeunit + hexunit diff format
-		reg = ~/[eE]xpected '(.*)' but was '(.*)'$/;
+		reg = ~/[eE]xpected '(.*)' but was '(.*)'$/s;
 		if (reg.match(test.message)) {
 			msg = TestMessage.diff(test.message, reg.matched(1), reg.matched(2));
 		}
