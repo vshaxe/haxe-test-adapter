@@ -48,7 +48,7 @@ typedef TestMethodResults = {
 	var timestamp:Float;
 	@:optional var executionTime:Null<Float>;
 	@:optional var line:Int;
-	@:optional var errorLine:Int;
+	@:optional var errorPos:Pos;
 }
 
 @:enum abstract TestState(String) {

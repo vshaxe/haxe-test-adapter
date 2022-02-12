@@ -1,9 +1,10 @@
 package _testadapter.hexunit;
 
-import _testadapter.data.TestResults;
 import hex.unittest.description.ClassDescriptor;
 import hex.unittest.error.AssertException;
 import hex.unittest.event.ITestClassResultListener;
+import _testadapter.data.Data.Pos;
+import _testadapter.data.TestResults;
 
 using hex.unittest.description.ClassDescriptorUtil;
 
@@ -50,9 +51,10 @@ class Notifier implements ITestClassResultListener {
 		testResults.add(ClassName(descriptor.className), TestName(methodDescriptor.methodName), null, Ignore);
 	}
 
-	function getLineNumber(error:hex.error.Exception):Null<Int> {
+	function getLineNumber(error:hex.error.Exception):Null<Pos> {
 		if (Std.is(error, AssertException)) {
-			return (cast error : AssertException).posInfos.lineNumber - 1;
+			var e:AssertException = cast error;
+			return {line: e.posInfos.lineNumber - 1, file: e.posInfos.fileName};
 		}
 		return null;
 	}

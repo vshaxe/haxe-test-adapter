@@ -21,7 +21,7 @@ class TestResults {
 		suiteResults = load(baseFolder);
 	}
 
-	public function add(suiteId:SuiteId, testId:TestIdentifier, ?executionTime:Float, state:TestState, ?message:String, ?errorLine:Int) {
+	public function add(suiteId:SuiteId, testId:TestIdentifier, ?executionTime:Float, state:TestState, ?message:String, ?errorPos:Pos) {
 		var line:Null<Int> = null;
 		var className:String;
 		var suitePos:Pos;
@@ -56,7 +56,7 @@ class TestResults {
 				message: message,
 				timestamp: Timer.stamp(),
 				line: line,
-				errorLine: errorLine
+				errorPos: errorPos
 			}
 		}
 		for (data in suiteResults.classes) {

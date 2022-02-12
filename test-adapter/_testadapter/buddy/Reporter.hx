@@ -76,11 +76,13 @@ class Reporter implements buddy.reporting.Reporter {
 			case Failed:
 				var message:String = "";
 				var lineNumber:Null<Int> = null;
+				var fileName:Null<String> = null;
 				for (failure in spec.failures) {
 					message = failure.error;
 					for (s in failure.stack) {
 						switch (s) {
-							case FilePos(_, _, line):
+							case FilePos(_, file, line):
+								fileName = file;
 								if (lineNumber == null) {
 									lineNumber = line - 1;
 								}
@@ -91,7 +93,7 @@ class Reporter implements buddy.reporting.Reporter {
 						}
 					}
 				}
-				testResults.add(suiteId, testId, spec.time * 1000, Failure, message, lineNumber);
+				testResults.add(suiteId, testId, spec.time * 1000, Failure, message, {line: lineNumber, file: fileName});
 			case Passed:
 				testResults.add(suiteId, testId, spec.time * 1000, Success);
 			case Pending:

@@ -207,6 +207,15 @@ class HaxeTestController {
 		channel.appendLine("Loaded tests results");
 	}
 
+	function makeFileName(baseFolder:String, file:String):String {
+		var fileName:String = Path.join([baseFolder, file]);
+		// it seems Test Explorer UI wants backslashes on Windows
+		if (Sys.systemName() == "Windows") {
+			fileName = fileName.replace("/", "\\");
+		}
+		return fileName;
+	}
+
 	function parseSuiteData(baseFolder:String, testSuiteResults:TestSuiteResults) {
 		var key:String = testSuiteResults.name + ":" + workspaceFolder.name;
 		var root:TestItem = controller.items.get(key);
@@ -222,15 +231,6 @@ class HaxeTestController {
 			return a.line - b.line;
 		}
 
-		function makeFileName(file:String):String {
-			var fileName:String = Path.join([baseFolder, file]);
-			// it seems Test Explorer UI wants backslashes on Windows
-			if (Sys.systemName() == "Windows") {
-				fileName = fileName.replace("/", "\\");
-			}
-			return fileName;
-		}
-
 		var classes = testSuiteResults.classes;
 		ArraySort.sort(classes, (a, b) -> {
 			if (a.pos == null || b.pos == null) {
@@ -244,7 +244,7 @@ class HaxeTestController {
 
 		var testItems:Array<TestItemData> = [];
 		for (clazz in classes) {
-			var clazzUri:Uri = Uri.file(makeFileName(clazz.pos.file));
+			var clazzUri:Uri = Uri.file(makeFileName(baseFolder, clazz.pos.file));
 			var classItem:TestItem = controller.createTestItem(clazz.id, clazz.name, clazzUri);
 
 			if (clazz.pos != null && clazz.pos.file != null && clazz.pos.line != null && clazz.pos.line != 0) {
@@ -315,9 +315,10 @@ class HaxeTestController {
 				}
 			case Failure:
 				var msg = buildFailureMessage(test);
-				var line = test.errorLine;
-				if (line == null) {
-					line = test.line;
+				var line:Int = test.line;
+				if (test.errorPos != null) {
+					line = test.errorPos.line;
+					clazzUri = Uri.file(makeFileName(workspaceFolder.uri.path, test.errorPos.file));
 				}
 				msg.location = new Location(clazzUri, new Range(line, 0, line + 1, 0));
 				if (test.executionTime == null) {

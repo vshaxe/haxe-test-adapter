@@ -1,3 +1,11 @@
+# CHANGELOG
+
+## 2.0.1
+
+- fixed auto collapse of test cases
+- fixed error positions in different file
+- fixed multiline diff detection
+
 ## 2.0.0 (January 27, 2022)
 
 - added support for VSCode testing API

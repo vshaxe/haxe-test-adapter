@@ -9,6 +9,7 @@ import utest.ui.common.HeaderDisplayMode;
 import utest.ui.common.IReport;
 import utest.ui.common.PackageResult;
 import utest.ui.common.ResultAggregator;
+import _testadapter.data.Data.Pos;
 import _testadapter.data.Data.TestState;
 import _testadapter.data.TestResults;
 
@@ -36,7 +37,7 @@ class Reporter implements IReport<Reporter> {
 					var fix:FixtureResult = cls.get(testName);
 					var message = null;
 					var state:TestState = Failure;
-					var errorLine:Null<Int> = null;
+					var errorPos:Null<Pos> = null;
 					for (assertation in fix.iterator()) {
 						switch (assertation) {
 							case Assertation.Success(_):
@@ -44,7 +45,7 @@ class Reporter implements IReport<Reporter> {
 							case Assertation.Failure(msg, pos):
 								state = Failure;
 								message = msg;
-								errorLine = pos.lineNumber - 1;
+								errorPos = {line: pos.lineNumber - 1, file: pos.fileName};
 								break;
 							case Assertation.Error(e, s), Assertation.SetupError(e, s), Assertation.TeardownError(e, s), Assertation.AsyncError(e, s):
 								state = Error;
@@ -68,7 +69,7 @@ class Reporter implements IReport<Reporter> {
 					if (Reflect.hasField(fix, "executionTime")) {
 						executionTime = Reflect.field(fix, "executionTime");
 					}
-					testResults.add(ClassName(dotPath), TestName(testName), executionTime, state, message, errorLine);
+					testResults.add(ClassName(dotPath), TestName(testName), executionTime, state, message, errorPos);
 				}
 			}
 		}

@@ -5,9 +5,9 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import _testadapter.data.TestFilter;
 
+using StringTools;
 using _testadapter.PatchTools;
 using _testadapter.data.Data;
-using StringTools;
 
 class Injector {
 	public static function buildRunner():Array<Field> {
@@ -35,7 +35,7 @@ class Injector {
 			function publishAdapterResults() {
 				for (r in result.m_tests) {
 					var state:_testadapter.data.Data.TestState = Failure;
-					var errorLine:Null<Int> = null;
+					var errorPos:Null<_testadapter.data.Data.Pos> = null;
 					if (r.success) {
 						state = Success;
 					} else if (r.error != null) {
@@ -43,10 +43,10 @@ class Injector {
 							state = Error;
 						}
 						if (r.posInfos != null) {
-							errorLine = r.posInfos.lineNumber - 1;
+							errorPos = {line: r.posInfos.lineNumber - 1, file: r.posInfos.fileName};
 						}
 					}
-					testResults.add(ClassName(r.classname), TestName(r.method), null, state, r.error, errorLine);
+					testResults.add(ClassName(r.classname), TestName(r.method), null, state, r.error, errorPos);
 				}
 				testResults.save();
 			}

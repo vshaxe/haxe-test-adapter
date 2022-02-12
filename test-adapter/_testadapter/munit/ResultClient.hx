@@ -2,6 +2,7 @@ package _testadapter.munit;
 
 import massive.munit.ITestResultClient;
 import massive.munit.TestResult;
+import _testadapter.data.Data.Pos;
 import _testadapter.data.TestResults;
 
 class ResultClient implements IAdvancedTestResultClient implements ICoverageTestResultClient {
@@ -28,12 +29,12 @@ class ResultClient implements IAdvancedTestResultClient implements ICoverageTest
 
 	public function addFail(result:TestResult) {
 		var message:String = null;
-		var lineNumber:Null<Int> = null;
+		var errorPos:Null<Pos> = null;
 		if (result.failure != null) {
 			message = result.failure.message;
-			lineNumber = result.failure.info.lineNumber - 1;
+			errorPos = {line: result.failure.info.lineNumber - 1, file: result.failure.info.fileName};
 		}
-		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime * 1000, Failure, message, lineNumber);
+		testResults.add(ClassName(result.className), TestName(result.name), result.executionTime * 1000, Failure, message, errorPos);
 	}
 
 	public function addError(result:TestResult) {
