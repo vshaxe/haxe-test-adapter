@@ -208,8 +208,12 @@ class HaxeTestController {
 	}
 
 	function parseSuiteData(baseFolder:String, testSuiteResults:TestSuiteResults) {
-		var root:TestItem = controller.createTestItem(testSuiteResults.name + ":" + workspaceFolder.name, workspaceFolder.name);
-		controller.items.add(root);
+		var key:String = testSuiteResults.name + ":" + workspaceFolder.name;
+		var root:TestItem = controller.items.get(key);
+		if (root == null) {
+			root = controller.createTestItem(key, workspaceFolder.name);
+			controller.items.add(root);
+		}
 
 		function sortByLine(a:{line:Null<Int>}, b:{line:Null<Int>}) {
 			if (a.line == null || b.line == null) {
