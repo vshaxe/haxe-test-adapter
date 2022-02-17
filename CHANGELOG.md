@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.0.1
+## 2.0.1 (February 17, 2022)
 
 - fixed auto collapse of test cases
 - fixed error positions in different file

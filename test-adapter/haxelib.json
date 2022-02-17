@@ -8,8 +8,8 @@
 		"vscode"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "2.0.0",
-	"releasenote": "Added support for test times and switched to VSCode testing API.",
+	"version": "2.0.1",
+	"releasenote": "Fixed auto collapsing, multiline diff and error position handling",
 	"contributors": [
 		"AlexHaxe",
 		"Gama11",
