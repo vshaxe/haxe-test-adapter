@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.0.2 (August 24, 2022)
+
+- fixed compatibility issue with vshaxe 2.24.x
+
+
 ## 2.0.1 (February 17, 2022)
 
 - fixed auto collapse of test cases
