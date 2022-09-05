@@ -1,4 +1,3 @@
 -cp src
 -lib munit
--main Main
 -x Main

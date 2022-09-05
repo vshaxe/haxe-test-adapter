@@ -1,4 +1,3 @@
 -cp src
 -lib hx3compat
--main Main
 -x Main

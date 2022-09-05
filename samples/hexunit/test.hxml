@@ -1,4 +1,3 @@
 -cp src
 -lib hexunit
--main Main
 -x Main

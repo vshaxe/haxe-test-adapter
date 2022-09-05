@@ -1,4 +1,3 @@
 -cp src
 -lib utest
--main Main
 -x Main
