@@ -1,9 +1,12 @@
 # CHANGELOG
 
+## 2.0.3 (September 5, 2022)
+
+- changed scope of configuration settings to resource level to support different settings per workspace folder in a multiroot workspace scenario
+
 ## 2.0.2 (August 24, 2022)
 
 - fixed compatibility issue with vshaxe 2.24.x
-
 
 ## 2.0.1 (February 17, 2022)
 

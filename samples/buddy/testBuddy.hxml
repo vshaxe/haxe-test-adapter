@@ -1,4 +1,3 @@
 -cp src
 -lib buddy
--main Main
 -x Main

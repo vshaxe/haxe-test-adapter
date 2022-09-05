@@ -2,5 +2,11 @@
 	"[haxe]": {
 		"editor.formatOnSave": true,
 		"editor.formatOnPaste": true
-	}
+	},
+	"haxeTestExplorer.testCommand": [
+		"${haxe}",
+		"testBuddy.hxml",
+		"-lib",
+		"test-adapter"
+	]
 }

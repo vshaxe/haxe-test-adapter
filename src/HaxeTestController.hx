@@ -85,7 +85,7 @@ class HaxeTestController {
 		var vshaxe:Vshaxe = Vscode.extensions.getExtension("nadako.vshaxe").exports;
 		var haxeExecutable = vshaxe.haxeExecutable.configuration;
 
-		var testCommand:Array<String> = Vscode.workspace.getConfiguration("haxeTestExplorer").get("testCommand");
+		var testCommand:Array<String> = Vscode.workspace.getConfiguration("haxeTestExplorer", workspaceFolder).get("testCommand");
 		testCommand = testCommand.map(arg -> if (arg == "${haxe}") haxeExecutable.executable else arg);
 
 		var task = new Task({type: "haxe-test-explorer-run"}, workspaceFolder, "Running Haxe Tests", "haxe",
@@ -114,7 +114,7 @@ class HaxeTestController {
 		setFilters(request);
 		setAllStarted(controller.items);
 
-		var launchConfig = Vscode.workspace.getConfiguration("haxeTestExplorer").get("launchConfiguration");
+		var launchConfig = Vscode.workspace.getConfiguration("haxeTestExplorer", workspaceFolder).get("launchConfiguration");
 		var thenable:Thenable<Bool> = Vscode.debug.startDebugging(workspaceFolder, launchConfig);
 		return thenable.then(function(b:Bool) {}, taskLaunchError);
 	}

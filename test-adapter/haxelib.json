@@ -8,8 +8,8 @@
 		"vscode"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "2.0.1",
-	"releasenote": "Fixed auto collapsing, multiline diff and error position handling",
+	"version": "2.0.3",
+	"releasenote": "improved multiroot workspace support",
 	"contributors": [
 		"AlexHaxe",
 		"Gama11",
