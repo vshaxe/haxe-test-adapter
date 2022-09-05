@@ -8,7 +8,7 @@
 		"vscode"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "2.0.3",
+	"version": "2.0.4",
 	"releasenote": "improved multiroot workspace support",
 	"contributors": [
 		"AlexHaxe",

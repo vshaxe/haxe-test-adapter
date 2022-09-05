@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.4 (September 5, 2022)
+
+- compiled extension with Haxe nightly
+
 ## 2.0.3 (September 5, 2022)
 
 - changed scope of configuration settings to resource level to support different settings per workspace folder in a multiroot workspace scenario
