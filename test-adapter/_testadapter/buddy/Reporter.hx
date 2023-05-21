@@ -11,6 +11,8 @@ class Reporter implements buddy.reporting.Reporter {
 	var testResults:TestResults;
 	var baseReporter:buddy.reporting.Reporter;
 
+	public static var PENDING_POSTFIX = " (PENDING)";
+
 	public function new(baseFolder:String, baseReporter:buddy.reporting.Reporter) {
 		testResults = new TestResults(baseFolder);
 		if (baseReporter == null) {
@@ -97,7 +99,8 @@ class Reporter implements buddy.reporting.Reporter {
 			case Passed:
 				testResults.add(suiteId, testId, spec.time * 1000, Success);
 			case Pending:
-				testResults.add(suiteId, testId, spec.time * 1000, Success);
+				testId = TestNameAndPos(spec.description + PENDING_POSTFIX, spec.fileName, testSpec.pos.lineNumber - 1);
+				testResults.add(suiteId, testId, spec.time * 1000, Ignore);
 			case Unknown:
 				testResults.add(suiteId, testId, spec.time * 1000, Error);
 		}

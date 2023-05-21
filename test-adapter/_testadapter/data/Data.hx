@@ -51,12 +51,21 @@ typedef TestMethodResults = {
 	@:optional var errorPos:Pos;
 }
 
+#if haxe4
+enum abstract TestState(String) {
+	var Success = "success";
+	var Failure = "failure";
+	var Error = "error";
+	var Ignore = "ignore";
+}
+#else
 @:enum abstract TestState(String) {
 	var Success = "success";
 	var Failure = "failure";
 	var Error = "error";
 	var Ignore = "ignore";
 }
+#end
 
 typedef Pos = {
 	var file:String;

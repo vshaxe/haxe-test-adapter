@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.5 (May 21, 2023)
+
+- added support for pending tests in buddy, fixes [#26](https://github.com/vshaxe/haxe-test-adapter/issues/26)
+
 ## 2.0.4 (September 5, 2022)
 
 - compiled extension with Haxe nightly

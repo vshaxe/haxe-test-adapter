@@ -8,8 +8,8 @@
 		"vscode"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "2.0.4",
-	"releasenote": "improved multiroot workspace support",
+	"version": "2.0.5",
+	"releasenote": "added support for pending tests in buddy",
 	"contributors": [
 		"AlexHaxe",
 		"Gama11",

@@ -26,6 +26,7 @@ class TestCase3 extends buddy.SingleSuite {
 					"A".should.be("A");
 				});
 			});
+			it("testPending", {});
 		});
 	}
 }
