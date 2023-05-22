@@ -16,7 +16,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: npm install
-    - run: npx lix install haxe ${{matrix.haxe-version}}
-    - run: for i in buddy haxeunit hexunit munit tink_unittest utest; do (cd ${{github.workspace}}/samples/$i; npx lix download; npx lix dev test-adapter ../../test-adapter); done 
+    - run: |
+        for i in buddy haxeunit hexunit munit tink_unittest utest; do (
+          cd ${{github.workspace}}/samples/$i; 
+          npx lix download; 
+          npx lix install haxe ${{matrix.haxe-version}}; 
+          npx lix dev test-adapter ../../test-adapter
+        ); 
+        done 
       working-directory: samples/buddy # this is kind of a hack (lix bug even?)
     - run: npx haxe -cp .github/workflows --run RunCI
