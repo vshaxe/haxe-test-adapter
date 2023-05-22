@@ -17,15 +17,6 @@ jobs:
     - uses: actions/checkout@v2
     - run: npm install
     - run: npx lix install haxe ${{matrix.haxe-version}}
-    - run: npx lix +lib munit
-    - run: npx lix +lib hamcrest
-    - run: npx lix install gh:haxe-utest/utest
-    - run: npx lix +lib hx3compat
-    - run: npx lix +lib buddy
-    - run: npx lix +lib hexunit
-    - run: npx lix +lib tink_unittest
-    - run: npx lix install gh:haxetink/tink_streams
-    - run: npx lix install gh:haxetink/tink_testrunner
-    - run: npx lix dev test-adapter ../../test-adapter
+    - run: for i in buddy haxeunit hexunit munit tink_unittest utest; do (cd samples/$i; lix download; npx lix dev test-adapter ../../test-adapter); done 
       working-directory: samples/buddy # this is kind of a hack (lix bug even?)
     - run: npx haxe -cp .github/workflows --run RunCI
