@@ -1,6 +1,5 @@
-# @install: lix --silent download "haxelib:/test-adapter#1.2.8" into test-adapter/1.2.8/haxelib
 -lib json2object
-#-cp ${HAXE_LIBCACHE}/test-adapter/1.2.8/haxelib/
 -cp ../../test-adapter
--D test-adapter=1.2.8
---macro _testadapter.Macro.init()
+-D test-adapter=2.0.5
+${SCOPE_DIR}/../../test-adapter/extraParams.hxml
+--macro Sys.println("haxe_libraries/test-adapter.hxml:3: [Warning] Using dev version of library test-adapter")
