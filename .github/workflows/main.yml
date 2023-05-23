@@ -16,7 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: npm install
-    - run: |
+    - name: install dependencies for all samples
+      run: |
         for i in buddy haxeunit hexunit munit tink_unittest utest; do (
           cd ${{github.workspace}}/samples/$i; 
           npx lix download; 
@@ -25,4 +26,10 @@ jobs:
         ); 
         done 
       working-directory: samples/buddy # this is kind of a hack (lix bug even?)
-    - run: npx haxe -cp .github/workflows --run RunCI
+    - name: install older libs for Haxe 3.4.7
+      if: matrix.haxe-version == '3.4.7'
+      run: |
+        cd ${{github.workspace}}/samples/tink_unittest
+        npx lix install haxelib:tink_core#1.26.0
+    - name: run samples
+      run: npx haxe -cp .github/workflows --run RunCI
