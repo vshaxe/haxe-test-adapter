@@ -1,5 +1,4 @@
 import sys.io.File;
-
 using StringTools;
 
 class RunCI {
@@ -25,9 +24,12 @@ class RunCI {
 			Sys.setCwd(oldCwd);
 		}
 
-		buildSample("samples/munit");
+		#if (haxe > version ("4.0.5"))
 		buildSample("samples/utest");
 		buildSample("samples/buddy");
+		#end
+
+		buildSample("samples/munit");
 		buildSample("samples/hexunit");
 		buildSample("samples/tink_unittest");
 		buildSample("samples/haxeunit");

@@ -76,7 +76,7 @@ class Reporter implements IReport<Reporter> {
 		testResults.save();
 	}
 
-	function dumpStack(stack:Array<StackItem>):String {
+	function dumpStack(stack:Stack):String {
 		if (stack.length == 0) {
 			return "";
 		}
@@ -93,3 +93,9 @@ class Reporter implements IReport<Reporter> {
 
 	public function setHandler(handler:Reporter->Void) {}
 }
+
+#if (utest >= version("2.0.0-alpha"))
+typedef Stack = CallStack;
+#else
+typedef Stack = Array<StackItem>;
+#end
