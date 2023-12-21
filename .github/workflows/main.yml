@@ -29,7 +29,13 @@ jobs:
     - name: install older libs for Haxe 3.4.7
       if: matrix.haxe-version == '3.4.7'
       run: |
-        cd ${{github.workspace}}/samples/tink_unittest
-        npx lix install haxelib:tink_core#1.26.0
+        (cd ${{github.workspace}}/samples/tink_unittest; npx lix install haxelib:tink_core#1.26.0)
+        (cd ${{github.workspace}}/samples/utest; npx lix install haxelib:utest#1.13.2)
+        (cd ${{github.workspace}}/samples/buddy; npx lix install haxelib:utest#1.13.2)
+    - name: install older libs for Haxe 4.0.5
+      if: matrix.haxe-version == '4.0.5'
+      run: |
+        (cd ${{github.workspace}}/samples/utest; npx lix install haxelib:utest#1.13.2)
+        (cd ${{github.workspace}}/samples/buddy; npx lix install haxelib:utest#1.13.2)
     - name: run samples
       run: npx haxe -cp .github/workflows --run RunCI

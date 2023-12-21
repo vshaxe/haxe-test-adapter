@@ -24,12 +24,10 @@ class RunCI {
 			Sys.setCwd(oldCwd);
 		}
 
-		#if (haxe > version ("4.0.5"))
+		
+		buildSample("samples/munit");
 		buildSample("samples/utest");
 		buildSample("samples/buddy");
-		#end
-
-		buildSample("samples/munit");
 		buildSample("samples/hexunit");
 		buildSample("samples/tink_unittest");
 		buildSample("samples/haxeunit");
