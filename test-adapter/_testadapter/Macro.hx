@@ -72,10 +72,10 @@ class Macro {
 
 	static function setupHooks() {
 		inline function build(func:String, target:String) {
-			Compiler.addMetadata('@:build(_testadapter.$func)', target);
+			Compiler.addGlobalMetadata(target, '@:build(_testadapter.$func)', false);
 		}
 		inline function autoBuild(func:String, target:String) {
-			Compiler.addMetadata('@:autoBuild(_testadapter.$func)', target);
+			Compiler.addGlobalMetadata(target, '@:autoBuild(_testadapter.$func)', false);
 		}
 
 		// record positions / line numbers
