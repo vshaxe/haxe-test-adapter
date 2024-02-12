@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.0.7 (February 12, 2024)
+
+- fixed filter support for utest 2.x
+- changed addMetadata to addGlobalMetadata
+
 ## 2.0.6 (December 21, 2023)
 
 - added support for upcoming utest version 2.x
