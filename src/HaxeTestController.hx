@@ -581,7 +581,10 @@ class HaxeTestController {
 		if (FileSystem.exists(path)) {
 			return path;
 		}
-		final lcovPath:Null<String> = Vscode.workspace.getConfiguration("haxeTestExplorer", workspaceFolder).get("lcovPath");
+		var lcovPath:Null<String> = Vscode.workspace.getConfiguration("haxeTestExplorer", workspaceFolder).get("lcovPath");
+		if (lcovPath == null) {
+			lcovPath = "lcov.info";
+		}
 		return makeFileName(workspaceFolder.uri.path, lcovPath);
 	}
 
