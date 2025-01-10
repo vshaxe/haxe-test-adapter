@@ -94,8 +94,12 @@ class Reporter implements IReport<Reporter> {
 	public function setHandler(handler:Reporter->Void) {}
 }
 
+#if haxe4
 #if (utest >= version("2.0.0-alpha"))
 typedef Stack = CallStack;
+#else
+typedef Stack = Array<StackItem>;
+#end
 #else
 typedef Stack = Array<StackItem>;
 #end

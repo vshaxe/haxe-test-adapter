@@ -35,11 +35,8 @@ class TestCase extends utest.Test {
 		Sys.sleep(Math.random());
 	}
 
-	#if (utest >= version("2.0.0-alpha"))
-	@:ignore("Description")
-	#else
-	@Ignored("Description")
-	#end
+	@Ignored("Description") // utest 1.x
+	@:ignore("Description") // utest 2.x
 	function testIgnore() {}
 }
 

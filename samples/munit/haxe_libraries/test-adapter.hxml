@@ -1,5 +1,5 @@
 -lib json2object
 -cp ../../test-adapter
--D test-adapter=2.0.5
+-D test-adapter=2.0.7
 ${SCOPE_DIR}/../../test-adapter/extraParams.hxml
 --macro Sys.println("haxe_libraries/test-adapter.hxml:3: [Warning] Using dev version of library test-adapter")

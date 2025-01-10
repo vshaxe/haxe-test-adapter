@@ -47,7 +47,7 @@ class TestFilter {
 
 	public function get():TestFilterList {
 		if (!loaded) {
-			load();
+			load(baseFolder);
 		}
 		return testFilters;
 	}
@@ -55,7 +55,7 @@ class TestFilter {
 	public function clear() {
 		testFilters.include = [];
 		testFilters.exclude = [];
-		save();
+		save(baseFolder);
 	}
 
 	function save(?baseFolder:String) {
@@ -69,11 +69,11 @@ class TestFilter {
 		#end
 	}
 
-	function load() {
+	function load(?baseFolder:String) {
 		testFilters.include = [];
 		testFilters.exclude = [];
 		#if (sys || nodejs)
-		var fileName:String = getFileName();
+		var fileName:String = getFileName(baseFolder);
 		if (!FileSystem.exists(fileName)) {
 			return;
 		}
