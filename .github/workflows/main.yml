@@ -37,5 +37,9 @@ jobs:
       run: |
         (cd ${{github.workspace}}/samples/utest; npx lix install haxelib:utest#1.13.2)
         (cd ${{github.workspace}}/samples/buddy; npx lix install haxelib:utest#1.13.2)
+    - name: install git version libs for Haxe nightly
+      if: matrix.haxe-version == 'nightly'
+      run: |
+        (cd ${{github.workspace}}/samples/tink_unittest; npx lix install gh:haxetink/tink_macro)
     - name: run samples
       run: npx haxe -cp .github/workflows --run RunCI
