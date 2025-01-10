@@ -52,6 +52,8 @@ class Macro {
 		require("hexunit", "0.35.0");
 		require("tink_testrunner", "0.8.0");
 
+		require("instrument", "1.3.1");
+
 		setupHooks();
 
 		var testFilter = new TestFilter(Sys.getCwd());
@@ -106,6 +108,9 @@ class Macro {
 		autoBuild("Macro.recordPositions(false)", "haxe.unit.TestCase");
 		autoBuild("haxeunit.Injector.buildCase()", "haxe.unit.TestCase");
 		build("haxeunit.Injector.buildRunner()", "haxe.unit.TestRunner");
+
+		// instrument attributable coverage
+		build("instrument.Injector.buildCoverage()", "instrument.coverage.Coverage");
 	}
 
 	public static function recordPositions(applyClassNameFilter:Bool):Null<Array<Field>> {

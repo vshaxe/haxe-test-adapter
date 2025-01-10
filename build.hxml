@@ -2,6 +2,7 @@
 -lib vscode
 -lib vshaxe
 -lib json2object
+-lib simple_lcov
 -cp src
 -cp test-adapter
 -js bin/main.js
