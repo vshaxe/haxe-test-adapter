@@ -1,14 +1,11 @@
-package _testadapter.buddy;
+package _testadapter.buddy; #if macro
 
-#if macro
-import haxe.macro.Context;
-import haxe.macro.Expr;
+import haxe.macro.Context; import haxe.macro.Expr; using haxe.macro.ExprTools; using _testadapter.PatchTools; class Injector {
 
-using haxe.macro.ExprTools;
-using _testadapter.PatchTools;
-
-class Injector {
 	public static function buildRunner():Array<Field> {
+		var coverageEnabled:Null<String> = Context.definedValue("instrument-coverage");
+		var baseFolder = haxe.io.Path.join([_testadapter.data.Data.FOLDER]);
+
 		var fields = Context.getBuildFields();
 		for (field in fields) {
 			switch (field.name) {
@@ -17,6 +14,29 @@ class Injector {
 						adapterReporter = new _testadapter.buddy.Reporter($v{Sys.getCwd()}, reporter);
 						this.reporter = adapterReporter;
 					});
+				case "mapTestSpec" if (coverageEnabled != null):
+					field.patch(Start, macro switch (testSpec) {
+						case It(description, _, _, pos, _):
+							var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndPos(testSuite.description, pos.fileName, pos.lineNumber);
+							adapterReporter.addPosition(suiteId, description, pos.fileName, pos.lineNumber - 1);
+
+							beforeEachStack = beforeEachStack.copy();
+							beforeEachStack.unshift([Sync(_ -> instrument.coverage.Coverage.resetAttributableCoverage())]);
+							afterEachStack = afterEachStack.copy();
+							var regEx = ~/[^a-zA-Z0-9_-]/g;
+							var testCaseName = regEx.replace('${suiteId}_$description.lcov', "_");
+							var path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
+							var lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
+							afterEachStack.unshift([
+								Sync(_ -> instrument.coverage.Coverage.reportAttributableCoverage([lcovReporter]))
+							);
+						case _:
+					});
+					switch (field.kind) {
+						case FFun(f):
+							replaceSpec(f.expr);
+						case _:
+					}
 				case "mapTestSpec":
 					field.patch(Start, macro switch (testSpec) {
 						case It(description, _, _, pos, _):

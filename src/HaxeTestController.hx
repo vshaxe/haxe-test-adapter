@@ -57,10 +57,14 @@ class HaxeTestController {
 	var suiteResults:TestSuiteResults;
 	var currentTask:Null<TaskExecution>;
 	var currentRun:Null<TestRun>;
+	var isCoverageRun:Bool;
+	var delayForCoverageResults:Int;
 
 	public function new(context:ExtensionContext, workspaceFolder:WorkspaceFolder) {
 		this.context = context;
 		this.workspaceFolder = workspaceFolder;
+
+		delayForCoverageResults = getWaitForCoverage();
 
 		channel = Vscode.window.createOutputChannel('${workspaceFolder.name} Tests');
 		channel.appendLine('Starting test adapter for ${workspaceFolder.name}');
@@ -92,11 +96,12 @@ class HaxeTestController {
 
 	function runHandler(request:TestRunRequest, token:CancellationToken):Thenable<Void> {
 		if (currentRun != null) {
-			return Promise.reject();
+			return Promise.reject("tests already running");
 		}
 		channel.appendLine("start running Tests");
 		token.onCancellationRequested((e) -> cancel());
 
+		isCoverageRun = false;
 		currentRun = controller.createTestRun(request, HAXE_TESTS);
 		setFilters(request);
 		setAllStarted(controller.items);
@@ -141,6 +146,7 @@ class HaxeTestController {
 		channel.appendLine("start running Tests (with coveraqge)");
 		token.onCancellationRequested((e) -> cancel());
 
+		isCoverageRun = true;
 		currentRun = controller.createTestRun(request, HAXE_TESTS);
 		setFilters(request);
 		setAllStarted(controller.items);
@@ -177,6 +183,7 @@ class HaxeTestController {
 		channel.appendLine("start debugging Tests");
 		token.onCancellationRequested((e) -> cancel());
 
+		isCoverageRun = false;
 		currentRun = controller.createTestRun(request, HAXE_TESTS);
 		setFilters(request);
 		setAllStarted(controller.items);
@@ -278,7 +285,11 @@ class HaxeTestController {
 		}
 		var unitTestFolder = Path.directory(uri.fsPath);
 		var baseFolder = Path.directory(unitTestFolder);
-		loadFrom(baseFolder);
+		if (isCoverageRun) {
+			Timer.delay(() -> loadFrom(baseFolder), delayForCoverageResults);
+		} else {
+			loadFrom(baseFolder);
+		}
 	}
 
 	function loadFrom(baseFolder:String) {
@@ -362,8 +373,9 @@ class HaxeTestController {
 		for (item in testItems) {
 			updateTestState(item.test, item.testItem, item.clazzUri);
 		}
-		if (isCoverageUIEnabled()) {
-			updateTestCoverage(testItems);
+		final currentTestItems = testItems.map(f -> f.testItem);
+		if (isCoverageUIEnabled() && isCoverageRun) {
+			updateTestCoverage(currentTestItems);
 		}
 	}
 
@@ -465,18 +477,30 @@ class HaxeTestController {
 		return msg;
 	}
 
-	function updateTestCoverage(testItems:Array<TestItemData>) {
+	function updateTestCoverage(currentTestItems:Array<TestItem>) {
 		if (currentRun == null) {
 			return;
 		}
-		// var lcovPath = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, testItem.id + ".lcov"]));
-		// var list:TestFilterList = filter.get();
+		if (currentTestItems.length <= 0) {
+			return;
+		}
+		channel.appendLine("updateTestCoverage");
 
 		var filteredTestItems:Null<Array<TestItem>> = null;
-		if (isAttributableCoverageEnabled() && testItems.length > 0) {
-			filteredTestItems = testItems.map(f -> f.testItem);
+		if (isAttributableCoverageEnabled()) {
+			filteredTestItems = [];
+			for (item in currentTestItems) {
+				final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, item.id + ".lcov"]));
+
+				if (FileSystem.exists(lcovFilename)) {
+					filteredTestItems.push(item);
+				}
+			}
+			if (filteredTestItems.length <= 0) {
+				filteredTestItems = null;
+			}
 		}
-		updateTestCoverageExtract(filteredTestItems, getFullCoveragePath());
+		updateCoverageView(filteredTestItems, getFullCoveragePath());
 		// 		for (item in filteredTestItems) {
 		// 			final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, item.id + ".lcov"]));
 		//
@@ -484,11 +508,11 @@ class HaxeTestController {
 		// 		}
 	}
 
-	function updateTestCoverageExtract(filteredTestItems:Null<Array<TestItem>>, lcovPath:String) {
+	function updateCoverageView(filteredTestItems:Null<Array<TestItem>>, lcovPath:String) {
 		if (!FileSystem.exists(lcovPath)) {
 			return;
 		}
-		switch (Report.parse(sys.io.File.getContent(lcovPath))) {
+		switch (Report.parse(File.getContent(lcovPath))) {
 			case Failure(failure):
 				channel.appendLine("failed to parse LCOV data: " + failure);
 			case Success(data):
@@ -512,7 +536,8 @@ class HaxeTestController {
 
 	function loadDetailedCoverageForTest(testRun:TestRun, fileCoverage:FileCoverage, fromTestItem:TestItem,
 			token:CancellationToken):Thenable<Array<FileCoverageDetail>> {
-		final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, fromTestItem.id + ".lcov"]));
+		var regEx = ~/[^a-zA-Z0-9_.-]/g;
+		final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, regEx.replace(fromTestItem.id, "_") + ".lcov"]));
 		return reportDetailedCoverage(lcovFilename, fileCoverage.uri.fsPath);
 	}
 
@@ -522,7 +547,7 @@ class HaxeTestController {
 		if (!FileSystem.exists(lcovFileName)) {
 			return Promise.reject("no coverage data found");
 		}
-		switch (Report.parse(sys.io.File.getContent(lcovFileName))) {
+		switch (Report.parse(File.getContent(lcovFileName))) {
 			case Failure(failure):
 				return Promise.reject(failure);
 			case Success(data):
@@ -574,6 +599,14 @@ class HaxeTestController {
 			return true;
 		}
 		return attributableCoverageEnabled;
+	}
+
+	function getWaitForCoverage():Int {
+		var waitForCoverage:Null<Int> = Vscode.workspace.getConfiguration("haxeTestExplorer", workspaceFolder).get("waitForCoverage");
+		if (waitForCoverage == null) {
+			return 2000;
+		}
+		return waitForCoverage;
 	}
 
 	function getFullCoveragePath():String {

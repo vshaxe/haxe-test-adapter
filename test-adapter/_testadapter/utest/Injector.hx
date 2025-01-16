@@ -10,8 +10,12 @@ using _testadapter.PatchTools;
 class Injector {
 	public static function build():Array<Field> {
 		var fields = Context.getBuildFields();
-		final coverageEnabled:Null<String> = Context.definedValue("instrument-coverage");
-		final baseFolder = haxe.io.Path.join([_testadapter.data.Data.FOLDER]);
+		var coverageEnabled:Null<String> = Context.definedValue("instrument-coverage");
+		#if buddy
+		// skip coverage modifications when buddy is enabled
+		coverageEnabled = null;
+		#end
+		var baseFolder = haxe.io.Path.join([_testadapter.data.Data.FOLDER]);
 		for (field in fields) {
 			switch (field.name) {
 				case "new":
@@ -104,18 +108,18 @@ class Injector {
 				}
 
 				function attributeCoverageInTeardown(oldTeardown:Null<() -> utest.Async>, className:String, testName:String):() -> utest.Async {
-					final testCaseName = '$className.$testName.lcov';
+					var testCaseName = '$className.$testName.lcov';
 					if (oldTeardown == null) {
 						return function() {
-							final path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
-							final lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
+							var path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
+							var lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
 							instrument.coverage.Coverage.reportAttributableCoverage([lcovReporter]);
 							return Async.getResolved();
 						}
 					}
 					return function() {
-						final path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
-						final lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
+						var path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
+						var lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
 						instrument.coverage.Coverage.reportAttributableCoverage([lcovReporter]);
 						return oldTeardown();
 					}
