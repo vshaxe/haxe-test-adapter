@@ -20,6 +20,8 @@ import haxe.macro.Context; import haxe.macro.Expr; using haxe.macro.ExprTools; u
 							var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndPos(testSuite.description, pos.fileName, pos.lineNumber);
 							adapterReporter.addPosition(suiteId, description, pos.fileName, pos.lineNumber - 1);
 
+							// create shallow copies of both before+after arrays
+							// so we don't mess up the data structures outside of our small patch
 							beforeEachStack = beforeEachStack.copy();
 							beforeEachStack.unshift([Sync(_ -> instrument.coverage.Coverage.resetAttributableCoverage())]);
 							afterEachStack = afterEachStack.copy();

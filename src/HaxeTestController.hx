@@ -490,7 +490,7 @@ class HaxeTestController {
 		if (isAttributableCoverageEnabled()) {
 			filteredTestItems = [];
 			for (item in currentTestItems) {
-				final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, item.id + ".lcov"]));
+				final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, fileNameFormTestId(item.id) + ".lcov"]));
 
 				if (FileSystem.exists(lcovFilename)) {
 					filteredTestItems.push(item);
@@ -536,9 +536,13 @@ class HaxeTestController {
 
 	function loadDetailedCoverageForTest(testRun:TestRun, fileCoverage:FileCoverage, fromTestItem:TestItem,
 			token:CancellationToken):Thenable<Array<FileCoverageDetail>> {
-		var regEx = ~/[^a-zA-Z0-9_.-]/g;
-		final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, regEx.replace(fromTestItem.id, "_") + ".lcov"]));
+		final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, fileNameFormTestId(fromTestItem.id) + ".lcov"]));
 		return reportDetailedCoverage(lcovFilename, fileCoverage.uri.fsPath);
+	}
+
+	function fileNameFormTestId(id:String):String {
+		var regEx = ~/[^a-zA-Z0-9_.-]/g;
+		return regEx.replace(id, "_");
 	}
 
 	function reportDetailedCoverage(lcovFileName:String, srcFileName:String):Thenable<Array<FileCoverageDetail>> {

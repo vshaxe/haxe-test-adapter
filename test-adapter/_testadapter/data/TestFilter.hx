@@ -98,7 +98,7 @@ class TestFilter {
 	}
 
 	public static function hasFilters(testFilters:TestFilterList):Bool {
-		return (testFilters != null) && ((testFilters.include.length + testFilters.exclude.length > 0));
+		return (testFilters != null) && ((testFilters.include.length + testFilters.exclude.length) > 0);
 	}
 
 	public static function shouldRunTest(testFilters:TestFilterList, className:String, testName:String):Bool {
