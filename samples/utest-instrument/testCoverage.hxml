@@ -1,0 +1,10 @@
+-cp src
+-cp tests
+-lib utest
+-lib instrument
+-x Test
+
+-D coverage-console-summary-reporter
+
+--macro instrument.Instrumentation.coverage([''], ['src'], [])
+-D instrument-quiet

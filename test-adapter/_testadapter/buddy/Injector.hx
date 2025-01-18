@@ -1,7 +1,13 @@
-package _testadapter.buddy; #if macro
+package _testadapter.buddy;
 
-import haxe.macro.Context; import haxe.macro.Expr; using haxe.macro.ExprTools; using _testadapter.PatchTools; class Injector {
+#if macro
+import haxe.macro.Context;
+import haxe.macro.Expr;
 
+using haxe.macro.ExprTools;
+using _testadapter.PatchTools;
+
+class Injector {
 	public static function buildRunner():Array<Field> {
 		var coverageEnabled:Null<String> = Context.definedValue("instrument-coverage");
 		var baseFolder = haxe.io.Path.join([_testadapter.data.Data.FOLDER]);
@@ -22,16 +28,21 @@ import haxe.macro.Context; import haxe.macro.Expr; using haxe.macro.ExprTools; u
 
 							// create shallow copies of both before+after arrays
 							// so we don't mess up the data structures outside of our small patch
+							var prefix:String = BuddySuite.fullDescribePath(buddySuite.suite, testSuite);
+							if (prefix == null) {
+								prefix = "";
+							}
+							var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndFile(prefix + testSuite.description, pos.fileName);
 							beforeEachStack = beforeEachStack.copy();
-							beforeEachStack.unshift([Sync(_ -> instrument.coverage.Coverage.resetAttributableCoverage())]);
+							beforeEachStack.unshift([Sync(() -> instrument.coverage.Coverage.resetAttributableCoverage())]);
 							afterEachStack = afterEachStack.copy();
-							var regEx = ~/[^a-zA-Z0-9_-]/g;
-							var testCaseName = regEx.replace('${suiteId}_$description.lcov', "_");
+							var regEx = ~/[^a-zA-Z0-9_.-]/g;
+							var testCaseName = regEx.replace('${suiteId}.$description.lcov', "_");
 							var path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
 							var lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
 							afterEachStack.unshift([
-								Sync(_ -> instrument.coverage.Coverage.reportAttributableCoverage([lcovReporter]))
-							);
+								Sync(() -> instrument.coverage.Coverage.reportAttributableCoverage([lcovReporter]))
+							]);
 						case _:
 					});
 					switch (field.kind) {
@@ -66,7 +77,7 @@ import haxe.macro.Context; import haxe.macro.Expr; using haxe.macro.ExprTools; u
 		for (field in fields) {
 			if (field.name == "it" || field.name == "xit") {
 				field.patch(Start, macro {
-					var prefix:String = fullDescribePath(suite, currentSuite);
+					var prefix:String = BuddySuite.fullDescribePath(suite, currentSuite);
 					if (prefix == null) {
 						prefix = "";
 					}
@@ -80,7 +91,7 @@ import haxe.macro.Context; import haxe.macro.Expr; using haxe.macro.ExprTools; u
 		}
 
 		var extraFields = (macro class {
-			function fullDescribePath(root:TestSuite, search:TestSuite):Null<String> {
+			public static function fullDescribePath(root:TestSuite, search:TestSuite):Null<String> {
 				for (childSpec in root.specs) {
 					switch (childSpec) {
 						case Describe(child, _):

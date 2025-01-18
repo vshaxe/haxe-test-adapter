@@ -1,0 +1,4 @@
+# @install: lix --silent download "haxelib:/instrument#1.3.1" into instrument/1.3.1/haxelib
+-lib safety
+-cp ${HAXE_LIBCACHE}/instrument/1.3.1/haxelib/src
+-D instrument=1.3.1
