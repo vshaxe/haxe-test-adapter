@@ -561,7 +561,11 @@ class HaxeTestController {
 				return Promise.reject(failure);
 			case Success(data):
 				for (file in data.sourceFiles) {
-					var fileName = makeFileName(workspaceFolder.uri.path, file.path);
+					var fileName = if (file.path.startsWith(workspaceFolder.uri.path)) {
+						makeFileName(null, file.path);
+					} else {
+						makeFileName(workspaceFolder.uri.path, file.path);
+					};
 					if (fileName != srcFileName) {
 						continue;
 					}
