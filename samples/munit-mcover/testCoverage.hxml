@@ -1,0 +1,9 @@
+-cp src
+-cp tests
+-lib mcover
+-lib munit
+-x Test
+
+-D unittest
+
+--macro mcover.MCover.coverage([''], ['src'], [])
