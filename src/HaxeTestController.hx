@@ -520,7 +520,12 @@ class HaxeTestController {
 					var statementCoverage:TestCoverageCount = new TestCoverageCount(file.lines.hit, file.lines.found);
 					var branchCoverage:TestCoverageCount = new TestCoverageCount(file.branches.hit, file.branches.found);
 					var functionCoverage:TestCoverageCount = new TestCoverageCount(file.functions.hit, file.functions.found);
-					var fileName = makeFileName(workspaceFolder.uri.path, file.path);
+					var fileName = if (file.path.startsWith(workspaceFolder.uri.path)) {
+						makeFileName(null, file.path);
+					} else {
+						makeFileName(workspaceFolder.uri.path, file.path);
+					};
+
 					if (filteredTestItems == null) {
 						currentRun.addCoverage(new FileCoverage(Uri.parse(fileName), statementCoverage, branchCoverage, functionCoverage));
 					} else {
