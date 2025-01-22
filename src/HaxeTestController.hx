@@ -155,7 +155,7 @@ class HaxeTestController {
 		var haxeExecutable = vshaxe.haxeExecutable.configuration;
 
 		testCommand = testCommand.map(arg -> if (arg == "${haxe}") haxeExecutable.executable else arg);
-		if (!isAttributableCoverageEnabled()) {
+		if (!isCoverageUIEnabled() || !isAttributableCoverageEnabled()) {
 			testCommand.push("-D");
 			testCommand.push("disable-attributable-coverage");
 		}
