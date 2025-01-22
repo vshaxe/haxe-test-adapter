@@ -36,8 +36,7 @@ class Injector {
 							beforeEachStack = beforeEachStack.copy();
 							beforeEachStack.unshift([Sync(() -> instrument.coverage.Coverage.resetAttributableCoverage())]);
 							afterEachStack = afterEachStack.copy();
-							var regEx = ~/[^a-zA-Z0-9_.-]/g;
-							var testCaseName = regEx.replace('${suiteId}.$description.lcov', "_");
+							var testCaseName:LCOVFileName = '${suiteId}.$description.lcov';
 							var path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
 							var lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
 							afterEachStack.unshift([

@@ -6,10 +6,11 @@ import _testadapter.data.TestResults;
 
 using tink.CoreApi;
 
-class Reporter implements tink.testrunner.Reporter {
+class AttributableReporter implements tink.testrunner.Reporter {
 	var reporter:tink.testrunner.Reporter;
 	var currentSuiteId:SuiteId;
 	var currentCaseId:TestIdentifier;
+	var baseFolder:String;
 
 	public var testResults:TestResults;
 
@@ -19,6 +20,7 @@ class Reporter implements tink.testrunner.Reporter {
 			reporter = new tink.testrunner.Reporter.BasicReporter();
 		}
 		this.reporter = reporter;
+		this.baseFolder = _testadapter.data.Data.FOLDER;
 	}
 
 	public function report(type:tink.testrunner.Reporter.ReportType):Future<Noise> {
@@ -30,6 +32,7 @@ class Reporter implements tink.testrunner.Reporter {
 				currentSuiteId = SuiteNameAndPos(info.name, info.pos.fileName, info.pos.lineNumber - 1);
 			case CaseStart(info, _):
 				currentCaseId = TestNameAndPos(info.name, info.pos.fileName, info.pos.lineNumber - 1);
+				instrument.coverage.Coverage.resetAttributableCoverage();
 			case Assertion(assertion):
 				switch (assertion.holds) {
 					case Success(_):
@@ -42,7 +45,16 @@ class Reporter implements tink.testrunner.Reporter {
 							{line: assertion.pos.lineNumber - 1, file: assertion.pos.fileName});
 				}
 			case CaseFinish(result):
-				trace(currentSuiteId + " " + currentCaseId);
+				var name = switch (currentCaseId) {
+					case TestName(name): name;
+					case TestNameAndPos(name, fileName, lineNumber): name;
+				}
+
+				var testCaseName:LCOVFileName = '${currentSuiteId}.$name.lcov';
+				var path = haxe.io.Path.join([baseFolder, testCaseName]);
+				var lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
+				instrument.coverage.Coverage.reportAttributableCoverage([lcovReporter]);
+
 				switch (result.result) {
 					case Failed(msg):
 						testResults.add(currentSuiteId, currentCaseId, null, TestState.Error, msg.toString(),

@@ -1,0 +1,12 @@
+{
+	"[haxe]": {
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true
+	},
+	"haxeTestExplorer.coverageCommand": [
+		"${haxe}",
+		"testCoverage.hxml",
+		"-lib",
+		"test-adapter"
+	]
+}

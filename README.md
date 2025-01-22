@@ -83,6 +83,8 @@ if you are using instrument library for coverage you don't need to set `haxeTest
 
 once your coverage run completes, VSCode should enable and show "TEST COVERAGE" view and also show file coverage in your "EXPLORER" view, as well as coloured line numbers in covered files.
 
+in case there is a delay between generating test results and writing your LCOV file you can set a wait time in milliseconds via `haxeTestExplorer.waitForCoverage` setting (default: `2000` ms). test explorer will delay showing test and coverage results to ensure both of them are ready when updating UI.
+
 ### Attributable Coverage
 
 when running Coverage with instrument library (1.3.0 and higher) test-adapter will automatically collect and generate coverage results per testcase. which means you can filter and view indiviual coverage results and see which testcase generated what coverage for your source files. you can also view unfiltered coverage results produced by all tests included in your most recent coverage run.
