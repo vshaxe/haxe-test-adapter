@@ -11,7 +11,9 @@ class Injector {
 	public static function buildRunner():Array<Field> {
 		var coverageEnabled:Null<String> = Context.definedValue("instrument-coverage");
 		var baseFolder = haxe.io.Path.join([_testadapter.data.Data.FOLDER]);
-
+		#if disable_attributable_coverage
+		coverageEnabled = null;
+		#end
 		var fields = Context.getBuildFields();
 		for (field in fields) {
 			switch (field.name) {

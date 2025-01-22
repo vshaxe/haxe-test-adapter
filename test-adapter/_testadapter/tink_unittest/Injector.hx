@@ -10,6 +10,9 @@ class Injector {
 	public static function buildRunner():Array<Field> {
 		var fields = Context.getBuildFields();
 		var coverageEnabled:Null<String> = Context.definedValue("instrument-coverage");
+		#if disable_attributable_coverage
+		coverageEnabled = null;
+		#end
 		for (field in fields) {
 			switch (field.name) {
 				case "run":

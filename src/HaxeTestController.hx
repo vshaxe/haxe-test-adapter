@@ -155,6 +155,10 @@ class HaxeTestController {
 		var haxeExecutable = vshaxe.haxeExecutable.configuration;
 
 		testCommand = testCommand.map(arg -> if (arg == "${haxe}") haxeExecutable.executable else arg);
+		if (!isAttributableCoverageEnabled()) {
+			testCommand.push("-D");
+			testCommand.push("disable-attributable-coverage");
+		}
 
 		var task = new Task({type: "haxe-test-explorer-run"}, workspaceFolder, "Running Haxe Tests with Coverage", "haxe",
 			new ProcessExecution(testCommand.shift(), testCommand, {env: haxeExecutable.env}), cast vshaxe.problemMatchers);

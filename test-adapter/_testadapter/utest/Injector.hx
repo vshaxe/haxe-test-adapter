@@ -15,6 +15,9 @@ class Injector {
 		// skip coverage modifications when buddy is enabled
 		coverageEnabled = null;
 		#end
+		#if disable_attributable_coverage
+		coverageEnabled = null;
+		#end
 		var baseFolder = haxe.io.Path.join([_testadapter.data.Data.FOLDER]);
 		for (field in fields) {
 			switch (field.name) {
