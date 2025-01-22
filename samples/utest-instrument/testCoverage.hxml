@@ -4,7 +4,11 @@
 -lib instrument
 -x Test
 
+# -D coverage-console-file-summary-reporter
+# -D coverage-console-package-summary-reporter
+# -D coverage-console-missing-reporter
 -D coverage-console-summary-reporter
+-D coverage-lcov-reporter
 
 --macro instrument.Instrumentation.coverage([''], ['src'], [])
 -D instrument-quiet

@@ -4,6 +4,34 @@ class Main {
 	}
 
 	public function doSomething(condition:Bool) {
+		switch (condition) {
+			case true:
+				doNothing();
+			case false:
+				doNothing();
+			default:
+				doNothing();
+		}
+
+		switch (condition) {
+			case true:
+			case false:
+				doNothing();
+			default:
+		}
+
+		if (condition) {
+			doNothing();
+		}
+		// test
+
+		doNothing();
+
+		if (!condition) {
+			doNothing();
+		}
+		doNothing();
+
 		if (condition) {
 			doNothing();
 			return false;
@@ -21,6 +49,7 @@ class Main {
 		} else {
 			doNothing();
 		}
+
 		doNothing();
 		return true;
 	}
@@ -30,6 +59,7 @@ class Main {
 	}
 
 	public function doMoreNothing() {
+		// test
 		return true;
 	}
 
