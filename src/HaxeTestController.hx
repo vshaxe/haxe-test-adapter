@@ -490,7 +490,6 @@ class HaxeTestController {
 		if (isAttributableCoverageEnabled()) {
 			filteredTestItems = [];
 			for (item in currentTestItems) {
-				channel.appendLine(item.id);
 				var fileName:LCOVFileName = '${item.id}.lcov';
 				final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, fileName]));
 
@@ -503,11 +502,6 @@ class HaxeTestController {
 			}
 		}
 		updateCoverageView(filteredTestItems, getFullCoveragePath());
-		// 		for (item in filteredTestItems) {
-		// 			final lcovFilename = makeFileName(workspaceFolder.uri.path, Path.join([Data.FOLDER, item.id + ".lcov"]));
-		//
-		// 			updateTestCoverageExtract([item], lcovFilename);
-		// 		}
 	}
 
 	function updateCoverageView(filteredTestItems:Null<Array<TestItem>>, lcovPath:String) {
