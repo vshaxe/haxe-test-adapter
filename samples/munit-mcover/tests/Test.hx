@@ -1,13 +1,18 @@
 import massive.munit.Assert;
 import massive.munit.TestRunner;
 import massive.munit.client.RichPrintClient;
+#if mcover
 import mcover.coverage.munit.client.MCoverPrintClient;
+#end
 
 class Test {
 	static function main() {
-		// var client = new RichPrintClient();
+		#if mcover
 		var client:MCoverPrintClient = new MCoverPrintClient();
 		mcover.coverage.MCoverage.getLogger().addClient(new mcover.coverage.client.LcovPrintClient("mcover unittests"));
+		#else
+		var client = new RichPrintClient();
+		#end
 
 		var runner = new TestRunner(client);
 		runner.run([TestSuite]);
