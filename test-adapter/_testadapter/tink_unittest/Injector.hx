@@ -28,7 +28,7 @@ class Injector {
 							return Future.async(function(cb) {
 								cb({
 									info: caze.info,
-									result: tink.testrunner.CaseResultType.Succeeded([])
+									result: tink.testrunner.Result.CaseResultType.Succeeded([])
 								});
 							});
 						}

@@ -1,4 +1,4 @@
-name: CI
+name: samples (no coverage)
 
 on:
   push:

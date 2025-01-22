@@ -38,7 +38,7 @@ class Injector {
 							beforeEachStack = beforeEachStack.copy();
 							beforeEachStack.unshift([Sync(() -> instrument.coverage.Coverage.resetAttributableCoverage())]);
 							afterEachStack = afterEachStack.copy();
-							var testCaseName:LCOVFileName = '${suiteId}.$description.lcov';
+							var testCaseName:_testadapter.data.Data.LCOVFileName = '${suiteId}.$description.lcov';
 							var path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
 							var lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
 							afterEachStack.unshift([
