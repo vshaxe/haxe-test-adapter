@@ -109,3 +109,11 @@ abstract SuiteId(SuiteIdentifier) from SuiteIdentifier to SuiteIdentifier {
 		#end
 	}
 }
+
+abstract LCOVFileName(String) from String {
+	@:to
+	public function toString():String {
+		var regEx = ~/[^a-zA-Z0-9_.-]/g;
+		return regEx.replace('${this}', "_");
+	}
+}

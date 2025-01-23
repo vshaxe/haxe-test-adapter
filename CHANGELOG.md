@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## 3.0.0 (January XX, 2025)
+
+### Haxe Test Explorer extension
+
+- added support for new VSCode coverage view
+- added support for attributable coverage (via instrument lib)
+- added setting `haxeTestExplorer.coverageCommand` for custom coverage command
+- added setting `haxeTestExplorer.enableCoverageUI` - enable / disable coverage UI
+- added setting `haxeTestExplorer.enableAttributableCoverage` - enable / disable attributable coverage support
+- added setting `haxeTestExplorer.lcovPath` - path to LCOV file for coverage libraries besides instrument
+- added setting `haxeTestExplorer.waitForCoverage` - time in milliseconds to wait for coverage results after run
+- fixed progress indicator showing for all tests when running individual testcases
+
+### test-adapter lib
+
+- added attributable coverage for utest (via instrument lib)
+- added attributable coverage for buddy (via instrument lib)
+- added attributable coverage for munit (via instrument lib)
+- added attributable coverage for tink_unittest (via instrument lib)
+- added LCOV support for coverage libs besides instrument
+- added `-D disable-attributable-coverage`
+- fixed Haxe 3.4.7 + utest compatibility
+
 ## 2.0.7 (February 12, 2024)
 
 - fixed filter support for utest 2.x

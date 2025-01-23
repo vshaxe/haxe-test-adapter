@@ -1,5 +1,6 @@
 package _testadapter.tink_unittest;
 
+import haxe.macro.Context;
 import _testadapter.data.Data;
 import _testadapter.data.TestResults;
 
@@ -43,7 +44,8 @@ class Reporter implements tink.testrunner.Reporter {
 			case CaseFinish(result):
 				switch (result.result) {
 					case Failed(msg):
-						testResults.add(currentSuiteId, currentCaseId, null, TestState.Error, msg.toString(), {line: msg.pos.lineNumber - 1, file: msg.pos.fileName});
+						testResults.add(currentSuiteId, currentCaseId, null, TestState.Error, msg.toString(),
+							{line: msg.pos.lineNumber - 1, file: msg.pos.fileName});
 					case Succeeded(asserts):
 						if ((asserts == null) || (asserts.length <= 0)) {
 							testResults.add(currentSuiteId, currentCaseId, null, TestState.Success);

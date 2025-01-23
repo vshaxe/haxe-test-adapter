@@ -2,6 +2,9 @@ node_modules/
 bin/
 dump/
 .unittest/
+.temp/
 *.n
 *.vsix
 *.zip
+*.lcov
+lcov.info

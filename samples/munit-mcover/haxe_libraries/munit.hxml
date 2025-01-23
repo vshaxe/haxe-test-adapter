@@ -1,0 +1,4 @@
+# @install: lix --silent download "gh://github.com/AlexHaxe/MassiveUnit#5d964248de93dc97de34e1e9c05e0fd59377c1e5" into MassiveUnit/0.0.0/github/5d964248de93dc97de34e1e9c05e0fd59377c1e5
+-lib mlib
+-cp ${HAXE_LIBCACHE}/MassiveUnit/0.0.0/github/5d964248de93dc97de34e1e9c05e0fd59377c1e5/src
+-D munit=2.3.5

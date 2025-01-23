@@ -8,8 +8,8 @@
 		"vscode"
 	],
 	"description": "A Test Adapter for Visual Studio Code",
-	"version": "2.0.7",
-	"releasenote": "changed addMetadata to addGlobalMetadata; fixed utest 2.x filters",
+	"version": "3.0.0",
+	"releasenote": "added coverage support",
 	"contributors": [
 		"AlexHaxe",
 		"Gama11",

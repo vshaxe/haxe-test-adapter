@@ -9,6 +9,11 @@ using _testadapter.PatchTools;
 
 class Injector {
 	public static function buildRunner():Array<Field> {
+		var coverageEnabled:Null<String> = Context.definedValue("instrument-coverage");
+		var baseFolder = haxe.io.Path.join([_testadapter.data.Data.FOLDER]);
+		#if disable_attributable_coverage
+		coverageEnabled = null;
+		#end
 		var fields = Context.getBuildFields();
 		for (field in fields) {
 			switch (field.name) {
@@ -17,6 +22,35 @@ class Injector {
 						adapterReporter = new _testadapter.buddy.Reporter($v{Sys.getCwd()}, reporter);
 						this.reporter = adapterReporter;
 					});
+				case "mapTestSpec" if (coverageEnabled != null):
+					field.patch(Start, macro switch (testSpec) {
+						case It(description, _, _, pos, _):
+							var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndPos(testSuite.description, pos.fileName, pos.lineNumber);
+							adapterReporter.addPosition(suiteId, description, pos.fileName, pos.lineNumber - 1);
+
+							// create shallow copies of both before+after arrays
+							// so we don't mess up the data structures outside of our small patch
+							var prefix:String = BuddySuite.fullDescribePath(buddySuite.suite, testSuite);
+							if (prefix == null) {
+								prefix = "";
+							}
+							var suiteId:_testadapter.data.Data.SuiteId = SuiteNameAndFile(prefix + testSuite.description, pos.fileName);
+							beforeEachStack = beforeEachStack.copy();
+							beforeEachStack.unshift([Sync(() -> instrument.coverage.Coverage.resetAttributableCoverage())]);
+							afterEachStack = afterEachStack.copy();
+							var testCaseName:_testadapter.data.Data.LCOVFileName = '${suiteId}.$description.lcov';
+							var path = haxe.io.Path.join([$v{baseFolder}, testCaseName]);
+							var lcovReporter = new instrument.coverage.reporter.LcovCoverageReporter(path);
+							afterEachStack.unshift([
+								Sync(() -> instrument.coverage.Coverage.reportAttributableCoverage([lcovReporter]))
+							]);
+						case _:
+					});
+					switch (field.kind) {
+						case FFun(f):
+							replaceSpec(f.expr);
+						case _:
+					}
 				case "mapTestSpec":
 					field.patch(Start, macro switch (testSpec) {
 						case It(description, _, _, pos, _):
@@ -44,7 +78,7 @@ class Injector {
 		for (field in fields) {
 			if (field.name == "it" || field.name == "xit") {
 				field.patch(Start, macro {
-					var prefix:String = fullDescribePath(suite, currentSuite);
+					var prefix:String = BuddySuite.fullDescribePath(suite, currentSuite);
 					if (prefix == null) {
 						prefix = "";
 					}
@@ -58,7 +92,7 @@ class Injector {
 		}
 
 		var extraFields = (macro class {
-			function fullDescribePath(root:TestSuite, search:TestSuite):Null<String> {
+			public static function fullDescribePath(root:TestSuite, search:TestSuite):Null<String> {
 				for (childSpec in root.specs) {
 					switch (childSpec) {
 						case Describe(child, _):

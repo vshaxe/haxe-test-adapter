@@ -1,0 +1,15 @@
+{
+	"[haxe]": {
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true
+	},
+	"haxeTestExplorer.coverageCommand": [
+		"${haxe}",
+		"testCoverage.hxml",
+		"-lib",
+		"test-adapter"
+	],
+	"haxeTestExplorer.lcovPath": "lcov.info",
+	"haxeTestExplorer.enableAttributableCoverage": true,
+	"haxeTestExplorer.enableCoverageUI": true,
+}
