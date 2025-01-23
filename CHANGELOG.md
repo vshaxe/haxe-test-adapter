@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.0.1 (January 23, 2025)
+
+- removed broken badges from README
+
 ## 3.0.0 (January 23, 2025)
 
 ### Haxe Test Explorer extension
