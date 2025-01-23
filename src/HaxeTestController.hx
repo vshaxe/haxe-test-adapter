@@ -488,7 +488,7 @@ class HaxeTestController {
 		if (currentTestItems.length <= 0) {
 			return;
 		}
-		channel.appendLine("updateTestCoverage");
+		channel.appendLine("updating test coverage");
 
 		var filteredTestItems:Null<Array<TestItem>> = null;
 		if (isAttributableCoverageEnabled()) {
