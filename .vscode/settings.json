@@ -11,10 +11,5 @@
 		"src",
 		"samples",
 		"test-adapter"
-	],
-	"haxe.renameSourceFolders": [
-		"src",
-		"samples",
-		"test-adapter"
 	]
 } 

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.0.0 (January XX, 2025)
+## 3.0.0 (January 23, 2025)
 
 ### Haxe Test Explorer extension
 
