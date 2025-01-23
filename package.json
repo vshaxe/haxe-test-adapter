@@ -5,7 +5,7 @@
 	"icon": "images/icon.png",
 	"author": "Alexander Blum <Alexander.Blum@gmail.com>",
 	"publisher": "vshaxe",
-	"version": "2.0.7",
+	"version": "3.0.0",
 	"license": "MIT",
 	"homepage": "https://github.com/vshaxe/haxe-test-adapter",
 	"repository": {
@@ -36,10 +36,10 @@
 	},
 	"main": "bin/main.js",
 	"devDependencies": {
-		"lix": "^15.12.0"
+		"lix": "^15.12.4"
 	},
 	"engines": {
-		"vscode": "^1.67.0",
+		"vscode": "^1.96.0",
 		"nadako.vshaxe": "^2.23.0"
 	},
 	"extensionDependencies": [
@@ -47,8 +47,7 @@
 	],
 	"activationEvents": [
 		"onLanguage:haxe",
-		"onView:test",
-		"onCommand:haxeTestExplorer.setup"
+		"onView:test"
 	],
 	"contributes": {
 		"commands": [
@@ -74,6 +73,44 @@
 					"items": {
 						"type": "string"
 					}
+				},
+				"haxeTestExplorer.coverageCommand": {
+					"type": "array",
+					"scope": "resource",
+					"default": [
+						"${haxe}",
+						"testCoverage.hxml",
+						"-lib",
+						"test-adapter"
+					],
+					"markdownDescription": "Command for building and running the tests with coverage. `${haxe}` is replaced with `\"haxe.executable\"`.",
+					"items": {
+						"type": "string"
+					}
+				},
+				"haxeTestExplorer.enableCoverageUI": {
+					"type": "boolean",
+					"scope": "resource",
+					"default": "true",
+					"markdownDescription": "enable coverage UI"
+				},
+				"haxeTestExplorer.enableAttributableCoverage": {
+					"type": "boolean",
+					"scope": "resource",
+					"default": "true",
+					"markdownDescription": "enable attributable coverage, e.g. coverage per testcase - requires instrument lib"
+				},
+				"haxeTestExplorer.lcovPath": {
+					"type": "string",
+					"scope": "resource",
+					"default": "lcov.info",
+					"markdownDescription": "path and filename for your LCOV coverage report, when not using instrument lib"
+				},
+				"haxeTestExplorer.waitForCoverage": {
+					"type": "integer",
+					"scope": "resource",
+					"default": 2000,
+					"markdownDescription": "time in milliseconds to wait for coverage results file to be ready"
 				},
 				"haxeTestExplorer.launchConfiguration": {
 					"type": "string",

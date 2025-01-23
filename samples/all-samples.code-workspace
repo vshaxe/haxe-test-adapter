@@ -17,6 +17,21 @@
 		},
 		{
 			"path": "utest"
+		},
+		{
+			"path": "munit-mcover"
+		},
+		{
+			"path": "tink_unittest-instrument"
+		},
+		{
+			"path": "utest-instrument"
+		},
+		{
+			"path": "munit-instrument"
+		},
+		{
+			"path": "buddy-instrument"
 		}
 	],
 	"settings": {}
